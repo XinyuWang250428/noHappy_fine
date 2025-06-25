@@ -5,6 +5,7 @@ const mode = useColorMode();
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-vue-next";
+import { Sparkles } from "@/components/ui/sparkles";
 </script>
 
 <template>
@@ -24,22 +25,27 @@ import { ArrowRight } from "lucide-vue-next";
         </Badge>
 
         <div
-          class="max-w-screen-md mx-auto text-center text-5xl md:text-6xl font-bold"
+          class="max-w-screen-md mx-auto text-center text-5xl md:text-6xl font-bold relative"
         >
-          <h1>
-            体验
-            <span
-              class="text-transparent bg-gradient-to-r from-[#D247BF] to-primary bg-clip-text"
-              >Shadcn/Vue
-            </span>
-            落地页
+          <div class="absolute inset-0" style="min-height: 100px;">
+            <Sparkles
+              background="transparent"
+              :minSize="1"
+              :maxSize="2"
+              :particleDensity="200"
+              :speed="2"
+              class="w-full h-full"
+              particleColor="#FFFFFF"
+            />
+          </div>
+          <h1 class="relative z-10">
+            意遇重生
           </h1>
         </div>
 
-        <p class="max-w-screen-sm mx-auto text-xl text-muted-foreground">
-          我们不仅仅是一个工具，我们是充满激情的创作者社区。
-          获取独家资源、教程和支持。
-        </p>
+                  <p class="max-w-screen-sm mx-auto text-xl text-muted-foreground">
+            基于多模态数字疗法的抑郁症智能平台
+          </p>
 
         <div class="space-y-4 md:space-y-0 md:space-x-4">
           <Button class="w-5/6 md:w-1/4 font-bold group/arrow">
