@@ -29,7 +29,7 @@ const teamList: TeamProps[] = [
     imageUrl: "https://i.pravatar.cc/250?img=58",
     firstName: "Leo",
     lastName: "Miranda",
-    positions: ["Vue Fronted Developer", "Creator Of This Website"],
+    positions: ["Vue前端开发工程师", "本网站创建者"],
     socialNetworks: [
       {
         name: "LinkedIn",
@@ -50,7 +50,7 @@ const teamList: TeamProps[] = [
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     firstName: "Elizabeth",
     lastName: "Moore",
-    positions: ["UI/UX Designer"],
+    positions: ["UI/UX设计师"],
     socialNetworks: [
       {
         name: "LinkedIn",
@@ -186,10 +186,10 @@ const socialIcon = (socialName: string) => {
     class="container lg:w-[75%] py-24 sm:py-32"
   >
     <div class="text-center mb-8">
-      <h2 class="text-lg text-primary text-center mb-2 tracking-wider">Team</h2>
+      <h2 class="text-lg text-primary text-center mb-2 tracking-wider">团队</h2>
 
       <h2 class="text-3xl md:text-4xl text-center font-bold">
-        The Company Dream Team
+        公司梦之队
       </h2>
     </div>
 

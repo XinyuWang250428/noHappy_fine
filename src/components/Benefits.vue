@@ -19,27 +19,27 @@ interface BenefitsProps {
 const benefitList: BenefitsProps[] = [
   {
     icon: "blocks",
-    title: "Build Brand Trust",
+    title: "建立品牌信任",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam. Natus consectetur dolores.",
+      "通过专业的设计和优质的内容，建立用户对品牌的信任和认可。",
   },
   {
     icon: "lineChart",
-    title: "More Leads",
+    title: "更多潜在客户",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam, natus consectetur.",
+      "优化的转化漏斗和精准的目标受众定位，帮助您获取更多优质潜在客户。",
   },
   {
     icon: "wallet",
-    title: "Higher Conversions",
+    title: "提高转化率",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus consectetur. A odio velit cum aliquam",
+      "通过数据驱动的优化和A/B测试，不断提升您的营销转化效果。",
   },
   {
     icon: "sparkle",
-    title: "Test Marketing Ideas",
+    title: "测试营销创意",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam. Natus consectetur dolores.",
+      "快速验证您的营销创意和策略，找到最适合您业务的营销方案。",
   },
 ];
 
@@ -68,15 +68,14 @@ const iconMap: Record<
   >
     <div class="grid lg:grid-cols-2 place-items-center lg:gap-24">
       <div>
-        <h2 class="text-lg text-primary mb-2 tracking-wider">Benefits</h2>
+        <h2 class="text-lg text-primary mb-2 tracking-wider">优势</h2>
 
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
-          Your Shortcut to Success
+          您成功的捷径
         </h2>
         <p class="text-xl text-muted-foreground mb-8">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non ducimus
-          reprehenderit architecto rerum similique facere odit deleniti
-          necessitatibus quo quae.
+          我们提供全方位的营销解决方案，帮助您的业务快速增长，
+          让您在竞争中占据优势。
         </p>
       </div>
 

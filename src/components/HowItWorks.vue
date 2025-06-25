@@ -11,31 +11,31 @@ interface HowItWorksProps {
 
 const HowItWorksList: HowItWorksProps[] = [
   {
-    badgeTitle: "Contribute",
-    title: "Make a Difference with Every Contribution",
+    badgeTitle: "贡献",
+    title: "每一份贡献都能带来改变",
     description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem fugiat, quasi sint reiciendis quidem iure.",
+      "加入我们的开源社区，共同打造更好的产品，让每一份贡献都有价值。",
     image: "roboto.png",
   },
   {
-    badgeTitle: "Discover",
-    title: "Create an Impact with Every Choice",
+    badgeTitle: "发现",
+    title: "每一个选择都能产生影响",
     description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem fugiat, sint reiciendis quidem iure veritatis optio facere tenetur.",
+      "探索创新的解决方案，发现新的可能性，让每一个决策都充满意义。",
     image: "runner.png",
   },
   {
-    badgeTitle: "Innovate",
-    title: "Make Every Action Count",
+    badgeTitle: "创新",
+    title: "让每一个行动都有意义",
     description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem fugiat, odit similique quasi sint.",
+      "持续创新和改进，推动产品进化，为用户带来更好的体验。",
     image: "pacheco.png",
   },
   {
-    badgeTitle: "Collaborate",
-    title: "Tackle this challenge together",
+    badgeTitle: "协作",
+    title: "携手应对挑战",
     description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem fugiat, quasi sint reiciendis quidem iure.",
+      "团队协作，共同解决问题，创造更大的价值。",
     image: "gamestation.png",
   },
 ];
@@ -48,11 +48,11 @@ const HowItWorksList: HowItWorksProps[] = [
   >
     <div class="text-center mb-8">
       <h2 class="text-lg text-primary text-center mb-2 tracking-wider">
-        How It Works
+        工作流程
       </h2>
 
       <h2 class="text-3xl md:text-4xl text-center font-bold">
-        Step-by-Step Process
+        分步骤流程
       </h2>
     </div>
 

@@ -27,48 +27,48 @@ interface PlanProps {
 
 const plans: PlanProps[] = [
   {
-    title: "Free",
+    title: "免费版",
     popular: 0,
     price: 0,
     description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Start Free Trial",
+      "适合个人用户和小型团队开始使用我们的服务。",
+    buttonText: "开始免费试用",
     benefitList: [
-      "1 team member",
-      "1 GB storage",
-      "Upto 2 pages",
-      "Community support",
-      "AI assistance",
+      "1个团队成员",
+      "1GB存储空间",
+      "最多2个页面",
+      "社区支持",
+      "AI辅助",
     ],
   },
   {
-    title: "Premium",
+    title: "高级版",
     popular: 1,
     price: 45,
     description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Get starterd",
+      "为成长中的团队提供更多功能和更好的支持。",
+    buttonText: "立即开始",
     benefitList: [
-      "4 team member",
-      "8 GB storage",
-      "Upto 6 pages",
-      "Priority support",
-      "AI assistance",
+      "4个团队成员",
+      "8GB存储空间",
+      "最多6个页面",
+      "优先支持",
+      "AI辅助",
     ],
   },
   {
-    title: "Enterprise",
+    title: "企业版",
     popular: 0,
     price: 120,
     description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Contact US",
+      "为大型企业提供定制化解决方案和全方位支持。",
+    buttonText: "联系我们",
     benefitList: [
-      "10 team member",
-      "20 GB storage",
-      "Upto 10 pages",
-      "Phone & email support",
-      "AI assistance",
+      "10个团队成员",
+      "20GB存储空间",
+      "最多10个页面",
+      "电话和邮件支持",
+      "AI辅助",
     ],
   },
 ];
@@ -77,17 +77,17 @@ const plans: PlanProps[] = [
 <template>
   <section class="container py-24 sm:py-32">
     <h2 class="text-lg text-primary text-center mb-2 tracking-wider">
-      Pricing
+      定价
     </h2>
 
     <h2 class="text-3xl md:text-4xl text-center font-bold mb-4">
-      Get unlimitted access
+      获取无限访问权限
     </h2>
 
     <h3
       class="md:w-1/2 mx-auto text-xl text-center text-muted-foreground pb-14"
     >
-      Lorem ipsum dolor sit amet consectetur adipisicing reiciendis.
+      选择最适合您需求的套餐，开启您的成功之旅。
     </h3>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-4">

@@ -21,39 +21,39 @@ interface FeaturesProps {
 const featureList: FeaturesProps[] = [
   {
     icon: "tabletSmartphone",
-    title: "Mobile Friendly",
+    title: "移动端友好",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam, consectetur.",
+      "完全响应式设计，确保在所有设备上都能完美展示。",
   },
   {
     icon: "badgeCheck",
-    title: "Social Proof",
+    title: "社会认可",
     description:
-      "Lorem ipsum dolor sit amet consectetur. Natus consectetur, odio ea accusamus aperiam.",
+      "展示用户评价和社交证明，增强品牌可信度。",
   },
   {
     icon: "goal",
-    title: "Targeted Content",
+    title: "目标内容",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. odio ea accusamus aperiam.",
+      "为目标受众提供量身定制的内容和解决方案。",
   },
   {
     icon: "pictureInPicture",
-    title: "Strong Visuals",
+    title: "强大的视觉效果",
     description:
-      "Lorem elit. A odio velit cum aliquam. Natus consectetur dolores, odio ea accusamus aperiam.",
+      "使用高质量的图像和动画，提升用户体验。",
   },
   {
     icon: "mousePointerClick",
-    title: "Clear CTA",
+    title: "清晰的行动号召",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing. odio ea accusamus consectetur.",
+      "优化转化率的按钮设计和文案策略。",
   },
   {
     icon: "newspaper",
-    title: "Clear Headline",
+    title: "清晰的标题",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam. Natus consectetur.",
+      "简洁有力的标题传达核心价值主张。",
   },
 ];
 
@@ -85,17 +85,15 @@ const iconMap: Record<
     class="container py-24 sm:py-32"
   >
     <h2 class="text-lg text-primary text-center mb-2 tracking-wider">
-      Features
+      功能特点
     </h2>
 
     <h2 class="text-3xl md:text-4xl text-center font-bold mb-4">
-      What Makes Us Different
+      我们的与众不同
     </h2>
 
     <h3 class="md:w-1/2 mx-auto text-xl text-center text-muted-foreground mb-8">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem
-      fugiat, odit similique quasi sint reiciendis quidem iure veritatis optio
-      facere tenetur.
+      探索我们独特的功能特点，这些创新设计将帮助您的业务脱颖而出。
     </h3>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -26,7 +26,7 @@ import Separator from "./ui/separator/Separator.vue";
         </div>
 
         <div class="flex flex-col gap-2">
-          <h3 class="font-bold text-lg">Contact</h3>
+          <h3 class="font-bold text-lg">联系</h3>
           <div>
             <a
               href="#"
@@ -56,7 +56,7 @@ import Separator from "./ui/separator/Separator.vue";
         </div>
 
         <div class="flex flex-col gap-2">
-          <h3 class="font-bold text-lg">Platforms</h3>
+          <h3 class="font-bold text-lg">平台</h3>
           <div>
             <a
               href="#"
@@ -80,19 +80,19 @@ import Separator from "./ui/separator/Separator.vue";
               href="#"
               class="opacity-60 hover:opacity-100"
             >
-              Web
+              网站
             </a>
           </div>
         </div>
 
         <div class="flex flex-col gap-2">
-          <h3 class="font-bold text-lg">Help</h3>
+          <h3 class="font-bold text-lg">帮助</h3>
           <div>
             <a
               href="#"
               class="opacity-60 hover:opacity-100"
             >
-              Contact Us
+              联系我们
             </a>
           </div>
 
@@ -101,7 +101,7 @@ import Separator from "./ui/separator/Separator.vue";
               href="#"
               class="opacity-60 hover:opacity-100"
             >
-              FAQ
+              常见问题
             </a>
           </div>
 
@@ -110,13 +110,13 @@ import Separator from "./ui/separator/Separator.vue";
               href="#"
               class="opacity-60 hover:opacity-100"
             >
-              Feedback
+              反馈
             </a>
           </div>
         </div>
 
         <div class="flex flex-col gap-2">
-          <h3 class="font-bold text-lg">Socials</h3>
+          <h3 class="font-bold text-lg">社交媒体</h3>
           <div>
             <a
               href="#"
@@ -149,7 +149,7 @@ import Separator from "./ui/separator/Separator.vue";
       <Separator class="my-6" />
       <section className="">
         <h3 class="">
-          &copy; 2024 Designed and developed by
+          &copy; 2024 设计和开发者：
           <a
             target="_blank"
             href="https://github.com/leoMirandaa"

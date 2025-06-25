@@ -21,25 +21,25 @@ interface ServiceProps {
 
 const serviceList: ServiceProps[] = [
   {
-    title: "Custom Domain Integration",
+    title: "自定义域名集成",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit adipisicing.",
+      "轻松集成您的自定义域名，打造专业的品牌形象。",
     pro: 0,
   },
   {
-    title: "Social Media Integrations",
+    title: "社交媒体集成",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae, dicta.",
+      "无缝对接各大社交媒体平台，扩大品牌影响力。",
     pro: 0,
   },
   {
-    title: "Email Marketing Integrations",
-    description: "Lorem dolor sit amet adipisicing.",
+    title: "邮件营销集成",
+    description: "强大的邮件营销工具，提升客户互动。",
     pro: 0,
   },
   {
-    title: "SEO Optimization",
-    description: "Lorem ipsum dolor sit amet consectetur.",
+    title: "SEO优化",
+    description: "专业的搜索引擎优化服务，提升网站排名。",
     pro: 1,
   },
 ];
@@ -51,15 +51,14 @@ const serviceList: ServiceProps[] = [
     class="container py-24 sm:py-32"
   >
     <h2 class="text-lg text-primary text-center mb-2 tracking-wider">
-      Services
+      服务
     </h2>
 
     <h2 class="text-3xl md:text-4xl text-center font-bold mb-4">
-      Grow Your Business
+      助力企业成长
     </h2>
     <h3 class="md:w-1/2 mx-auto text-xl text-center text-muted-foreground mb-8">
-      From marketing and sales to operations and strategy, we have the expertise
-      to help you achieve your goals.
+      从营销和销售到运营和战略，我们拥有帮助您实现目标的专业知识。
     </h3>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 

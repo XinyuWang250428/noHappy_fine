@@ -42,36 +42,34 @@ interface FeatureProps {
 const routeList: RouteProps[] = [
   {
     href: "#testimonials",
-    label: "Testimonials",
+    label: "用户评价",
   },
   {
     href: "#team",
-    label: "Team",
+    label: "团队",
   },
   {
     href: "#contact",
-    label: "Contact",
+    label: "联系我们",
   },
   {
     href: "#faq",
-    label: "FAQ",
+    label: "常见问题",
   },
 ];
 
 const featureList: FeatureProps[] = [
   {
-    title: "Showcase Your Value ",
-    description: "Highlight how your product solves user problems.",
+    title: "展示您的价值",
+    description: "突出展示您的产品如何解决用户问题。",
   },
   {
-    title: "Build Trust",
-    description:
-      "Leverages social proof elements to establish trust and credibility.",
+    title: "建立信任",
+    description: "利用社会证明元素建立信任和信誉。",
   },
   {
-    title: "Capture Leads",
-    description:
-      "Make your lead capture form visually appealing and strategically.",
+    title: "获取潜在客户",
+    description: "让您的潜在客户表单在视觉上具有吸引力和战略性。",
   },
 ];
 
@@ -156,7 +154,7 @@ const isOpen = ref<boolean>(false);
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger class="bg-card text-base">
-            Features
+            功能特点
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <div class="grid w-[600px] grid-cols-2 gap-5 p-4">
