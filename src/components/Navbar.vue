@@ -92,9 +92,12 @@ const isOpen = ref<boolean>(false);
       href="/"
       class="font-bold text-lg flex items-center"
     >
-      <ChevronsDown
-        class="bg-gradient-to-tr from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white"
-      />
+      <div class="bg-gradient-to-tr from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border flex items-center justify-center">
+        <img
+          src="/图标.svg"
+          class="w-7 h-7 dark:invert"
+        />
+      </div>
       意遇重生</a
     >
     <!-- Mobile -->
@@ -118,9 +121,12 @@ const isOpen = ref<boolean>(false);
                   href="/"
                   class="flex items-center"
                 >
-                  <ChevronsDown
-                    class="bg-gradient-to-tr from-primary/70 via-primary to-primary/70 rounded-lg size-9 mr-2 border text-white"
-                  />
+                  <div class="bg-gradient-to-tr from-primary/70 via-primary to-primary/70 rounded-lg size-9 mr-2 border flex items-center justify-center">
+                    <img
+                      src="/图标.svg"
+                      class="w-7 h-7 dark:invert"
+                    />
+                  </div>
                   意遇重生
                 </a>
               </SheetTitle>
