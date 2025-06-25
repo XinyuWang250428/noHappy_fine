@@ -26,6 +26,8 @@
   },
   "dependencies": {
     "@selemondev/vue3-marquee": "^0.0.8",
+    "@stagewise-plugins/vue": "^0.4.7",
+    "@stagewise/toolbar-vue": "^0.4.9",
     "@vee-validate/zod": "^4.13.2",
     "@vueuse/core": "^11.1.0",
     "class-variance-authority": "^0.7.0",
