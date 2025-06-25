@@ -19,27 +19,27 @@ interface BenefitsProps {
 const benefitList: BenefitsProps[] = [
   {
     icon: "blocks",
-    title: "建立品牌信任",
+    title: "透明可信·科学壁垒",
     description:
-      "通过专业的设计和优质的内容，建立用户对品牌的信任和认可。",
+      "通过可视化的专业机构指导的AI辅助诊疗，建立用户的信任和认可",
   },
   {
     icon: "lineChart",
-    title: "更多潜在客户",
+    title: "模式延展·多元方案",
     description:
-      "优化的转化漏斗和精准的目标受众定位，帮助您获取更多优质潜在客户。",
+      "持续追踪前沿研究，构建可扩展性数字化精神健康生态的基础平台",
   },
   {
     icon: "wallet",
-    title: "提高转化率",
+    title: "商业拓展·多元场景",
     description:
-      "通过数据驱动的优化和A/B测试，不断提升您的营销转化效果。",
+      "通过不断迭代提升、交流合作快速衍生企业、保险、临床研究等多类B2B解决方案。",
   },
   {
     icon: "sparkle",
-    title: "测试营销创意",
+    title: "技术开放·未来潜能",
     description:
-      "快速验证您的营销创意和策略，找到最适合您业务的营销方案。",
+      "通过进一步开发、扩张，未来力求扩展为多元数据驱动的全面精神健康服务生态。",
   },
 ];
 
@@ -71,11 +71,10 @@ const iconMap: Record<
         <h2 class="text-lg text-primary mb-2 tracking-wider">优势</h2>
 
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
-          您成功的捷径
+          多模态整合的、科学严谨的个性化平台
         </h2>
         <p class="text-xl text-muted-foreground mb-8">
-          我们提供全方位的营销解决方案，帮助您的业务快速增长，
-          让您在竞争中占据优势。
+          基于多维度数据整合与科学保障，我们精准重塑个体精神健康认知，并提供个性化干预方案，让每个人都能主动管理健康。
         </p>
       </div>
 

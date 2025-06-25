@@ -42,7 +42,7 @@ interface FeatureProps {
 const routeList: RouteProps[] = [
   {
     href: "#testimonials",
-    label: "用户评价",
+    label: "查看报告",
   },
   {
     href: "#team",
@@ -60,16 +60,20 @@ const routeList: RouteProps[] = [
 
 const featureList: FeatureProps[] = [
   {
-    title: "展示您的价值",
-    description: "突出展示您的产品如何解决用户问题。",
+    title: "📋 心理量表评估",
+    description: "采用标准化心理量表，系统性评估个体心理健康状态和抑郁症风险等级。通过科学的量表评估体系，全面了解用户的心理状态，为临床诊断和干预提供重要参考。",
   },
   {
-    title: "建立信任",
-    description: "利用社会证明元素建立信任和信誉。",
+    title: "💓 心电信号筛查",
+    description: "利用心电信号分析技术，检测心理应激状态下的生理指标变化。通过记录和分析心电数据，评估自主神经系统功能，识别潜在的情绪相关生理改变。",
   },
   {
-    title: "获取潜在客户",
-    description: "让您的潜在客户表单在视觉上具有吸引力和战略性。",
+    title: "😊 情绪表情识别检测",
+    description: "基于人工智能的面部表情分析技术，通过实时捕捉和分析用户的面部表情变化，评估情绪表达能力和情绪调节能力。系统能够识别包括快乐、悲伤、愤怒、惊讶和中性等多种情绪状态，特别关注悲伤情绪的干扰程度。",
+  },
+  {
+    title: "🧬 基因筛查",
+    description: "通过基因数据分析，评估遗传性抑郁症风险因子，为精准医疗提供科学依据。采集基因样本并运用先进的基因测序技术，分析与抑郁症相关的基因位点变异。",
   },
 ];
 
@@ -91,7 +95,7 @@ const isOpen = ref<boolean>(false);
       <ChevronsDown
         class="bg-gradient-to-tr from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white"
       />
-      ShadcnVue</a
+      意遇重生</a
     >
     <!-- Mobile -->
     <div class="flex items-center lg:hidden">
@@ -117,7 +121,7 @@ const isOpen = ref<boolean>(false);
                   <ChevronsDown
                     class="bg-gradient-to-tr from-primary/70 via-primary to-primary/70 rounded-lg size-9 mr-2 border text-white"
                   />
-                  ShadcnVue
+                  意遇重生
                 </a>
               </SheetTitle>
             </SheetHeader>
@@ -154,25 +158,19 @@ const isOpen = ref<boolean>(false);
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger class="bg-card text-base">
-            功能特点
+            测试分析
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div class="grid w-[600px] grid-cols-2 gap-5 p-4">
-              <img
-                src="https://www.radix-vue.com/logo.svg"
-                alt="Beach"
-                class="h-full w-full rounded-md object-cover"
-              />
+            <div class="grid w-[600px] gap-5 p-4">
               <ul class="flex flex-col gap-2">
                 <li
                   v-for="{ title, description } in featureList"
                   :key="title"
                   class="rounded-md p-3 text-sm hover:bg-muted"
                 >
-                  <p class="mb-1 font-semibold leading-none text-foreground">
-                    {{ title }}
+                  <p class="mb-1 font-semibold leading-none text-foreground" v-html="title">
                   </p>
-                  <p class="line-clamp-2 text-muted-foreground">
+                  <p class="text-muted-foreground">
                     {{ description }}
                   </p>
                 </li>
