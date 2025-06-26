@@ -15,6 +15,7 @@ import Community from "./components/Community.vue";
 import Contact from "./components/Contact.vue";
 import FAQ from "./components/FAQ.vue";
 import Footer from "./components/Footer.vue";
+import QuestionnaireAssessment from "./components/QuestionnaireAssessment.vue";
 
 const config = {
   plugins: [VuePlugin],
@@ -30,6 +31,7 @@ const config = {
   <Features />
   <Services />
   <HowItWorks />
+  <QuestionnaireAssessment />
   <Testimonials />
   <Team />
   <Community />
