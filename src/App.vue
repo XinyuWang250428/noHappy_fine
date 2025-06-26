@@ -16,6 +16,7 @@ import Contact from "./components/Contact.vue";
 import FAQ from "./components/FAQ.vue";
 import Footer from "./components/Footer.vue";
 import QuestionnaireAssessment from "./components/QuestionnaireAssessment.vue";
+import ECGScreening from "./components/ECGScreening.vue";
 
 const config = {
   plugins: [VuePlugin],
@@ -32,6 +33,7 @@ const config = {
   <Services />
   <HowItWorks />
   <QuestionnaireAssessment />
+  <ECGScreening />
   <Testimonials />
   <Team />
   <Community />
