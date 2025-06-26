@@ -29,31 +29,31 @@ const featureList: FeaturesProps[] = [
     icon: "badgeCheck",
     title: "社会认可",
     description:
-      "展示用户评价和社交证明，增强品牌可信度。",
+      "与专业结构合作，曾强品牌可信度",
   },
   {
     icon: "goal",
-    title: "目标内容",
+    title: "算法可解释",
     description:
-      "为目标受众提供量身定制的内容和解决方案。",
+      "高度解释性算法为测试与分析提供科学且充分的依据",
   },
   {
     icon: "pictureInPicture",
     title: "强大的视觉效果",
     description:
-      "使用高质量的图像和动画，提升用户体验。",
+      "丰富的图表报告提供最直观的结果，提升用户体验",
   },
   {
     icon: "mousePointerClick",
-    title: "清晰的行动号召",
+    title: "前沿智能技术",
     description:
-      "优化转化率的按钮设计和文案策略。",
+      "前沿算法、多模态融合赋能早筛、诊断及个性化干预",
   },
   {
     icon: "newspaper",
-    title: "清晰的标题",
+    title: "清晰的说明与引导",
     description:
-      "简洁有力的标题传达核心价值主张。",
+      "简明的流程加上清晰的引导助力用户快速上手",
   },
 ];
 
@@ -93,7 +93,7 @@ const iconMap: Record<
     </h2>
 
     <h3 class="md:w-1/2 mx-auto text-xl text-center text-muted-foreground mb-8">
-      探索我们独特的功能特点，这些创新设计将帮助您的业务脱颖而出。
+      探索深挖独特的功能特点，这些创新将为智能话精神疾病诊疗提供重要参考。
     </h3>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

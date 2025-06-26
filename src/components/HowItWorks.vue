@@ -11,31 +11,31 @@ interface HowItWorksProps {
 
 const HowItWorksList: HowItWorksProps[] = [
   {
-    badgeTitle: "贡献",
-    title: "每一份贡献都能带来改变",
+    badgeTitle: "步骤一",
+    title: "阅读说明书",
     description:
-      "加入我们的开源社区，共同打造更好的产品，让每一份贡献都有价值。",
+      "了解测试步骤、操作流程，为测试做好准备",
     image: "roboto.png",
   },
   {
-    badgeTitle: "发现",
-    title: "每一个选择都能产生影响",
+    badgeTitle: "步骤二",
+    title: "检查设备",
     description:
-      "探索创新的解决方案，发现新的可能性，让每一个决策都充满意义。",
+      "确保摄像头等功能可以被正常使用",
     image: "runner.png",
   },
   {
-    badgeTitle: "创新",
-    title: "让每一个行动都有意义",
+    badgeTitle: "步骤三",
+    title: "开始测试",
     description:
-      "持续创新和改进，推动产品进化，为用户带来更好的体验。",
+      "根据说明书的指示，导入相关文件或进行相应操作",
     image: "pacheco.png",
   },
   {
-    badgeTitle: "协作",
-    title: "携手应对挑战",
+    badgeTitle: "步骤四",
+    title: "共同进步",
     description:
-      "团队协作，共同解决问题，创造更大的价值。",
+      "分享你的经验，帮助我们不断改进产品，让每个人都能从中受益。",
     image: "gamestation.png",
   },
 ];
@@ -52,7 +52,7 @@ const HowItWorksList: HowItWorksProps[] = [
       </h2>
 
       <h2 class="text-3xl md:text-4xl text-center font-bold">
-        分步骤流程
+        分步操作流程
       </h2>
     </div>
 
