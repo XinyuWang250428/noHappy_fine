@@ -33,9 +33,9 @@ const HowItWorksList: HowItWorksProps[] = [
   },
   {
     badgeTitle: "步骤四",
-    title: "共同进步",
+    title: "查看报告",
     description:
-      "分享你的经验，帮助我们不断改进产品，让每个人都能从中受益。",
+      "查看基于测试分析的专业报告，通过高度可视化的结果了解初步的干预措施建议",
     image: "gamestation.png",
   },
 ];
