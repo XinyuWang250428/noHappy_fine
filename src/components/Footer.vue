@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ChevronsDown } from "lucide-vue-next";
 import Separator from "./ui/separator/Separator.vue";
 </script>
 
@@ -14,14 +13,16 @@ import Separator from "./ui/separator/Separator.vue";
       >
         <div class="col-span-full xl:col-span-2">
           <a
-            href="#"
+            href="/"
             class="flex font-bold items-center"
           >
-            <ChevronsDown
-              class="bg-gradient-to-tr from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white"
-            />
-
-            <h3 class="text-2xl">Shadcn-Vue</h3>
+            <div class="bg-gradient-to-tr from-primary via-primary/70 to-primary rounded-lg w-12 h-12 mr-3 border flex items-center justify-center">
+              <img
+                src="/图标.svg"
+                class="w-10 h-10 dark:invert"
+              />
+            </div>
+            <h3 class="text-3xl">意遇重生</h3>
           </a>
         </div>
 
@@ -149,14 +150,8 @@ import Separator from "./ui/separator/Separator.vue";
       <Separator class="my-6" />
       <section className="">
         <h3 class="">
-          &copy; 2024 设计和开发者：
-          <a
-            target="_blank"
-            href="https://github.com/leoMirandaa"
-            className="text-primary transition-all border-primary hover:border-b-2"
-          >
-            Leo Miranda
-          </a>
+          设计和开发者：
+          <span class="text-orange-500">翁灿 王昕宇 周恩骏 白宸睿</span>
         </h3>
       </section>
     </div>

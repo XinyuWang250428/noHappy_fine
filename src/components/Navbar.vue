@@ -66,7 +66,7 @@ const featureList: FeatureProps[] = [
     description: "利用心电信号分析技术，检测心理应激状态下的生理指标变化",
   },
   {
-    title: "🧬 基因辅助解释",
+    title: "🧬 基因辅助分析",
     description: "分析基因数据，评估遗传性抑郁症风险因子，助力精准诊疗",
   },
   {
