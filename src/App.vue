@@ -18,6 +18,7 @@ import Footer from "./components/Footer.vue";
 import QuestionnaireAssessment from "./components/QuestionnaireAssessment.vue";
 import ECGScreening from "./components/ECGScreening.vue";
 import GeneScreening from "./components/GeneScreening.vue";
+import EmotionRecognition from "./components/EmotionRecognition.vue";
 
 const config = {
   plugins: [VuePlugin],
@@ -36,6 +37,7 @@ const config = {
   <QuestionnaireAssessment />
   <ECGScreening />
   <GeneScreening />
+  <EmotionRecognition />
   <Testimonials />
   <Team />
   <Community />

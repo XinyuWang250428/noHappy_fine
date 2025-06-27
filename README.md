@@ -15,6 +15,10 @@ Live demo is now available: <a href="https://shadcn-vue-landing-page.vercel.app"
 - [x] Features
 - [x] Services
 - [x] HowItWorks
+- [x] QuestionnaireAssessment (心理量表评估)
+- [x] ECGScreening (心电信号筛查)
+- [x] GeneScreening (基因辅助分析)
+- [x] EmotionRecognition (情绪表情识别检测)
 - [x] Testimonials
 - [x] Pricing
 - [x] Frequently Asked Questions(FAQ)
@@ -29,6 +33,34 @@ Live demo is now available: <a href="https://shadcn-vue-landing-page.vercel.app"
 - [x] User Friendly Navigation
 - [x] Dark Mode
 - [x] Meta tags
+- [x] 心理健康评估系统
+- [x] 实时情绪识别功能
+- [x] Face-API.js 集成
+- [x] 多模态健康检测
+
+## Health Assessment Features
+
+### 1. 心理量表评估
+- 标准化心理量表
+- 系统性评估心理健康状态
+- 抑郁症风险等级评估
+
+### 2. 心电信号筛查
+- 心电信号分析技术
+- 心理应激状态检测
+- 自主神经系统功能评估
+
+### 3. 基因辅助分析
+- 基因数据分析与可视化
+- 孟德尔随机化评估
+- 遗传性抑郁症风险因子分析
+
+### 4. 情绪表情识别检测 (新增)
+- 基于AI的面部表情分析
+- 实时情绪识别与评估
+- 情绪表达能力测试
+- 悲伤情绪干扰分析
+- 智能化报告生成
 
 ## How to install
 
