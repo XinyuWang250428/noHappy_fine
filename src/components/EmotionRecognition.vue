@@ -3,20 +3,20 @@
     <div class="emotion-container">
       <div class="mb-10 text-center">
         <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-          情绪表情识别检测
+          情绪识别评估
         </h2>
-        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+        <p class="text-lg text-gray-600 max-w-none mx-auto whitespace-nowrap">
           基于人工智能的面部表情分析技术，通过实时捕捉和分析用户的面部表情变化，评估情绪表达能力和情绪调节能力
         </p>
       </div>
 
       <!-- 当前状态显示 -->
       <div class="flex justify-center mb-8">
-        <div class="bg-white/90 rounded-2xl p-6 shadow-lg border border-orange-200 min-w-[300px] text-center">
-          <h3 class="text-xl font-bold text-orange-800 mb-2">系统状态</h3>
-          <div class="flex items-center justify-center gap-2">
+        <div class="bg-white/90 rounded-full px-6 py-3 shadow-lg border border-orange-200 min-w-[400px] text-center">
+          <div class="flex items-center justify-center gap-3">
+            <span class="text-lg font-bold text-orange-800">系统状态:</span>
             <div class="w-3 h-3 rounded-full" :class="systemStatus.color"></div>
-            <span class="text-gray-700">{{ systemStatus.text }}</span>
+            <span class="text-gray-700 font-medium">{{ systemStatus.text }}</span>
           </div>
         </div>
       </div>
@@ -25,40 +25,31 @@
 
       <!-- 情绪识别测试阶段 -->
       <div v-if="currentStage === 'testing'" class="max-w-5xl mx-auto">
-        <div class="text-center mb-6">
-          <h3 class="text-2xl font-bold text-orange-800 mb-2">情绪识别评估</h3>
-          <p class="text-lg text-orange-600 mb-4">请根据提示表达相应的情绪</p>
-        </div>
 
-        <!-- 情绪提示区域 -->
-        <div class="flex flex-col items-center gap-4 mb-6">
-          <div class="bg-gradient-to-br from-orange-100 via-orange-50 to-orange-200 rounded-xl p-6 text-center shadow-lg border-2 border-orange-300 w-full max-w-2xl min-h-[80px] flex items-center justify-center relative overflow-hidden">
-            <!-- 装饰背景元素 -->
-            <div class="absolute top-0 left-0 w-20 h-20 bg-orange-300/20 rounded-full -translate-x-10 -translate-y-10"></div>
-            <div class="absolute bottom-0 right-0 w-16 h-16 bg-orange-400/20 rounded-full translate-x-8 translate-y-8"></div>
-            <div class="absolute top-1/2 left-1/2 w-32 h-32 bg-orange-200/10 rounded-full -translate-x-16 -translate-y-16"></div>
-            
-            <!-- 边框装饰 -->
-            <div class="absolute inset-0 rounded-xl border-2 border-orange-400/30 m-1"></div>
-            
-            <!-- 文字内容 -->
-            <div class="relative z-10 flex items-center gap-3">
-              <div class="w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div>
-              <span class="text-2xl font-bold text-orange-900 drop-shadow-sm">{{ currentPrompt }}</span>
-              <div class="w-3 h-3 bg-orange-500 rounded-full animate-pulse animation-delay-300"></div>
+        <!-- 情绪提示区域和视频组件融合 -->
+        <div class="flex justify-center mb-6">
+          <div class="relative w-[720px] bg-white rounded-2xl overflow-hidden shadow-xl border-3 border-orange-300">
+            <!-- 情绪提示区域 -->
+            <div class="bg-gradient-to-br from-orange-100 via-orange-50 to-orange-200 p-4 text-center border-b-2 border-orange-300 relative overflow-hidden">
+              <!-- 装饰背景元素 -->
+              <div class="absolute top-0 left-0 w-16 h-16 bg-orange-300/20 rounded-full -translate-x-8 -translate-y-8"></div>
+              <div class="absolute bottom-0 right-0 w-12 h-12 bg-orange-400/20 rounded-full translate-x-6 translate-y-6"></div>
+              
+              <!-- 文字内容 -->
+              <div class="relative z-10 flex items-center justify-center gap-3">
+                <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                <span class="text-xl font-bold text-orange-900 drop-shadow-sm">{{ currentPrompt }}</span>
+                <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse animation-delay-300"></div>
+              </div>
+              
+              <!-- 倒计时显示 -->
+              <div v-if="countdown > 0" class="absolute top-2 right-4 bg-white/90 rounded-lg px-3 py-1 shadow-md">
+                <span class="text-lg font-bold text-red-600">{{ countdown }}</span>
+              </div>
             </div>
             
-            <!-- 底部光效 -->
-            <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent"></div>
-          </div>
-          <div v-if="countdown > 0" class="bg-white/80 rounded-lg p-3 shadow-md">
-            <span class="text-2xl font-bold text-red-600">{{ countdown }}</span>
-          </div>
-        </div>
-
-        <!-- 视频区域 -->
-        <div class="flex justify-center mb-6">
-          <div class="relative w-[720px] h-[540px] bg-white rounded-2xl overflow-hidden shadow-xl border-3 border-orange-300">
+            <!-- 视频区域 -->
+            <div class="relative w-full h-[540px] bg-white overflow-hidden">
             <video 
               ref="videoElement"
               class="w-full h-full object-cover"
@@ -72,6 +63,7 @@
               width="720" 
               height="540"
             ></canvas>
+            </div>
           </div>
         </div>
 
