@@ -2,7 +2,8 @@
   <section class="py-24 sm:py-32">
     <div class="container">
       <div class="header">
-        <h1>心电筛查</h1>
+        <h1>心电检测评估</h1>
+        <p class="description">利用心电信号分析技术，检测心理应激状态下的生理指标变化</p>
       </div>
       
       <div class="control-panel">
@@ -219,9 +220,21 @@ const returnToMain = () => {
 }
 
 .header h1 {
-  font-size: 2.5em;
-  margin-bottom: 10px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 36px;
+  font-weight: 700;
+  color: rgb(250, 250, 249);
+  margin-bottom: 16px;
+  letter-spacing: -0.025em;
+}
+
+.header .description {
+  font-size: 18px;
+  color: rgba(168, 162, 158, 1);
+  line-height: 2;
+  margin-top: 10px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .control-panel {
@@ -310,21 +323,27 @@ const returnToMain = () => {
 
 .result-button {
   display: block;
-  width: 200px;
-  margin: 0 auto;
-  padding: 15px 30px;
-  background: linear-gradient(45deg, #4CAF50, #45a049);
-  color: white;
+  width: 300px;
+  height: 60px;
+  margin: 30px auto;
+  padding: 16px 32px;
+  background-color: rgb(234, 88, 12);
+  color: rgb(250, 250, 249);
   border: none;
-  border-radius: 25px;
-  font-size: 1.2em;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
+  text-align: center;
+  line-height: 1.2;
 }
 
 .result-button:hover {
+  background-color: rgba(234, 88, 12, 0.9);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
 }
 
 .result-display {

@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-
 import { useColorMode } from "@vueuse/core";
 const mode = useColorMode();
-mode.value = "dark";
 
 import {
   NavigationMenu,
@@ -25,7 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-import { ChevronsDown, Menu } from "lucide-vue-next";
+import { Menu } from "lucide-vue-next";
 import GithubIcon from "@/icons/GithubIcon.vue";
 import ToggleTheme from "./ToggleTheme.vue";
 
@@ -61,19 +59,19 @@ const routeList: RouteProps[] = [
 const featureList: FeatureProps[] = [
   {
     title: "📋 心理量表评估",
-    description: "采用标准化心理量表，系统性评估个体心理健康状态和抑郁症风险等级。通过科学的量表评估体系，全面了解用户的心理状态，为临床诊断和干预提供重要参考。",
+    description: "通过专业量表评估您的心理健康状况，为临床诊断提供科学依据",
   },
   {
-    title: "💓 心电信号筛查",
-    description: "利用心电信号分析技术，检测心理应激状态下的生理指标变化。通过记录和分析心电数据，评估自主神经系统功能，识别潜在的情绪相关生理改变。",
+    title: "💓 心电检测评估",
+    description: "利用心电信号分析技术，检测心理应激状态下的生理指标变化",
   },
   {
-    title: "😊 情绪表情识别检测",
-    description: "基于人工智能的面部表情分析技术，通过实时捕捉和分析用户的面部表情变化，评估情绪表达能力和情绪调节能力。系统能够识别包括快乐、悲伤、愤怒、惊讶和中性等多种情绪状态，特别关注悲伤情绪的干扰程度。",
+    title: "🧬 基因辅助解释",
+    description: "分析基因数据，评估遗传性抑郁症风险因子，助力精准诊疗",
   },
   {
-    title: "🧬 基因筛查",
-    description: "通过基因数据分析，评估遗传性抑郁症风险因子，为精准医疗提供科学依据。采集基因样本并运用先进的基因测序技术，分析与抑郁症相关的基因位点变异。",
+    title: "😊 情绪识别评估",
+    description: "基于AI的面部表情分析，实时评估情绪表达和调节能力",
   },
 ];
 
@@ -167,37 +165,34 @@ const isOpen = ref<boolean>(false);
             测试分析
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div class="grid w-[600px] gap-5 p-4">
-              <ul class="flex flex-col gap-2">
-                <li
-                  v-for="{ title, description } in featureList"
-                  :key="title"
-                  class="rounded-md p-3 text-sm hover:bg-muted"
-                >
-                  <p class="mb-1 font-semibold leading-none text-foreground" v-html="title">
-                  </p>
-                  <p class="text-muted-foreground">
-                    {{ description }}
-                  </p>
-                </li>
-              </ul>
-            </div>
+            <ul class="grid w-[600px] gap-2 p-4">
+              <li
+                v-for="{ title, description } in featureList"
+                :key="title"
+                class="rounded-md p-3 text-sm hover:bg-muted cursor-pointer"
+              >
+                <NavigationMenuLink asChild>
+                  <div>
+                    <p class="mb-1 font-semibold leading-none text-foreground" v-html="title">
+                    </p>
+                    <p class="text-muted-foreground">
+                      {{ description }}
+                    </p>
+                  </div>
+                </NavigationMenuLink>
+              </li>
+            </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        <NavigationMenuItem>
+        <NavigationMenuItem v-for="{ href, label } in routeList" :key="label">
           <NavigationMenuLink asChild>
-            <Button
-              v-for="{ href, label } in routeList"
-              :key="label"
-              as-child
-              variant="ghost"
-              class="justify-start text-base"
+            <a 
+              :href="href"
+              class="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
             >
-              <a :href="href">
-                {{ label }}
-              </a>
-            </Button>
+              {{ label }}
+            </a>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
