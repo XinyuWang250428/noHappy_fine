@@ -8,7 +8,7 @@ import Features from "./components/Features.vue";
 import Services from "./components/Services.vue";
 import HowItWorks from "./components/HowItWorks.vue";
 import Sponsors from "./components/Sponsors.vue";
-import Testimonials from "./components/Testimonials.vue";
+import Report from "./components/Report.vue";
 import Team from "./components/Team.vue";
 import Pricing from "./components/Pricing.vue";
 import Community from "./components/Community.vue";
@@ -38,7 +38,7 @@ const config = {
   <ECGScreening />
   <GeneScreening />
   <EmotionRecognition />
-  <Testimonials />
+  <Report />
   <Team />
   <Community />
   <Pricing />
