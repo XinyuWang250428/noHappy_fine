@@ -35,6 +35,7 @@ interface RouteProps {
 interface FeatureProps {
   title: string;
   description: string;
+  href: string;
 }
 
 const routeList: RouteProps[] = [
@@ -60,20 +61,35 @@ const featureList: FeatureProps[] = [
   {
     title: "📋 心理量表评估",
     description: "通过专业量表评估您的心理健康状况，为临床诊断提供科学依据",
+    href: "#questionnaire-assessment",
   },
   {
     title: "💓 心电检测评估",
     description: "利用心电信号分析技术，检测心理应激状态下的生理指标变化",
+    href: "#ecg-screening",
   },
   {
     title: "🧬 基因辅助分析",
     description: "分析基因数据，评估遗传性抑郁症风险因子，助力精准诊疗",
+    href: "#gene-screening",
   },
   {
     title: "😊 情绪识别评估",
     description: "基于AI的面部表情分析，实时评估情绪表达和调节能力",
+    href: "#emotion-recognition",
   },
 ];
+
+// 平滑滚动函数
+const smoothScrollTo = (targetId: string) => {
+  const element = document.getElementById(targetId.replace('#', ''));
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
 
 const isOpen = ref<boolean>(false);
 </script>
@@ -131,6 +147,24 @@ const isOpen = ref<boolean>(false);
             </SheetHeader>
 
             <div class="flex flex-col gap-2">
+              <!-- 测试分析子菜单 -->
+              <div class="pl-2">
+                <p class="text-sm font-semibold text-muted-foreground mb-2">测试分析</p>
+                <div class="flex flex-col gap-1 pl-2">
+                  <Button
+                    v-for="{ title, href } in featureList"
+                    :key="title"
+                    variant="ghost"
+                    size="sm"
+                    class="justify-start text-xs"
+                    @click="smoothScrollTo(href); isOpen = false"
+                  >
+                    {{ title }}
+                  </Button>
+                </div>
+              </div>
+              
+              <!-- 其他菜单项 -->
               <Button
                 v-for="{ href, label } in routeList"
                 :key="label"
@@ -167,9 +201,10 @@ const isOpen = ref<boolean>(false);
           <NavigationMenuContent>
             <ul class="grid w-[600px] gap-2 p-4">
               <li
-                v-for="{ title, description } in featureList"
+                v-for="{ title, description, href } in featureList"
                 :key="title"
                 class="rounded-md p-3 text-sm hover:bg-muted cursor-pointer"
+                @click="smoothScrollTo(href)"
               >
                 <NavigationMenuLink asChild>
                   <div>

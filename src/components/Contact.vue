@@ -68,7 +68,7 @@ const handleSubmit = () => {
               <div class="font-bold">找到我们</div>
             </div>
 
-            <div>北京市朝阳区建国门外大街1号国贸大厦A座2008室</div>
+            <div>上海市杨浦区军工路516号</div>
           </div>
 
           <div>

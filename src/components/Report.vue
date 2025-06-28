@@ -13,17 +13,28 @@
 
       <div class="space-y-8">
         <!-- 测试状态列表 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div v-for="(test, index) in testStatus" :key="index"
-               class="bg-card p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-2">{{ test.name }}</h3>
-            <div class="flex items-center space-x-2">
-              <span :class="[
-                'px-2 py-1 rounded text-sm',
-                test.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-              ]">
-                {{ test.completed ? '已完成' : '暂未完成' }}
-              </span>
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xl font-semibold">测试完成状态</h3>
+            <button 
+              @click="refreshTestStatus"
+              class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              刷新状态
+            </button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div v-for="(test, index) in testStatus" :key="index"
+                 class="bg-card p-6 rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2">{{ test.name }}</h3>
+              <div class="flex items-center space-x-2">
+                <span :class="[
+                  'px-2 py-1 rounded text-sm',
+                  test.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                ]">
+                  {{ test.completed ? '已完成' : '暂未完成' }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -329,7 +340,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { Chart } from 'chart.js/auto'
 
 // 类型定义
@@ -977,35 +988,54 @@ const allTestsCompleted = computed(() => {
   return testStatus.value.every(test => test.completed)
 })
 
-// 在组件挂载时检查localStorage中的测试结果
-onMounted(() => {
+// 检查测试状态的函数
+const checkTestStatus = () => {
   // 检查心理量表结果
   const psychologyResults = localStorage.getItem('psychologyResults')
-  if (psychologyResults) {
-    testStatus.value[0].completed = true
-  }
+  testStatus.value[0].completed = !!psychologyResults
 
   // 检查心电信号结果
   const ecgResults = localStorage.getItem('ecgResults')
-  if (ecgResults) {
-    testStatus.value[1].completed = true
-  }
+  testStatus.value[1].completed = !!ecgResults
 
   // 检查情绪表情结果
   const emotionResults = localStorage.getItem('guidedEmotionResults')
-  if (emotionResults) {
-    testStatus.value[2].completed = true
-  }
+  testStatus.value[2].completed = !!emotionResults
 
   // 检查基因筛查结果
   const geneResults = localStorage.getItem('geneResults')
-  if (geneResults) {
-    testStatus.value[3].completed = true
-  }
+  testStatus.value[3].completed = !!geneResults
 
   // 如果所有测试都完成，执行AI分析
   if (allTestsCompleted.value) {
     performAIAnalysis()
+  }
+}
+
+// 刷新测试状态
+const refreshTestStatus = () => {
+  checkTestStatus()
+  // 显示刷新成功提示
+  alert('状态已刷新！如果您已完成测试但仍显示未完成，请确保在同一浏览器中运行测试。')
+}
+
+// 定期检查的定时器
+let statusCheckInterval: NodeJS.Timeout | null = null
+
+// 在组件挂载时检查localStorage中的测试结果
+onMounted(() => {
+  checkTestStatus()
+  
+  // 定期检查状态（每5秒检查一次）
+  statusCheckInterval = setInterval(() => {
+    checkTestStatus()
+  }, 5000)
+})
+
+// 组件卸载时清理定时器
+onUnmounted(() => {
+  if (statusCheckInterval) {
+    clearInterval(statusCheckInterval)
   }
 })
 </script>
