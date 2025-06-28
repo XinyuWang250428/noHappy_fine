@@ -3,68 +3,84 @@ import { Marquee } from "@selemondev/vue3-marquee";
 import "@selemondev/vue3-marquee/dist/style.css";
 
 import {
-  Crown,
-  Vegan,
-  Ghost,
-  Puzzle,
-  Squirrel,
-  Cookie,
-  Drama,
+  Code2,
+  Layers3,
+  Zap,
+  Palette,
+  Server,
+  Shield,
+  Database,
+  Cpu,
 } from "lucide-vue-next";
 
-interface sponsorsProps {
+interface techStackProps {
   icon: string;
   name: string;
+  type: 'frontend' | 'backend';
 }
 
-const sponsors: sponsorsProps[] = [
+const techStack: techStackProps[] = [
   {
-    icon: "crown",
-    name: "Acmebrand",
+    icon: "code2",
+    name: "Vue 3",
+    type: "frontend",
   },
   {
-    icon: "vegan",
-    name: "Acmelogo",
+    icon: "layers3",
+    name: "TypeScript",
+    type: "frontend",
   },
   {
-    icon: "ghost",
-    name: "Acmesponsor",
+    icon: "zap",
+    name: "Vite",
+    type: "frontend",
   },
   {
-    icon: "puzzle",
-    name: "Acmeipsum",
+    icon: "palette",
+    name: "Tailwind CSS",
+    type: "frontend",
   },
   {
-    icon: "squirrel",
-    name: "Acme",
+    icon: "server",
+    name: "Spring Boot",
+    type: "backend",
   },
   {
-    icon: "cookie",
-    name: "Accmee",
+    icon: "shield",
+    name: "RuoYi",
+    type: "backend",
   },
   {
-    icon: "drama",
-    name: "Acmetech",
+    icon: "database",
+    name: "MySQL",
+    type: "backend",
+  },
+  {
+    icon: "cpu",
+    name: "Redis",
+    type: "backend",
   },
 ];
 
 const iconMap: Record<
   string,
-  | typeof Crown
-  | typeof Vegan
-  | typeof Ghost
-  | typeof Puzzle
-  | typeof Squirrel
-  | typeof Cookie
-  | typeof Drama
+  | typeof Code2
+  | typeof Layers3
+  | typeof Zap
+  | typeof Palette
+  | typeof Server
+  | typeof Shield
+  | typeof Database
+  | typeof Cpu
 > = {
-  crown: Crown,
-  vegan: Vegan,
-  ghost: Ghost,
-  puzzle: Puzzle,
-  squirrel: Squirrel,
-  cookie: Cookie,
-  drama: Drama,
+  code2: Code2,
+  layers3: Layers3,
+  zap: Zap,
+  palette: Palette,
+  server: Server,
+  shield: Shield,
+  database: Database,
+  cpu: Cpu,
 };
 </script>
 
@@ -73,7 +89,7 @@ const iconMap: Record<
     id="sponsors"
     class="max-w-[75%] mx-auto pb-24 sm:pb-32"
   >
-    <h2 class="text-lg md:text-xl text-center mb-6">Our Platinum Sponsors</h2>
+    <h2 class="text-3xl md:text-4xl text-center font-bold mb-4">项目技术栈</h2>
 
     <div class="mx-auto">
       <Marquee
@@ -83,17 +99,16 @@ const iconMap: Record<
         innerClassName="gap-[3rem]"
       >
         <div
-          v-for="{ icon, name } in sponsors"
+          v-for="{ icon, name, type } in techStack"
           :key="name"
+          class="flex items-center text-xl md:text-2xl font-medium whitespace-nowrap"
         >
-          <div class="flex items-center text-xl md:text-2xl font-medium">
-            <component
-              :is="iconMap[icon]"
-              class="mr-2"
-              stroke-width="3"
-            />
-            {{ name }}
-          </div>
+          <component
+            :is="iconMap[icon]"
+            class="mr-2"
+            stroke-width="3"
+          />
+          {{ name }}
         </div>
       </Marquee>
     </div>

@@ -6,7 +6,7 @@
         <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
           综合评估报告
         </h2>
-        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+        <p class="text-lg text-gray-800 dark:text-gray-600 max-w-3xl mx-auto font-medium">
           基于多维度数据分析的个性化心理健康评估报告，为您提供专业的心理健康指导
         </p>
       </div>

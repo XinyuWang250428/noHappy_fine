@@ -155,86 +155,7 @@
         </div>
       </div>
 
-      <!-- 评估报告阶段 -->
-      <div v-if="currentStage === 'report'" class="max-w-4xl mx-auto">
-        <div class="bg-white/98 rounded-2xl p-8 shadow-lg">
-          <div class="text-center mb-8 pb-5 border-b-2 border-orange-500">
-            <h3 class="text-2xl font-bold text-orange-800 mb-2">情绪引导评估报告</h3>
-            <p class="text-gray-600">报告生成于: {{ new Date().toLocaleString('zh-CN') }}</p>
-          </div>
 
-          <!-- 报告内容 -->
-          <div v-if="assessmentResults" class="space-y-8">
-            <!-- 情绪达成度图表 -->
-            <div class="bg-orange-50 rounded-xl p-6 border border-orange-200 shadow-sm">
-              <h4 class="text-lg font-bold text-orange-900 mb-5 pb-3 border-b border-orange-300 flex items-center">
-                📊 情绪达成度（最大置信度）
-              </h4>
-              <div class="bg-white rounded-lg p-4 shadow-inner">
-                <canvas ref="maxConfidenceChart" class="w-full h-64"></canvas>
-              </div>
-            </div>
-
-            <!-- 情绪转换效率图表 -->
-            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200 shadow-sm">
-              <h4 class="text-lg font-bold text-blue-900 mb-5 pb-3 border-b border-blue-300 flex items-center">
-                ⚡ 情绪转换效率（达成时间）
-              </h4>
-              <div class="bg-white rounded-lg p-4 shadow-inner">
-                <canvas ref="timeToConfidenceChart" class="w-full h-64"></canvas>
-              </div>
-              <p class="text-center text-sm text-gray-600 mt-3">
-                * 达成时间指情绪置信度达到60%所用时长，最大为5000毫秒（5秒）
-              </p>
-            </div>
-
-            <!-- AI智能分析 -->
-            <div class="bg-purple-50 rounded-xl p-6 border border-purple-200 shadow-sm">
-              <h4 class="text-lg font-bold text-purple-900 mb-5 pb-3 border-b border-purple-300 flex items-center">
-                🤖 AI智能分析
-              </h4>
-              <div v-if="aiAnalysisLoading" class="text-center py-8">
-                <div class="inline-block w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-                <p class="text-purple-700">正在进行智能分析...</p>
-              </div>
-              <div v-else class="bg-white rounded-lg p-6 shadow-inner">
-                <div class="space-y-6">
-                  <div>
-                    <h5 class="text-purple-800 text-lg font-bold mb-3 pb-2 border-b border-purple-200">📋 综合评估</h5>
-                    <p class="text-gray-700 leading-relaxed">{{ aiAnalysis.summary }}</p>
-                  </div>
-                  <div>
-                    <h5 class="text-purple-800 text-lg font-bold mb-3 pb-2 border-b border-purple-200">🎯 表现亮点</h5>
-                    <p class="text-gray-700 leading-relaxed">{{ aiAnalysis.strengths }}</p>
-                  </div>
-                  <div>
-                    <h5 class="text-purple-800 text-lg font-bold mb-3 pb-2 border-b border-purple-200">💡 改进建议</h5>
-                    <p class="text-gray-700 leading-relaxed">{{ aiAnalysis.suggestions }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 操作按钮 -->
-          <div class="flex gap-5 justify-center mt-8 pt-5 border-t border-gray-200">
-            <button 
-              @click="restartAssessment"
-              class="bg-orange-500 text-white px-8 py-3 rounded-full text-lg font-bold 
-                     hover:bg-orange-600 transform hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              重新测试
-            </button>
-            <button 
-              @click="backToMain"
-              class="bg-gray-500 text-white px-8 py-3 rounded-full text-lg font-bold 
-                     hover:bg-gray-600 transform hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              返回主页
-            </button>
-          </div>
-        </div>
-      </div>
 
       <!-- 加载覆盖层 -->
       <div v-if="showLoadingOverlay" class="fixed inset-0 bg-white/90 flex flex-col justify-center items-center z-50">
@@ -594,42 +515,14 @@ function generateAIAnalysis() {
 
 // 查看报告
 function viewReport() {
-  currentStage.value = 'report'
-  nextTick(() => {
-    drawCharts()
-    // 滚动到报告部分
-    const reportElement = document.querySelector('#testimonials')
-    if (reportElement) {
-      reportElement.scrollIntoView({ behavior: 'smooth' })
-    }
-  })
+  // 直接滚动到综合评估报告部分
+  const reportElement = document.querySelector('#testimonials')
+  if (reportElement) {
+    reportElement.scrollIntoView({ behavior: 'smooth' })
+  }
 }
 
-// 绘制图表
-function drawCharts() {
-  if (!assessmentResults.value) return
-  
-  // 这里可以使用Chart.js或其他图表库来绘制图表
-  // 由于篇幅限制，这里只是占位符
-  console.log('绘制图表...', assessmentResults.value)
-}
 
-// 重新开始评估
-function restartAssessment() {
-  currentStage.value = 'testing'
-  assessmentResults.value = null
-  emotionResults = {}
-  currentEmotionIndex = 0
-  currentPrompt.value = '准备开始...'
-  countdown.value = 0
-}
-
-// 返回主页
-function backToMain() {
-  currentStage.value = 'testing'
-  assessmentResults.value = null
-  localStorage.removeItem('emotionAssessmentData')
-}
 
 // 清理资源
 function cleanup() {

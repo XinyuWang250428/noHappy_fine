@@ -81,7 +81,7 @@ const teamList: TeamProps[] = [
             <img
               :src="imageUrl"
               alt=""
-              class="w-full aspect-square object-cover saturate-100 brightness-90 transition-all duration-200 ease-linear size-full group-hover/hoverimg:saturate-125 group-hover/hoverimg:brightness-110 group-hover/hoverimg:scale-[1.01]"
+              class="w-full aspect-square object-contain saturate-100 brightness-90 transition-all duration-200 ease-linear size-full group-hover/hoverimg:saturate-125 group-hover/hoverimg:brightness-110 group-hover/hoverimg:scale-[1.01]"
             />
           </div>
           <CardTitle class="py-6 pb-4 px-6"

@@ -10,10 +10,16 @@
         <div class="file-input-wrapper">
           <label class="custom-file-input">
             <span>选择文件</span>
-            <input type="file" class="hidden" @change="handleFileChange" accept=".txt">
+            <input type="file" class="hidden" @change="handleFileChange" accept=".csv,.txt">
           </label>
           <div class="file-name">{{ fileName }}</div>
-          <div class="file-tip">请选择txt格式的心电数据文件</div>
+          <div class="file-tip">请选择CSV或TXT格式的心电数据文件</div>
+          <div class="file-format-description">
+            <p><strong>CSV格式说明：</strong></p>
+            <p>• 第一列：导联I数据，第二列：导联II数据</p>
+            <p>• 每行代表一个时间点的心电信号值</p>
+            <p>• 示例：0.125,0.089</p>
+          </div>
         </div>
       </div>
 
@@ -30,7 +36,6 @@
 
       <button class="result-button" @click="showResult">显示结果</button>
       <div class="result-display" v-show="showResultDisplay">{{ resultText }}</div>
-      <button class="return-button" v-show="showResultDisplay" @click="returnToMain">返回主页</button>
     </div>
   </section>
 </template>
@@ -60,7 +65,8 @@ const handleFileChange = (e: Event) => {
     reader.onload = (event) => {
       try {
         const content = event.target?.result as string
-        parseECGData(content)
+        const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'))
+        parseECGData(content, fileExtension)
       } catch (error) {
         alert('读取文件时发生错误：' + (error as Error).message)
       }
@@ -76,27 +82,48 @@ const handleFileChange = (e: Event) => {
   }
 }
 
-const parseECGData = (content: string) => {
+const parseECGData = (content: string, fileExtension: string) => {
   const lines = content.split('\n')
-  let isDataSection = false
   
   patientData.channel1 = []
   patientData.channel2 = []
   
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim()
-    if (line === '') continue
-    
-    if (line === 'ECG Data') {
-      isDataSection = true
-      continue
-    }
-    
-    if (isDataSection) {
+  if (fileExtension === '.csv') {
+    // CSV格式处理
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim()
+      if (line === '') continue
+      
+      // 跳过可能的标题行
+      if (line.toLowerCase().includes('channel') || line.toLowerCase().includes('lead')) {
+        continue
+      }
+      
       const values = line.split(',').map(v => parseFloat(v.trim()))
-      if (values.length === 2 && !isNaN(values[0]) && !isNaN(values[1])) {
+      if (values.length >= 2 && !isNaN(values[0]) && !isNaN(values[1])) {
         patientData.channel1.push(values[0])
         patientData.channel2.push(values[1])
+      }
+    }
+  } else {
+    // TXT格式处理（原有逻辑）
+    let isDataSection = false
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim()
+      if (line === '') continue
+      
+      if (line === 'ECG Data') {
+        isDataSection = true
+        continue
+      }
+      
+      if (isDataSection) {
+        const values = line.split(',').map(v => parseFloat(v.trim()))
+        if (values.length === 2 && !isNaN(values[0]) && !isNaN(values[1])) {
+          patientData.channel1.push(values[0])
+          patientData.channel2.push(values[1])
+        }
       }
     }
   }
@@ -104,8 +131,9 @@ const parseECGData = (content: string) => {
   if (patientData.channel1.length > 0) {
     displayECGWave('channel1', patientData.channel1)
     displayECGWave('channel2', patientData.channel2)
+    alert(`成功导入${patientData.channel1.length}个数据点`)
   } else {
-    alert('未找到有效的心电数据')
+    alert('未找到有效的心电数据，请检查文件格式')
   }
 }
 
@@ -164,13 +192,7 @@ const showResult = () => {
   localStorage.setItem('completedTests', JSON.stringify(completedTests))
 }
 
-const returnToMain = () => {
-  localStorage.setItem('lastScreen', 'screening')
-  const element = document.getElementById('population-risk')
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
-  }
-}
+
 </script>
 
 <style scoped>
@@ -289,6 +311,25 @@ const returnToMain = () => {
   text-align: center;
 }
 
+.file-format-description {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid rgb(234, 88, 12);
+}
+
+.file-format-description p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85em;
+  margin: 5px 0;
+  line-height: 1.4;
+}
+
+.file-format-description strong {
+  color: rgb(250, 250, 249);
+}
+
 .ecg-display {
   width: 100%;
   height: 400px;
@@ -348,28 +389,68 @@ const returnToMain = () => {
 
 .result-display {
   margin-top: 20px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.95) 0%, rgba(255, 165, 0, 0.9) 50%, rgba(255, 140, 0, 0.95) 100%);
+  border-radius: 20px;
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #1a1a1a;
+  box-shadow: 
+    0 8px 32px rgba(255, 140, 0, 0.3),
+    0 0 20px rgba(255, 140, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 140, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  animation: resultGlow 2s ease-in-out infinite alternate;
 }
 
-.return-button {
-  width: 200px;
-  margin: 20px auto 0;
-  padding: 12px 25px;
-  background: linear-gradient(45deg, #9c27b0, #6a1b9a);
-  color: white;
-  border: none;
-  border-radius: 25px;
-  font-size: 1.1em;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+.result-display::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, rgba(255, 140, 0, 0.6), transparent 30%, rgba(255, 140, 0, 0.6));
+  border-radius: 22px;
+  z-index: -1;
+  animation: borderShine 3s linear infinite;
 }
 
-.return-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.result-display::after {
+  content: '📊';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5em;
+  opacity: 0.7;
 }
+
+@keyframes resultGlow {
+  0% {
+    box-shadow: 
+      0 8px 32px rgba(255, 140, 0, 0.3),
+      0 0 20px rgba(255, 140, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    box-shadow: 
+      0 12px 40px rgba(255, 140, 0, 0.4),
+      0 0 30px rgba(255, 140, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+}
+
+@keyframes borderShine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+
 </style> 

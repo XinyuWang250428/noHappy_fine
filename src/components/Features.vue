@@ -23,7 +23,7 @@ const featureList: FeaturesProps[] = [
     icon: "tabletSmartphone",
     title: "移动端友好",
     description:
-      "完全响应式设计，确保在所有设备上都能完美展示。",
+      "完全响应式设计，确保在所有设备上都能完美展示",
   },
   {
     icon: "badgeCheck",
@@ -92,7 +92,7 @@ const iconMap: Record<
       我们的与众不同
     </h2>
 
-    <h3 class="md:w-1/2 mx-auto text-xl text-center text-muted-foreground mb-8">
+    <h3 class="md:w-1/2 mx-auto text-xl text-center text-muted-foreground mb-8 whitespace-nowrap">
       探索深挖独特的功能特点，这些创新将为智能话精神疾病诊疗提供重要参考。
     </h3>
 

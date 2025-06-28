@@ -77,9 +77,7 @@ import { Sparkles } from "@/components/ui/sparkles";
 
         <img
           class="w-full md:w-[1200px] mx-auto rounded-lg relative rouded-lg leading-none flex items-center border border-t-2 border-t-primary/30 img-border-animation"
-          :src="
-            mode == 'light' ? 'hero-image-light.jpg' : 'hero-image-dark.jpg'
-          "
+          src="/概念.png"
           alt="dashboard using shadcn-vue"
         />
 

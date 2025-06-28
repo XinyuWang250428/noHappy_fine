@@ -27,7 +27,7 @@
       <div class="flex justify-center mt-8">
         <button 
           @click="analyzeResults"
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+          class="result-button"
         >
           分析结果
         </button>
@@ -102,5 +102,30 @@ const analyzeResults = () => {
 <style scoped>
 .form-radio {
   @apply h-4 w-4 text-primary border-primary/20 focus:ring-primary/20;
+}
+
+.result-button {
+  display: block;
+  width: 300px;
+  height: 60px;
+  margin: 30px auto;
+  padding: 16px 32px;
+  background-color: rgb(234, 88, 12);
+  color: rgb(250, 250, 249);
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.result-button:hover {
+  background-color: rgba(234, 88, 12, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
 }
 </style> 

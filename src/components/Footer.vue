@@ -151,7 +151,7 @@ import Separator from "./ui/separator/Separator.vue";
       <section className="">
         <h3 class="">
           设计和开发者：
-          <span class="text-orange-500">翁灿 王昕宇 周恩骏 白宸睿</span>
+          <span class="text-orange-500">翁灿 王昕宇 周恩骏 白宸瑞</span>
         </h3>
       </section>
     </div>

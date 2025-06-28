@@ -21,25 +21,25 @@ interface ServiceProps {
 
 const serviceList: ServiceProps[] = [
   {
-    title: "自定义域名集成",
+    title: "Face-API.js 情绪识别",
     description:
-      "轻松集成您的自定义域名，打造专业的品牌形象。",
-    pro: 0,
+      "基于深度学习的面部表情识别技术，实时分析七种基本情绪状态。",
+    pro: 1,
   },
   {
-    title: "社交媒体集成",
+    title: "心电信号处理算法",
     description:
-      "无缝对接各大社交媒体平台，扩大品牌影响力。",
-    pro: 0,
+      "采用数字信号处理技术，分析心率变异性和自主神经系统功能。",
+    pro: 1,
   },
   {
-    title: "邮件营销集成",
-    description: "强大的邮件营销工具，提升客户互动。",
-    pro: 0,
+    title: "基因数据分析",
+    description: "运用生物信息学方法，识别抑郁症相关遗传标记和风险位点。",
+    pro: 1,
   },
   {
-    title: "SEO优化",
-    description: "专业的搜索引擎优化服务，提升网站排名。",
+    title: "AI智能诊断模型",
+    description: "集成多模态数据的机器学习算法，提供精准的心理健康评估。",
     pro: 1,
   },
 ];
@@ -51,14 +51,14 @@ const serviceList: ServiceProps[] = [
     class="container py-24 sm:py-32"
   >
     <h2 class="text-lg text-primary text-center mb-2 tracking-wider">
-      服务
+      核心技术
     </h2>
 
     <h2 class="text-3xl md:text-4xl text-center font-bold mb-4">
-      助力企业成长
+      先进的检测技术
     </h2>
-    <h3 class="md:w-1/2 mx-auto text-xl text-center text-muted-foreground mb-8">
-      从营销和销售到运营和战略，我们拥有帮助您实现目标的专业知识。
+    <h3 class="md:w-1/2 mx-auto text-xl text-center text-muted-foreground mb-8 whitespace-nowrap">
+      融合人工智能、生物信息学和信号处理技术，为心理健康评估提供科学依据。
     </h3>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 
