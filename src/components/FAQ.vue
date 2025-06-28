@@ -14,32 +14,30 @@ interface FAQProps {
 
 const FAQList: FAQProps[] = [
   {
-    question: "Is this template free?",
-    answer: "Yes. It is a free Shadcn/Vue template.",
+    question: "这个平台是免费的吗？",
+    answer: "我们提供免费且完整的基础评估服务。",
     value: "item-1",
   },
   {
-    question: "Duis aute irure dolor in reprehenderit in voluptate velit?",
+    question: "评估结果的准确性如何？",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam consectetur sapiente, iste rerum reiciendis animi nihil nostrum sit quo, modi quod.",
+      "我们的评估系统基于专业的心理学量表和先进的AI技术，结合多维度数据分析，具有较高的准确性。但请注意，评估结果仅供参考，不能替代专业医疗诊断。",
     value: "item-2",
   },
   {
-    question:
-      "Lorem ipsum dolor sit amet Consectetur natus dolor minus quibusdam?",
+    question: "我的个人信息会被保护吗？",
     answer:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore qui nostrum reiciendis veritatis.",
+      "我们严格遵守隐私保护法规，采用加密技术保护您的个人信息，不会向第三方泄露您的数据。",
     value: "item-3",
   },
   {
-    question: "Excepteur sint occaecat cupidata non proident sunt?",
-    answer: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+    question: "多久可以看到评估结果？",
+    answer: "完成所有评估项目后，系统会立即生成综合报告，整个过程通常需要15-30分钟。",
     value: "item-4",
   },
   {
-    question:
-      "Enim ad minim veniam, quis nostrud exercitation ullamco laboris?",
-    answer: "consectetur adipisicing elit. Sint labore.",
+    question: "如果评估发现心理健康问题，我该怎么办？",
+    answer: "建议您咨询专业的心理健康专家或医生，我们也会在报告中提供相应的建议和资源链接。",
     value: "item-5",
   },
 ];
@@ -51,10 +49,10 @@ const FAQList: FAQProps[] = [
     class="container md:w-[700px] py-24 sm:py-32"
   >
     <div class="text-center mb-8">
-      <h2 class="text-lg text-primary text-center mb-2 tracking-wider">FAQS</h2>
+      <h2 class="text-lg text-primary text-center mb-2 tracking-wider">常见问题</h2>
 
       <h2 class="text-3xl md:text-4xl text-center font-bold">
-        Common Questions
+        用户疑问解答
       </h2>
     </div>
 
@@ -75,11 +73,11 @@ const FAQList: FAQProps[] = [
     </Accordion>
 
     <h3 class="font-medium mt-4">
-      Still have questions?
+      还有其他问题？
       <a
         href="#"
         class="text-muted-foreground underline"
-      >Contact us</a>
+      >联系我们</a>
     </h3>
   </section>
 </template>

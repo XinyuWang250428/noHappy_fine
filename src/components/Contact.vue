@@ -29,7 +29,7 @@ const contactForm = reactive<ContactFormeProps>({
   firstName: "",
   lastName: "",
   email: "",
-  subject: "Web Development",
+  subject: "平台收费问题",
   message: "",
 });
 
@@ -39,7 +39,7 @@ const handleSubmit = () => {
   const { firstName, lastName, email, subject, message } = contactForm;
   console.log(contactForm);
 
-  const mailToLink = `mailto:leomirandadev@gmail.com?subject=${subject}&body=Hello I am ${firstName} ${lastName}, my Email is ${email}. %0D%0A${message}`;
+  const mailToLink = `mailto:support@yiyuzhongsheng.com?subject=${subject}&body=您好，我是${firstName} ${lastName}，我的邮箱是${email}。%0D%0A${message}`;
 
   window.location.href = mailToLink;
 };
@@ -53,52 +53,51 @@ const handleSubmit = () => {
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div>
         <div class="mb-4">
-          <h2 class="text-lg text-primary mb-2 tracking-wider">Contact</h2>
+          <h2 class="text-lg text-primary mb-2 tracking-wider">联系我们</h2>
 
-          <h2 class="text-3xl md:text-4xl font-bold">Connect With Us</h2>
+          <h2 class="text-3xl md:text-4xl font-bold">与我们取得联系</h2>
         </div>
         <p class="mb-8 text-muted-foreground lg:w-5/6">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum
-          ipsam sint enim exercitationem ex autem corrupti quas tenetur
+          如果您有任何关于心理健康评估的问题或需要技术支持，请随时联系我们。我们的专业团队将为您提供及时的帮助和指导。
         </p>
 
         <div class="flex flex-col gap-4">
           <div>
             <div class="flex gap-2 mb-1">
               <Building2 />
-              <div class="font-bold">Find Us</div>
+              <div class="font-bold">找到我们</div>
             </div>
 
-            <div>742 Evergreen Terrace, Springfield, IL 62704</div>
+            <div>北京市朝阳区建国门外大街1号国贸大厦A座2008室</div>
           </div>
 
           <div>
             <div class="flex gap-2 mb-1">
               <Phone />
-              <div class="font-bold">Call Us</div>
+              <div class="font-bold">电话联系</div>
             </div>
 
-            <div>+1 (619) 123-4567</div>
+            <div>+86 400-888-9999</div>
           </div>
 
           <div>
             <div class="flex gap-2 mb-1">
               <Mail />
-              <div class="font-bold">Mail Us</div>
+              <div class="font-bold">邮件联系</div>
             </div>
 
-            <div>leomirandadev@gmail.com</div>
+            <div>support@yiyuzhongsheng.com</div>
           </div>
 
           <div>
             <div class="flex gap-2">
               <Clock />
-              <div class="font-bold">Visit Us</div>
+              <div class="font-bold">服务时间</div>
             </div>
 
             <div>
-              <div>Monday - Friday</div>
-              <div>8AM - 4PM</div>
+              <div>周一至周五</div>
+              <div>上午9:00 - 下午6:00</div>
             </div>
           </div>
         </div>
@@ -114,55 +113,58 @@ const handleSubmit = () => {
           >
             <div class="flex flex-col md:flex-row gap-8">
               <div class="flex flex-col w-full gap-1.5">
-                <Label for="first-name">First Name</Label>
+                <Label for="first-name">姓</Label>
                 <Input
                   id="first-name"
                   type="text"
-                  placeholder="Leopoldo"
+                  placeholder="张"
                   v-model="contactForm.firstName"
                 />
               </div>
 
               <div class="flex flex-col w-full gap-1.5">
-                <Label for="last-name">Last Name</Label>
+                <Label for="last-name">名</Label>
                 <Input
                   id="last-name"
                   type="text"
-                  placeholder="Miranda"
+                  placeholder="三"
                   v-model="contactForm.lastName"
                 />
               </div>
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <Label for="email">Email</Label>
+              <Label for="email">邮箱</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="leomirandadev@gmail.com"
+                placeholder="example@email.com"
                 v-model="contactForm.email"
               />
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <Label for="subject">Subject</Label>
+              <Label for="subject">咨询主题</Label>
 
               <Select v-model="contactForm.subject">
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a subject" />
+                  <SelectValue placeholder="请选择咨询主题" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="Web Development">
-                      Web Development
+                    <SelectItem value="平台收费问题">
+                      平台收费问题
                     </SelectItem>
-                    <SelectItem value="Mobile Development">
-                      Mobile Development
+                    <SelectItem value="评估结果准确性">
+                      评估结果准确性
                     </SelectItem>
-                    <SelectItem value="Figma Design"> Figma Design </SelectItem>
-                    <SelectItem value="REST API "> REST API </SelectItem>
-                    <SelectItem value="FullStack Project">
-                      FullStack Project
+                    <SelectItem value="个人信息保护"> 个人信息保护 </SelectItem>
+                    <SelectItem value="评估结果时间"> 评估结果时间 </SelectItem>
+                    <SelectItem value="心理健康问题处理">
+                      心理健康问题处理
+                    </SelectItem>
+                    <SelectItem value="其他问题">
+                      其他问题
                     </SelectItem>
                   </SelectGroup>
                 </SelectContent>
@@ -170,10 +172,10 @@ const handleSubmit = () => {
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <Label for="message">Message</Label>
+              <Label for="message">留言内容</Label>
               <Textarea
                 id="message"
-                placeholder="Your message..."
+                placeholder="请详细描述您的问题或建议..."
                 rows="5"
                 v-model="contactForm.message"
               />
@@ -184,13 +186,13 @@ const handleSubmit = () => {
               variant="destructive"
             >
               <AlertCircle class="w-4 h-4" />
-              <AlertTitle>Error</AlertTitle>
+              <AlertTitle>错误</AlertTitle>
               <AlertDescription>
-                There is an error in the form. Please check your input.
+                表单中存在错误，请检查您的输入。
               </AlertDescription>
             </Alert>
 
-            <Button class="mt-4">Send message</Button>
+            <Button class="mt-4">发送消息</Button>
           </form>
         </CardContent>
 
