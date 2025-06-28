@@ -597,6 +597,11 @@ function viewReport() {
   currentStage.value = 'report'
   nextTick(() => {
     drawCharts()
+    // 滚动到报告部分
+    const reportElement = document.querySelector('#testimonials')
+    if (reportElement) {
+      reportElement.scrollIntoView({ behavior: 'smooth' })
+    }
   })
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <section class="py-24 sm:py-32">
+  <section id="testimonials" class="py-24 sm:py-32">
     <div class="emotion-container max-w-7xl mx-auto px-6 lg:px-8">
       <!-- 标题部分 -->
       <div class="mb-10 text-center">
