@@ -100,14 +100,45 @@
           </div>
 
           <!-- 情绪表情分析 -->
-          <div class="bg-card p-6 rounded-lg shadow-md">
-            <h3 class="text-2xl font-semibold mb-4">情绪表情分析</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div v-for="(item, index) in emotionScores" :key="index" 
-                   class="p-4 bg-muted rounded">
-                <p class="font-medium">{{ item.name }}</p>
-                <p class="text-2xl font-bold mt-2">{{ item.percentage }}%</p>
-                <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+          <div class="bg-card p-6 rounded-lg shadow-md space-y-6">
+            <h3 class="text-xl font-semibold mb-4">情绪表情分析</h3>
+            
+            <div class="space-y-8">
+              <div class="section">
+                <h4 class="text-lg font-semibold mb-3">情绪达成度（最大置信度）</h4>
+                <div class="h-64">
+                  <canvas ref="maxConfidenceChartRef"></canvas>
+                </div>
+              </div>
+
+              <div class="section">
+                <h4 class="text-lg font-semibold mb-3">情绪转换效率（达成时间）</h4>
+                <div class="h-64">
+                  <canvas ref="timeToConfidenceChartRef"></canvas>
+                </div>
+                <p class="text-sm text-muted-foreground text-center mt-2">
+                  * 达成时间指情绪置信度达到60%所用时长，最大为5000毫秒（5秒）。
+                </p>
+              </div>
+
+              <div class="section">
+                <h4 class="text-lg font-semibold mb-3">悲伤情绪干扰分析 - 时长占比</h4>
+                <div ref="sadInterferenceChartsRef" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <!-- 饼图将在这里动态生成 -->
+                </div>
+                <p class="text-sm text-muted-foreground text-center mt-2">
+                  * 显示在表达各目标情绪时，悲伤情绪置信度 > 3% 的时间占总测试时间（5秒）的百分比。
+                </p>
+              </div>
+
+              <div class="section">
+                <h4 class="text-lg font-semibold mb-3">悲伤情绪干扰分析 - 最大干扰置信度</h4>
+                <div class="h-64">
+                  <canvas ref="maxSadInterferenceChartRef"></canvas>
+                </div>
+                <p class="text-sm text-muted-foreground text-center mt-2">
+                  * 显示在表达各目标情绪时，悲伤情绪出现的最大置信度。
+                </p>
               </div>
             </div>
           </div>
@@ -283,6 +314,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue'
+import { Chart } from 'chart.js/auto'
 
 // 类型定义
 interface AIAnalysisResult {
@@ -294,6 +326,26 @@ interface AIAnalysisResult {
   shortTermSuggestions: string[];
   longTermSuggestions: string[];
   warningPoints: string[];
+}
+
+interface EmotionData {
+  maxConfidence: number;
+  timeToConfidence: number;
+  hadSadInterference: boolean;
+  sadInterferenceDurationMs: number;
+  maxSadInterferenceConfidence: number;
+}
+
+interface EmotionResults {
+  [key: string]: EmotionData;
+}
+
+const emotionTranslations = {
+  happy: '开心',
+  sad: '悲伤',
+  angry: '愤怒',
+  surprised: '惊讶',
+  neutral: '平静'
 }
 
 // 模拟数据
@@ -687,6 +739,212 @@ const sendChatMessage = async (message: string) => {
   } finally {
     isChatLoading.value = false
     chatMessage.value = ''
+  }
+}
+
+// 图表引用
+const maxConfidenceChartRef = ref<HTMLCanvasElement | null>(null)
+const timeToConfidenceChartRef = ref<HTMLCanvasElement | null>(null)
+const sadInterferenceChartsRef = ref<HTMLDivElement | null>(null)
+const maxSadInterferenceChartRef = ref<HTMLCanvasElement | null>(null)
+
+onMounted(() => {
+  const resultsString = localStorage.getItem('guidedEmotionResults')
+  if (resultsString) {
+    const results: EmotionResults = JSON.parse(resultsString)
+    renderEmotionCharts(results)
+  }
+})
+
+function renderEmotionCharts(results: EmotionResults) {
+  const labels = []
+  const maxConfidenceData = []
+  const timeToConfidenceData = []
+  const sadInterferenceLabels = []
+  const maxSadInterferenceData = []
+
+  for (const [emotion, data] of Object.entries(results)) {
+    if (emotionTranslations[emotion]) {
+      labels.push(emotionTranslations[emotion])
+      maxConfidenceData.push(data.maxConfidence * 100)
+      timeToConfidenceData.push(data.timeToConfidence)
+
+      if (emotion !== 'sad') {
+        sadInterferenceLabels.push(emotionTranslations[emotion])
+        maxSadInterferenceData.push(data.maxSadInterferenceConfidence * 100)
+      }
+    }
+  }
+
+  // 最大置信度图表
+  if (maxConfidenceChartRef.value) {
+    new Chart(maxConfidenceChartRef.value.getContext('2d')!, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: '最大置信度 (%)',
+          data: maxConfidenceData,
+          backgroundColor: [
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(153, 102, 255, 0.7)'
+          ],
+          borderColor: [
+            'rgba(255, 206, 86, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(153, 102, 255, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    })
+  }
+
+  // 情绪转换效率图表
+  if (timeToConfidenceChartRef.value) {
+    new Chart(timeToConfidenceChartRef.value.getContext('2d')!, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: '达成时间 (毫秒)',
+          data: timeToConfidenceData,
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(153, 102, 255, 0.7)',
+            'rgba(255, 99, 71, 0.7)',
+            'rgba(255, 215, 0, 0.7)',
+            'rgba(128, 128, 128, 0.7)'
+          ],
+          borderColor: [
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 99, 71, 1)',
+            'rgba(255, 215, 0, 1)',
+            'rgba(128, 128, 128, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: '时间 (毫秒)'
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    })
+  }
+
+  // 悲伤情绪干扰分析
+  if (sadInterferenceChartsRef.value && results) {
+    sadInterferenceChartsRef.value.innerHTML = ''
+    
+    for (const [emotion, data] of Object.entries(results)) {
+      if (emotion !== 'sad' && emotionTranslations[emotion]) {
+        const chartContainer = document.createElement('div')
+        chartContainer.className = 'chart-container'
+        chartContainer.style.maxWidth = '300px'
+        
+        const title = document.createElement('p')
+        title.textContent = `目标情绪: ${emotionTranslations[emotion]}`
+        title.className = 'text-center font-semibold text-primary mb-2'
+        
+        const canvas = document.createElement('canvas')
+        
+        chartContainer.appendChild(title)
+        chartContainer.appendChild(canvas)
+        sadInterferenceChartsRef.value.appendChild(chartContainer)
+
+        const durationMs = data.sadInterferenceDurationMs || 0
+        const totalDurationMs = 5000
+        const interferencePercentage = Math.min((durationMs / totalDurationMs) * 100, 100)
+        const nonInterferencePercentage = 100 - interferencePercentage
+
+        new Chart(canvas.getContext('2d')!, {
+          type: 'pie',
+          data: {
+            labels: ['悲伤干扰时长占比', '无明显悲伤干扰时长占比'],
+            datasets: [{
+              data: [interferencePercentage, nonInterferencePercentage],
+              backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(75, 192, 192, 0.7)'],
+              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }
+        })
+      }
+    }
+  }
+
+  // 最大悲伤干扰置信度图表
+  if (maxSadInterferenceChartRef.value) {
+    new Chart(maxSadInterferenceChartRef.value.getContext('2d')!, {
+      type: 'bar',
+      data: {
+        labels: sadInterferenceLabels,
+        datasets: [{
+          label: '悲伤情绪最大干扰置信度 (%)',
+          data: maxSadInterferenceData,
+          backgroundColor: 'rgba(255, 159, 64, 0.7)',
+          borderColor: 'rgba(255, 159, 64, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            title: {
+              display: true,
+              text: '最大悲伤置信度 (%)'
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    })
   }
 }
 </script>
