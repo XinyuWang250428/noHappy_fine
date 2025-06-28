@@ -1,111 +1,155 @@
 <template>
-  <section class="container py-8 space-y-8">
-    <!-- 总体风险等级和评分 - 醒目展示 -->
-    <div class="bg-gradient-to-r from-red-50 to-blue-50 dark:from-red-950 dark:to-blue-950 p-8 rounded-lg shadow-lg">
-      <h2 class="text-4xl font-bold text-center mb-6">综合评估结果</h2>
-      <div class="flex justify-around items-center">
-        <div class="text-center">
-          <p class="text-lg font-semibold">总体风险等级</p>
-          <p :class="[
-            'text-3xl font-bold mt-2',
-            score >= 80 ? 'text-green-600' :
-            score >= 60 ? 'text-yellow-600' :
-            score >= 40 ? 'text-orange-600' : 'text-red-600'
-          ]">{{ getRiskLevel }}</p>
-        </div>
-        <div class="text-center">
-          <p class="text-lg font-semibold">综合评分</p>
-          <p class="text-5xl font-bold mt-2">{{ score }}<span class="text-2xl">分</span></p>
-        </div>
+  <section class="py-24 sm:py-32">
+    <div class="emotion-container max-w-7xl mx-auto px-6 lg:px-8">
+      <!-- 标题部分 -->
+      <div class="mb-10 text-center">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+          综合评估报告
+        </h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          基于多维度数据分析的个性化心理健康评估报告，为您提供专业的心理健康指导
+        </p>
       </div>
-    </div>
 
-    <!-- 四大维度评分 -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div v-for="(score, index) in dimensionScores" :key="index" 
-           class="p-6 rounded-lg shadow-md bg-card">
-        <h3 class="text-xl font-semibold mb-4">{{ score.name }}</h3>
-        <div class="flex justify-between items-center">
-          <span class="text-3xl font-bold">{{ score.value }}</span>
-          <span class="text-sm text-muted-foreground">权重: {{ score.weight }}</span>
-        </div>
-        <p class="mt-4 text-sm text-muted-foreground">{{ score.description }}</p>
-      </div>
-    </div>
-
-    <!-- 详细分析部分 -->
-    <div class="space-y-8">
-      <!-- 心理量表评估 -->
-      <div class="bg-card p-6 rounded-lg shadow-md">
-        <h3 class="text-2xl font-semibold mb-4">心理量表评估</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div v-for="(item, index) in psychologyScores" :key="index" class="p-4 bg-muted rounded">
-            <p class="font-medium">{{ item.name }}</p>
-            <p class="text-2xl font-bold mt-2">{{ item.score }}</p>
-            <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+      <div class="space-y-8">
+        <!-- 总体风险等级和评分 -->
+        <div :class="[
+          'p-8 rounded-2xl shadow-xl border-2',
+          score >= 80 ? 'bg-gradient-to-r from-green-100 via-green-50 to-green-200 dark:from-green-900 dark:via-green-800 dark:to-green-900 border-green-300 dark:border-green-700' :
+          score >= 60 ? 'bg-gradient-to-r from-orange-100 via-orange-50 to-orange-200 dark:from-orange-900 dark:via-orange-800 dark:to-orange-900 border-orange-300 dark:border-orange-700' :
+          score >= 40 ? 'bg-gradient-to-r from-red-100 via-red-50 to-red-200 dark:from-red-900 dark:via-red-800 dark:to-red-900 border-red-300 dark:border-red-700' :
+          'bg-gradient-to-r from-rose-200 via-rose-100 to-rose-300 dark:from-rose-900 dark:via-rose-800 dark:to-rose-900 border-rose-400 dark:border-rose-700'
+        ]">
+          <h2 class="text-4xl font-bold text-center mb-6" :class="[
+            score >= 80 ? 'text-green-900 dark:text-green-100' :
+            score >= 60 ? 'text-orange-900 dark:text-orange-100' :
+            score >= 40 ? 'text-red-900 dark:text-red-100' :
+            'text-rose-900 dark:text-rose-100'
+          ]">综合评估结果</h2>
+          <div class="flex justify-around items-center">
+            <div class="text-center">
+              <p class="text-lg font-semibold" :class="[
+                score >= 80 ? 'text-green-800 dark:text-green-200' :
+                score >= 60 ? 'text-orange-800 dark:text-orange-200' :
+                score >= 40 ? 'text-red-800 dark:text-red-200' :
+                'text-rose-800 dark:text-rose-200'
+              ]">总体风险等级</p>
+              <p class="text-3xl font-bold mt-2" :class="[
+                score >= 80 ? 'text-green-600 dark:text-green-400' :
+                score >= 60 ? 'text-orange-600 dark:text-orange-400' :
+                score >= 40 ? 'text-red-600 dark:text-red-400' :
+                'text-rose-600 dark:text-rose-400'
+              ]">{{ getRiskLevel }}</p>
+            </div>
+            <div class="text-center">
+              <p class="text-lg font-semibold" :class="[
+                score >= 80 ? 'text-green-800 dark:text-green-200' :
+                score >= 60 ? 'text-orange-800 dark:text-orange-200' :
+                score >= 40 ? 'text-red-800 dark:text-red-200' :
+                'text-rose-800 dark:text-rose-200'
+              ]">综合评分</p>
+              <p class="text-5xl font-bold mt-2" :class="[
+                score >= 80 ? 'text-green-900 dark:text-green-100' :
+                score >= 60 ? 'text-orange-900 dark:text-orange-100' :
+                score >= 40 ? 'text-red-900 dark:text-red-100' :
+                'text-rose-900 dark:text-rose-100'
+              ]">{{ score }}<span class="text-2xl">分</span></p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- 心电信号分析 -->
-      <div class="bg-card p-6 rounded-lg shadow-md">
-        <h3 class="text-2xl font-semibold mb-4">心电信号分析</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div v-for="(item, index) in ecgScores" :key="index" class="p-4 bg-muted rounded">
-            <p class="font-medium">{{ item.name }}</p>
-            <p class="text-2xl font-bold mt-2">{{ item.value }}</p>
-            <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+        <!-- 四大维度评分 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div v-for="(score, index) in dimensionScores" :key="index" 
+               class="bg-card p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-4">{{ score.name }}</h3>
+            <div class="flex justify-between items-center">
+              <span class="text-3xl font-bold">{{ score.value }}</span>
+              <span class="text-sm text-muted-foreground">权重: {{ score.weight }}</span>
+            </div>
+            <p class="mt-4 text-sm text-muted-foreground">{{ score.description }}</p>
           </div>
         </div>
-      </div>
 
-      <!-- 情绪表情分析 -->
-      <div class="bg-card p-6 rounded-lg shadow-md">
-        <h3 class="text-2xl font-semibold mb-4">情绪表情分析</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div v-for="(item, index) in emotionScores" :key="index" class="p-4 bg-muted rounded">
-            <p class="font-medium">{{ item.name }}</p>
-            <p class="text-2xl font-bold mt-2">{{ item.value }}</p>
-            <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+        <!-- 详细分析部分 -->
+        <div class="space-y-8">
+          <!-- 心理量表评估 -->
+          <div class="bg-card p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4">心理量表评估</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div v-for="(item, index) in psychologyScores" :key="index" 
+                   class="p-4 bg-muted rounded">
+                <p class="font-medium">{{ item.name }}</p>
+                <p class="text-2xl font-bold mt-2">{{ item.score }}</p>
+                <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 心电信号分析 -->
+          <div class="bg-card p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4">心电信号分析</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div v-for="(item, index) in ecgScores" :key="index" 
+                   class="p-4 bg-muted rounded">
+                <p class="font-medium">{{ item.name }}</p>
+                <p class="text-2xl font-bold mt-2">{{ item.value }}</p>
+                <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 情绪表情分析 -->
+          <div class="bg-card p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4">情绪表情分析</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div v-for="(item, index) in emotionScores" :key="index" 
+                   class="p-4 bg-muted rounded">
+                <p class="font-medium">{{ item.name }}</p>
+                <p class="text-2xl font-bold mt-2">{{ item.percentage }}%</p>
+                <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 基因筛查分析 -->
+          <div class="bg-card p-6 rounded-lg shadow-md">
+            <h3 class="text-2xl font-semibold mb-4">基因筛查分析</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div v-for="(item, index) in geneScores" :key="index" 
+                   class="p-4 bg-muted rounded">
+                <p class="font-medium">{{ item.name }}</p>
+                <p class="text-2xl font-bold mt-2">{{ item.value }}</p>
+                <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- 基因筛查分析 -->
-      <div class="bg-card p-6 rounded-lg shadow-md">
-        <h3 class="text-2xl font-semibold mb-4">基因筛查分析</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div v-for="(item, index) in geneScores" :key="index" class="p-4 bg-muted rounded">
-            <p class="font-medium">{{ item.name }}</p>
-            <p class="text-2xl font-bold mt-2">{{ item.value }}</p>
-            <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+        <!-- 综合建议 -->
+        <div class="bg-card p-6 rounded-lg shadow-md">
+          <h3 class="text-2xl font-semibold mb-4">综合建议</h3>
+          <div class="space-y-4">
+            <div v-for="(suggestion, index) in suggestions" :key="index" 
+                 class="p-4 bg-muted rounded">
+              <p class="font-medium">{{ suggestion.title }}</p>
+              <p class="text-sm text-muted-foreground mt-2">{{ suggestion.content }}</p>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- 综合建议 -->
-    <div class="bg-card p-6 rounded-lg shadow-md">
-      <h3 class="text-2xl font-semibold mb-4">综合建议</h3>
-      <div class="space-y-4">
-        <div v-for="(suggestion, index) in suggestions" :key="index" 
-             class="p-4 bg-muted rounded">
-          <p class="font-medium">{{ suggestion.title }}</p>
-          <p class="text-sm text-muted-foreground mt-2">{{ suggestion.content }}</p>
+        <!-- 注意事项 -->
+        <div class="bg-destructive/10 p-6 rounded-lg">
+          <h3 class="text-xl font-semibold mb-4">注意事项</h3>
+          <ul class="list-disc list-inside space-y-2 text-sm">
+            <li>本报告仅供参考，不能替代专业医疗诊断</li>
+            <li>建议结合临床症状和专业医生意见</li>
+            <li>定期进行复查，追踪改善情况</li>
+            <li>如有突发状况，请立即就医</li>
+            <li>保护个人隐私，谨慎分享报告内容</li>
+          </ul>
         </div>
       </div>
-    </div>
-
-    <!-- 注意事项 -->
-    <div class="bg-destructive/10 p-6 rounded-lg">
-      <h3 class="text-xl font-semibold mb-4">注意事项</h3>
-      <ul class="list-disc list-inside space-y-2 text-sm">
-        <li>本报告仅供参考，不能替代专业医疗诊断</li>
-        <li>建议结合临床症状和专业医生意见</li>
-        <li>定期进行复查，追踪改善情况</li>
-        <li>如有突发状况，请立即就医</li>
-        <li>保护个人隐私，谨慎分享报告内容</li>
-      </ul>
     </div>
   </section>
 </template>
@@ -203,24 +247,29 @@ const ecgScores = ref([
 // 情绪表情分析
 const emotionScores = ref([
   {
-    name: '情绪表达能力',
-    value: '中等',
+    name: '开心',
+    percentage: 15,
     interpretation: '能够表达基本情绪，但强度有限'
   },
   {
-    name: '情绪转换效率',
-    value: '良好',
+    name: '悲伤',
+    percentage: 25,
     interpretation: '情绪切换较为流畅'
   },
   {
-    name: '悲伤情绪干扰',
-    value: '轻微',
+    name: '愤怒',
+    percentage: 10,
     interpretation: '悲伤情绪影响较小'
   },
   {
-    name: '表情活跃度',
-    value: '活跃',
+    name: '惊讶',
+    percentage: 5,
     interpretation: '面部表情丰富'
+  },
+  {
+    name: '平静',
+    percentage: 45,
+    interpretation: '面部表情平静'
   }
 ])
 
@@ -267,4 +316,12 @@ const suggestions = ref([
     content: '保持规律作息，适度运动，培养兴趣爱好，扩大社交圈。'
   }
 ])
-</script> 
+</script>
+
+<style scoped>
+.emotion-container {
+  background-color: rgba(28, 28, 35, 0.8);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+</style> 

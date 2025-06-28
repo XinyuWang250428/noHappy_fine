@@ -100,15 +100,31 @@
         <div v-if="currentEmotions" class="bg-white rounded-xl p-6 shadow-lg max-w-2xl mx-auto">
           <h4 class="text-lg font-bold text-gray-800 mb-4 text-center">实时情绪识别</h4>
           <div class="space-y-3">
-            <div v-for="(emotion, index) in emotionList" :key="index" class="relative">
-              <div class="flex justify-between items-center mb-1">
-                <span class="text-sm font-medium text-gray-700">{{ emotion.name }}</span>
-                <span class="text-sm text-gray-600">{{ Math.round(emotion.value * 100) }}%</span>
+            <!-- 第一行：开心、悲伤、愤怒、惊讶 -->
+            <div class="grid grid-cols-4 gap-3 mb-3">
+              <div v-for="emotion in emotionList.slice(0, 4)" :key="emotion.name" class="relative">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-sm font-medium text-gray-700">{{ emotion.name }}</span>
+                  <span class="text-sm text-gray-600">{{ Math.round(emotion.value * 100) }}%</span>
+                </div>
+                <div class="emotion-bar">
+                  <div 
+                    class="emotion-bar-fill"
+                    :style="{ width: `${emotion.value * 100}%` }"
+                  ></div>
+                </div>
               </div>
-              <div class="h-8 bg-gray-200 rounded-lg overflow-hidden relative">
+            </div>
+            <!-- 第二行：平静 -->
+            <div class="relative">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-sm font-medium text-gray-700">{{ emotionList[4].name }}</span>
+                <span class="text-sm text-gray-600">{{ Math.round(emotionList[4].value * 100) }}%</span>
+              </div>
+              <div class="emotion-bar">
                 <div 
-                  class="h-full bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 rounded-lg"
-                  :style="{ width: `${emotion.value * 100}%` }"
+                  class="emotion-bar-fill"
+                  :style="{ width: `${emotionList[4].value * 100}%` }"
                 ></div>
               </div>
             </div>
@@ -418,7 +434,7 @@ function startEmotionDetection() {
   detectionInterval = window.setInterval(async () => {
     try {
       const detections = await faceApi
-        .detectAllFaces(videoElement.value, new faceApi.TinyFaceDetectorOptions())
+        .detectAllFaces(videoElement.value, new faceApi.TinyFaceDetectorOptions({ inputSize: 224, scoreThreshold: 0.5 }))
         .withFaceLandmarks()
         .withFaceExpressions()
 
@@ -428,11 +444,14 @@ function startEmotionDetection() {
       if (detections.length > 0) {
         const detection = detections[0]
         
-        // 绘制人脸框
-        const box = detection.detection.box
-        ctx.strokeStyle = '#f97316'
-        ctx.lineWidth = 2
-        ctx.strokeRect(box.x, box.y, box.width, box.height)
+        // 设置画布显示尺寸
+        const displaySize = { width: videoElement.value.videoWidth, height: videoElement.value.videoHeight }
+        const resizedDetections = faceApi.resizeResults(detections, displaySize)
+        
+        // 绘制检测结果：人脸框、特征点、表情置信度
+        faceApi.draw.drawDetections(canvas, resizedDetections)
+        faceApi.draw.drawFaceLandmarks(canvas, resizedDetections)
+        faceApi.draw.drawFaceExpressions(canvas, resizedDetections)
 
         // 更新情绪数据
         const expressions = detection.expressions
@@ -663,6 +682,45 @@ function cleanup() {
 
 .animation-delay-300 {
   animation-delay: 300ms;
+}
+
+/* 情绪进度条样式 */
+.emotion-bar {
+  background: #f5f5f5;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 30px;
+  position: relative;
+  min-width: 120px;
+}
+
+.emotion-bar-fill {
+  height: 100%;
+  background: linear-gradient(45deg, #f97316, #fb923c);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.emotion-label {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #333;
+  font-size: 0.9rem;
+  z-index: 1;
+  font-weight: 500;
+}
+
+.emotion-value {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #333;
+  font-size: 0.9rem;
+  z-index: 1;
+  font-weight: 500;
 }
 
 /* 标题样式调整 */
