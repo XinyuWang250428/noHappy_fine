@@ -39,8 +39,8 @@
           </div>
         </div>
 
-        <!-- 总体评估结果（仅在所有测试完成后显示） -->
-        <div v-if="allTestsCompleted" :class="[
+        <!-- 总体评估结果 -->
+        <div :class="[
           'p-8 rounded-2xl shadow-xl border-2',
           score >= 80 ? 'bg-gradient-to-r from-green-100 via-green-50 to-green-200 dark:from-green-900 dark:via-green-800 dark:to-green-900 border-green-300 dark:border-green-700' :
           score >= 60 ? 'bg-gradient-to-r from-orange-100 via-orange-50 to-orange-200 dark:from-orange-900 dark:via-orange-800 dark:to-orange-900 border-orange-300 dark:border-orange-700' :
@@ -85,8 +85,8 @@
           </div>
         </div>
 
-        <!-- 四大维度评分（仅在相应测试完成后显示） -->
-        <div v-if="allTestsCompleted" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- 四大维度评分 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div v-for="(score, index) in dimensionScores" :key="index" 
                class="bg-card p-6 rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-4">{{ score.name }}</h3>
@@ -101,7 +101,7 @@
         <!-- 详细分析部分 -->
         <div class="space-y-8">
           <!-- 心理量表评估 -->
-          <div v-if="testStatus[0].completed" class="bg-card p-6 rounded-lg shadow-md">
+          <div class="bg-card p-6 rounded-lg shadow-md">
             <h3 class="text-2xl font-semibold mb-4">心理量表评估</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div v-for="(item, index) in psychologyScores" :key="index" 
@@ -114,7 +114,7 @@
           </div>
 
           <!-- 心电信号分析 -->
-          <div v-if="testStatus[1].completed" class="bg-card p-6 rounded-lg shadow-md">
+          <div class="bg-card p-6 rounded-lg shadow-md">
             <h3 class="text-2xl font-semibold mb-4">心电信号分析</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div v-for="(item, index) in ecgScores" :key="index" 
@@ -127,7 +127,7 @@
           </div>
 
           <!-- 情绪表情分析 -->
-          <div v-if="testStatus[2].completed" class="bg-card p-6 rounded-lg shadow-md space-y-6">
+          <div class="bg-card p-6 rounded-lg shadow-md space-y-6">
             <h3 class="text-xl font-semibold mb-4">情绪表情分析</h3>
             
             <div class="space-y-8">
@@ -171,7 +171,7 @@
           </div>
 
           <!-- 基因筛查分析 -->
-          <div v-if="testStatus[3].completed" class="bg-card p-6 rounded-lg shadow-md">
+          <div class="bg-card p-6 rounded-lg shadow-md">
             <h3 class="text-2xl font-semibold mb-4">基因筛查分析</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div v-for="(item, index) in geneScores" :key="index" 
@@ -184,8 +184,8 @@
           </div>
         </div>
 
-        <!-- 综合建议（仅在所有测试完成后显示） -->
-        <div v-if="allTestsCompleted" class="bg-card p-6 rounded-lg shadow-md">
+        <!-- 综合建议 -->
+        <div class="bg-card p-6 rounded-lg shadow-md">
           <h3 class="text-2xl font-semibold mb-4">综合建议</h3>
           <div class="space-y-4">
             <div v-for="(suggestion, index) in suggestions" :key="index" 
@@ -196,8 +196,8 @@
           </div>
         </div>
 
-        <!-- 注意事项（仅在所有测试完成后显示） -->
-        <div v-if="allTestsCompleted" class="bg-destructive/10 p-6 rounded-lg">
+        <!-- 注意事项 -->
+        <div class="bg-destructive/10 p-6 rounded-lg">
           <h3 class="text-xl font-semibold mb-4">注意事项</h3>
           <ul class="list-disc list-inside space-y-2 text-sm">
             <li>本报告仅供参考，不能替代专业医疗诊断</li>
@@ -208,8 +208,8 @@
           </ul>
         </div>
 
-        <!-- AI智能分析部分（仅在所有测试完成后显示） -->
-        <div v-if="allTestsCompleted" class="bg-card p-6 rounded-lg shadow-md mt-8">
+        <!-- AI智能分析部分 -->
+        <div class="bg-card p-6 rounded-lg shadow-md mt-8">
           <h3 class="text-2xl font-semibold mb-6 flex items-center">
             <span class="mr-2">🤖</span>
             AI智能分析
@@ -977,10 +977,10 @@ function renderEmotionCharts(results: EmotionResults) {
 
 // 测试状态
 const testStatus = ref([
-  { name: '心理量表评估', completed: false },
-  { name: '心电信号分析', completed: false },
-  { name: '情绪表情识别', completed: false },
-  { name: '基因筛查', completed: false }
+  { name: '心理量表评估', completed: true },
+  { name: '心电信号分析', completed: true },
+  { name: '情绪表情识别', completed: true },
+  { name: '基因筛查', completed: true }
 ])
 
 // 计算是否所有测试都已完成
