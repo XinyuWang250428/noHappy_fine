@@ -7,113 +7,46 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 
-import LinkedInIcon from "@/icons/LinkedInIcon.vue";
-import GithubIcon from "@/icons/GithubIcon.vue";
-import XIcon from "@/icons/XIcon.vue";
+import { Mail } from "lucide-vue-next";
 
 interface TeamProps {
   imageUrl: string;
   firstName: string;
   lastName: string;
   positions: string[];
-  socialNetworks: SocialNetworkProps[];
-}
-
-interface SocialNetworkProps {
-  name: string;
-  url: string;
+  email: string;
 }
 
 const teamList: TeamProps[] = [
   {
-    imageUrl: "https://i.pravatar.cc/250?img=58",
-    firstName: "Leo",
-    lastName: "Miranda",
-    positions: ["Vue前端开发工程师", "本网站创建者"],
-    socialNetworks: [
-      {
-        name: "LinkedIn",
-        url: "https://www.linkedin.com/in/leopoldo-miranda/",
-      },
-      {
-        name: "Github",
-        url: "https://github.com/leoMirandaa",
-      },
-      {
-        name: "X",
-        url: "https://x.com/leo_mirand4",
-      },
-    ],
+    imageUrl: "/翁灿.jpg",
+    firstName: "翁",
+    lastName: "灿",
+    positions: ["项目负责人", "算法工程师"],
+    email: "wengcan@yiyuzhongsheng.com",
   },
   {
-    imageUrl:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    firstName: "Elizabeth",
-    lastName: "Moore",
-    positions: ["UI/UX设计师"],
-    socialNetworks: [
-      {
-        name: "LinkedIn",
-        url: "https://www.linkedin.com/in/leopoldo-miranda/",
-      },
-      {
-        name: "X",
-        url: "https://x.com/leo_mirand4",
-      },
-    ],
+    imageUrl: "/王昕宇.jpg",
+    firstName: "王",
+    lastName: "昕宇",
+    positions: ["前端开发工程师", "CV算法工程师"],
+    email: "wangxinyu@yiyuzhongsheng.com",
   },
   {
-    imageUrl:
-      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    firstName: "David",
-    lastName: "Diaz",
-    positions: ["Machine Learning Engineer", "TensorFlow Tinkerer"],
-    socialNetworks: [
-      {
-        name: "LinkedIn",
-        url: "https://www.linkedin.com/in/leopoldo-miranda/",
-      },
-      {
-        name: "Github",
-        url: "https://github.com/leoMirandaa",
-      },
-    ],
+    imageUrl: "/周恩骏.jpg",
+    firstName: "周",
+    lastName: "恩骏",
+    positions: ["算法工程师", "数据分析师"],
+    email: "zhouenjun@yiyuzhongsheng.com",
   },
   {
-    imageUrl:
-      "https://images.unsplash.com/photo-1573497161161-c3e73707e25c?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    firstName: "Sarah",
-    lastName: "Robinson",
-    positions: ["Cloud Native Developer", " Kubernetes Orchestrator"],
-    socialNetworks: [
-      {
-        name: "LinkedIn",
-        url: "https://www.linkedin.com/in/leopoldo-miranda/",
-      },
-      {
-        name: "Github",
-        url: "https://github.com/leoMirandaa",
-      },
-      {
-        name: "X",
-        url: "https://x.com/leo_mirand4",
-      },
-    ],
+    imageUrl: "/白宸瑞.jpg",
+    firstName: "白",
+    lastName: "宸瑞",
+    positions: ["后端开发工程师", "产品设计师"],
+    email: "baichenrui@yiyuzhongsheng.com",
   },
 ];
-
-const socialIcon = (socialName: string) => {
-  switch (socialName) {
-    case "LinkedIn":
-      return LinkedInIcon;
-
-    case "Github":
-      return GithubIcon;
-
-    case "X":
-      return XIcon;
-  }
-};
 </script>
 
 <template>
@@ -125,7 +58,7 @@ const socialIcon = (socialName: string) => {
       <h2 class="text-lg text-primary text-center mb-2 tracking-wider">团队</h2>
 
       <h2 class="text-3xl md:text-4xl text-center font-bold">
-        公司梦之队
+        上海理工大学健康科学与工程学院Health IT科创团队
       </h2>
     </div>
 
@@ -138,7 +71,7 @@ const socialIcon = (socialName: string) => {
           firstName,
           lastName,
           positions,
-          socialNetworks,
+          email,
         } in teamList"
         :key="imageUrl"
         class="bg-muted/60 dark:bg-card flex flex-col h-full overflow-hidden group/hoverimg"
@@ -148,7 +81,7 @@ const socialIcon = (socialName: string) => {
             <img
               :src="imageUrl"
               alt=""
-              class="w-full aspect-square object-cover saturate-0 transition-all duration-200 ease-linear size-full group-hover/hoverimg:saturate-100 group-hover/hoverimg:scale-[1.01]"
+              class="w-full aspect-square object-cover saturate-100 brightness-90 transition-all duration-200 ease-linear size-full group-hover/hoverimg:saturate-125 group-hover/hoverimg:brightness-110 group-hover/hoverimg:scale-[1.01]"
             />
           </div>
           <CardTitle class="py-6 pb-4 px-6"
@@ -170,14 +103,12 @@ const socialIcon = (socialName: string) => {
 
         <CardFooter class="space-x-4 mt-auto">
           <a
-            v-for="{ name, url } in socialNetworks"
-            key="name"
-            :href="url"
+            :href="'mailto:' + email"
             target="_blank"
             class="hover:opacity-80 transition-all"
-            :aria-label="`Visit our ${name} page`"
+            :aria-label="'Send email to ' + firstName + ' ' + lastName"
           >
-            <component :is="socialIcon(name)" />
+            <Mail class="size-5" />
           </a>
         </CardFooter>
       </Card>
