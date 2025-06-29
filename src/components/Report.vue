@@ -472,14 +472,21 @@ const emotionTranslations: Record<string, string> = {
   neutral: '平静'
 }
 
+// 随机数生成函数 - 在基准值附近小幅波动
+const getRandomVariation = (baseValue: number, variationPercent: number = 10) => {
+  const variation = baseValue * (variationPercent / 100)
+  const randomOffset = (Math.random() - 0.5) * 2 * variation
+  return Math.round(baseValue + randomOffset)
+}
+
 // 模拟数据
-const score = ref(75)
+const score = ref(getRandomVariation(75, 8)) // 75±6 范围内波动
 const aiAnalysisLoading = ref(false)
 const aiAnalysisResult = ref<AIAnalysisResult | null>(null)
 const lifestylePredictionResult = ref({
   population: '美国（NHANES）',
   method: 'XGBoost梯度提升 + SHAP可解释性分析',
-  score: '72.3',
+  score: (getRandomVariation(72, 8) + Math.random()).toFixed(1), // 72±6 范围内波动，保留1位小数
   level: '高风险',
   color: '#ef4444',
   details: '集成学习算法结合特征重要性分析，提供个体化风险解释'
@@ -661,25 +668,25 @@ onMounted(() => {
 const dimensionScores = ref([
   {
         name: '心理量表评估',
-     value: 78,
+     value: getRandomVariation(78, 8), // 78±6 范围内波动
      weight: '40%',
      description: '心理状态总体稳定，建议保持'
   },
   {
     name: '心电信号分析',
-    value: 82,
+    value: getRandomVariation(82, 7), // 82±6 范围内波动
     weight: '25%',
     description: '自主神经系统功能良好'
   },
   {
     name: '情绪表情识别',
-    value: 65,
+    value: getRandomVariation(65, 12), // 65±8 范围内波动
     weight: '25%',
     description: '情绪表达能力有待提升'
   },
     {
     name: '生活方式预测',
-    value: 75,
+    value: getRandomVariation(75, 8), // 75±6 范围内波动
     weight: '10%',
     description: '生活方式风险相对较低'
   }
@@ -689,23 +696,23 @@ const dimensionScores = ref([
 const psychologyScores = ref([
   {
     name: 'PHQ-9抑郁量表',
-    score: 5,
-    interpretation: '轻微抑郁症状'
+    score: getRandomVariation(23, 8), // 23±2 范围内波动
+    interpretation: '重度抑郁症状'
   },
   {
     name: 'GAD-7焦虑量表',
-    score: 4,
-    interpretation: '轻微焦虑症状'
+    score: getRandomVariation(11, 12), // 11±1 范围内波动
+    interpretation: '重度焦虑症状'
   },
   {
     name: 'PSS-10压力量表',
-    score: 15,
-    interpretation: '中等压力水平'
+    score: getRandomVariation(5, 15), // 5±1 范围内波动
+    interpretation: '低压力水平'
   },
   {
     name: '社会支持评估',
-    score: 35,
-    interpretation: '社会支持良好'
+    score: getRandomVariation(17, 10), // 17±2 范围内波动
+    interpretation: '社会支持一般'
   }
 ])
 

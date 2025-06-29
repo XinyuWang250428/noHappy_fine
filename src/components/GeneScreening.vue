@@ -205,19 +205,19 @@ const analyzeResults = async () => {
   };
   
   // 保存结果到localStorage
-  localStorage.setItem('lifestylePredictionResult', JSON.stringify(resultDisplay.value));
-  localStorage.setItem('completedTests', JSON.stringify({
-    ...JSON.parse(localStorage.getItem('completedTests') || '{}'),
-    gene: true
-  }));
+  localStorage.setItem('geneScreeningData', JSON.stringify(resultDisplay.value));
+  const completedTests = JSON.parse(localStorage.getItem('completedTests') || '{}');
+  completedTests.gene = '已完成';
+  localStorage.setItem('completedTests', JSON.stringify(completedTests));
   
   analysisComplete.value = true;
   isAnalyzing.value = false;
   
-  // 显示成功提示
-  setTimeout(() => {
-    alert('分析结果已加入综合评估报告！');
-  }, 500);
+  // 触发storage事件以通知其他组件
+  window.dispatchEvent(new StorageEvent('storage', {
+    key: 'completedTests',
+    newValue: JSON.stringify(completedTests)
+  }));
 };
 
 const isFormComplete = computed(() => {
@@ -429,54 +429,14 @@ const fillExampleData = () => {
           </div>
         </div>
 
-        <!-- 分析结果 -->
+        <!-- 结果保存提示 -->
         <div v-if="analysisComplete" class="result-section">
-          <h3>🎯 分析结果</h3>
-          <div class="result-content">
-            <div class="result-header">
-              <div class="population-badge">{{ resultDisplay.population }}</div>
-              <div class="method-tag">{{ resultDisplay.method }}</div>
+          <div class="save-notification">
+            <div class="save-icon">
+              ✅
             </div>
-            
-            <div class="score-display">
-              <div class="score-circle" :style="{ borderColor: resultDisplay.color }">
-                <span class="score-number" :style="{ color: resultDisplay.color }">{{ resultDisplay.score }}</span>
-                <span class="score-label">分</span>
-              </div>
-              <div class="risk-info">
-                <div class="risk-level" :style="{ color: resultDisplay.color }">
-                  {{ resultDisplay.level }}
-                </div>
-                <div class="risk-bar">
-                  <div class="risk-progress" 
-                       :style="{ width: resultDisplay.score + '%', backgroundColor: resultDisplay.color }">
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="analysis-details">
-              <div class="details-title">📊 分析说明</div>
-              <p class="details-text">{{ resultDisplay.details }}</p>
-            </div>
-
-            <div class="risk-interpretation">
-              <div class="interpretation-title">🔍 风险解读</div>
-              <div class="interpretation-content">
-                <div v-if="parseFloat(resultDisplay.score) < 25" class="interpretation-text success">
-                  <strong>低风险：</strong>您的抑郁风险较低，请继续保持良好的生活习惯和心理状态。建议定期进行心理健康自查。
-                </div>
-                <div v-else-if="parseFloat(resultDisplay.score) < 50" class="interpretation-text warning">
-                  <strong>中等风险：</strong>您存在一定的抑郁风险，建议关注心理健康，适当调整生活方式，必要时寻求专业指导。
-                </div>
-                <div v-else-if="parseFloat(resultDisplay.score) < 75" class="interpretation-text danger">
-                  <strong>高风险：</strong>您的抑郁风险较高，建议尽快咨询心理健康专业人士，寻求专业的评估和干预。
-                </div>
-                <div v-else class="interpretation-text critical">
-                  <strong>极高风险：</strong>您的抑郁风险很高，强烈建议立即寻求专业心理健康服务，进行全面评估和治疗。
-                </div>
-              </div>
-            </div>
+            <h3 class="save-title">结果已保存</h3>
+            <p class="save-message">可在下方综合报告中进行查看</p>
           </div>
         </div>
       </div>
@@ -783,6 +743,29 @@ const fillExampleData = () => {
   color: #f97316;
   font-size: 1.5rem;
   text-align: center;
+}
+
+.save-notification {
+  text-align: center;
+  padding: 2rem;
+}
+
+.save-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.save-title {
+  color: #10b981;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.save-message {
+  color: #f5f5f5;
+  font-size: 1.1rem;
+  opacity: 0.9;
 }
 
 .result-content {
