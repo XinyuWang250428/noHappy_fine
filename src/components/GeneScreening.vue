@@ -6,7 +6,16 @@ const formData = ref<Record<string, any>>({});
 const isAnalyzing = ref(false);
 const analysisProgress = ref(0);
 const analysisComplete = ref(false);
-const resultDisplay = ref('');
+interface ResultType {
+  method: string;
+  score: string;
+  level: string;
+  color: string;
+  details: string;
+  population: string;
+}
+
+const resultDisplay = ref<string | ResultType>('');
 const showFullscreen = ref(false);
 const currentImageTitle = ref('');
 const currentImageSrc = ref('');
@@ -353,7 +362,7 @@ const fillExampleData = () => {
           <h3>基本信息</h3>
           <div class="continuous-questions">
             <div 
-              v-for="question in currentQuestionnaire.continuous" 
+              v-for="question in currentQuestionnaire?.continuous || []" 
               :key="question.key"
               class="question-item"
             >
@@ -364,7 +373,7 @@ const fillExampleData = () => {
                   :min="question.min" 
                   :max="question.max"
                   :value="formData[question.key] || question.min"
-                  @input="updateFormData(question.key, $event.target.value)"
+                  @input="(e) => updateFormData(question.key, (e.target as HTMLInputElement).value)"
                   class="range-slider"
                 />
                 <span class="range-value">{{ formData[question.key] || question.min }}</span>
@@ -378,7 +387,7 @@ const fillExampleData = () => {
           <h3>生活方式评估</h3>
           <div class="categorical-questions">
             <div 
-              v-for="question in currentQuestionnaire.categorical" 
+              v-for="question in currentQuestionnaire?.categorical || []" 
               :key="question.key"
               class="question-item"
             >
@@ -484,6 +493,7 @@ const fillExampleData = () => {
   margin-bottom: 1rem;
   background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -604,6 +614,8 @@ const fillExampleData = () => {
   border-radius: 4px;
   outline: none;
   -webkit-appearance: none;
+  appearance: none;
+  background-clip: padding-box;
 }
 
 .range-slider::-webkit-slider-thumb {
