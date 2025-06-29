@@ -238,6 +238,56 @@ const openFullscreen = (src: string, title: string) => {
 const closeFullscreen = () => {
   showFullscreen.value = false;
 };
+
+const fillExampleData = () => {
+  if (!selectedPopulation.value) return;
+  
+  // 根据不同人群填入对应的示例数据
+  if (selectedPopulation.value === 'china') {
+    formData.value = {
+      age: 59,
+      bmi: 0, // 对应贫困收入比
+      sleep: 6,
+      totmet: 12,
+      gender: 1, // 女
+      marry: 1, // 已婚
+      rural: 1, // 乡村
+      edu: 4, // 研究生以上
+      nation: 1, // 汉族
+      exercise: 1, // 是
+      drinkl: 1, // 是
+      smoken: 1 // 是
+    };
+  } else if (selectedPopulation.value === 'usa') {
+    formData.value = {
+      Age: 59,
+      PIR: 3,
+      Sleep_duration: 6,
+      Sedentary_hours: 12,
+      Sex: 1, // 女
+      Race: 1, // 黑人
+      Education: 3, // 研究生及以上
+      Marriage: 1, // 已婚
+      Smoking_status: 2, // 目前吸烟
+      Drinking_status: 2, // 过量饮酒
+      Sleep_trouble: 1, // 是
+      Feeling_tired: 1 // 是
+    };
+  } else if (selectedPopulation.value === 'uk') {
+    formData.value = {
+      age: 59,
+      bmi: 0,
+      sleep_duration: 6,
+      physical_activity: 12,
+      sex: 1, // 女
+      education: 3, // 研究生及以上
+      employment: 0, // 在职
+      smoking: 2, // 目前吸烟
+      alcohol: 3, // 每天
+      social_isolation: 0 // 无
+    };
+  }
+};
 </script>
 
 <template>
@@ -277,6 +327,7 @@ const closeFullscreen = () => {
         <!-- 算法图展示 -->
         <div class="algorithm-diagrams">
           <h3 class="diagrams-title">分析算法框架</h3>
+          <p class="diagrams-subtitle">点击可全屏查看</p>
           <div class="diagrams-grid">
             <div class="diagram-item">
               <img src="/特征筛选框架.svg" alt="特征筛选框架" class="diagram-image" @click="openFullscreen('/特征筛选框架.svg', '特征筛选框架')">
@@ -346,13 +397,23 @@ const closeFullscreen = () => {
 
         <!-- 分析按钮 -->
         <div class="analysis-section">
-          <button 
-            :disabled="!isFormComplete || isAnalyzing"
-            :class="['analysis-button', { 'disabled': !isFormComplete || isAnalyzing }]"
-            @click="analyzeResults"
-          >
-            {{ isAnalyzing ? '分析中...' : '分析结果' }}
-          </button>
+          <div class="button-group">
+            <button 
+              :disabled="!isFormComplete || isAnalyzing"
+              :class="['analysis-button', { 'disabled': !isFormComplete || isAnalyzing }]"
+              @click="analyzeResults"
+            >
+              {{ isAnalyzing ? '分析中...' : '分析结果' }}
+            </button>
+            
+            <button 
+              class="example-button"
+              @click="fillExampleData"
+              :disabled="!selectedPopulation || isAnalyzing"
+            >
+              输入示例
+            </button>
+          </div>
           
           <!-- 进度条 -->
           <div v-if="isAnalyzing" class="progress-container">
@@ -417,17 +478,21 @@ const closeFullscreen = () => {
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- 全屏模态框 -->
-      <div v-if="showFullscreen" class="fullscreen-modal" @click="closeFullscreen">
-        <div class="fullscreen-content">
-          <button class="close-btn" @click="closeFullscreen">&times;</button>
-          <h3 class="fullscreen-title">{{ currentImageTitle }}</h3>
+  <!-- 全屏模态框 - 移到组件外部 -->
+  <teleport to="body">
+    <div v-if="showFullscreen" class="fullscreen-modal" @click="closeFullscreen">
+      <div class="fullscreen-content" @click.stop>
+        <button class="close-btn" @click="closeFullscreen">&times;</button>
+        <h3 class="fullscreen-title">{{ currentImageTitle }}</h3>
+        <div class="fullscreen-image-container">
           <img :src="currentImageSrc" :alt="currentImageTitle" class="fullscreen-image">
         </div>
       </div>
     </div>
-  </section>
+  </teleport>
 </template>
 
 <style scoped>
@@ -629,6 +694,12 @@ const closeFullscreen = () => {
   margin: 3rem 0;
 }
 
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .analysis-button {
   padding: 1rem 3rem;
   background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
@@ -647,6 +718,28 @@ const closeFullscreen = () => {
 }
 
 .analysis-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.example-button {
+  padding: 1rem 3rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.example-button:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.example-button.disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -889,8 +982,16 @@ const closeFullscreen = () => {
   text-align: center;
   font-size: 1.5rem;
   color: #f97316;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   font-weight: 600;
+}
+
+.diagrams-subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #f5f5f5;
+  margin-bottom: 2rem;
+  opacity: 0.8;
 }
 
 .diagrams-grid {
@@ -960,50 +1061,73 @@ const closeFullscreen = () => {
 
 .fullscreen-content {
   position: relative;
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .close-btn {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: rgba(0, 0, 0, 0.7);
+  top: 2rem;
+  right: 2rem;
+  background: rgba(0, 0, 0, 0.8);
   color: white;
   border: none;
   font-size: 2rem;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s ease;
+  z-index: 1001;
 }
 
 .close-btn:hover {
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 1);
 }
 
 .fullscreen-title {
-  font-size: 1.5rem;
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.8rem;
   font-weight: 600;
-  margin-bottom: 1rem;
-  color: #333;
+  margin: 0;
+  color: white;
   text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  z-index: 1001;
+}
+
+.fullscreen-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 3rem 3rem 3rem;
+  box-sizing: border-box;
 }
 
 .fullscreen-image {
-  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
   height: auto;
-  max-height: 70vh;
   object-fit: contain;
   border-radius: 8px;
+  background: white;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 </style> 
