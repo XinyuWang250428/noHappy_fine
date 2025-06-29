@@ -4,7 +4,7 @@ import { loadSlim } from "@tsparticles/slim";
 import { tsParticles } from "@tsparticles/engine";
 import Particles from "@tsparticles/vue3";
 import { cn } from "@/lib/utils";
-import type { ISourceOptions } from "@tsparticles/engine";
+import type { ISourceOptions, Engine } from "@tsparticles/engine";
 
 const props = defineProps<{
   id?: string;
@@ -25,8 +25,8 @@ onMounted(async () => {
   init.value = true;
 });
 
-const particlesLoaded = async (container?: any) => {
-  if (container) {
+const particlesLoaded = async (engine?: Engine) => {
+  if (engine) {
     // 动画效果可以在这里添加
   }
 };
@@ -90,7 +90,8 @@ const particlesOptions = computed((): ISourceOptions => ({
 
 <template>
   <div :class="cn('opacity-100', props.className)">
-    <Particles
+    <component
+      :is="Particles"
       v-if="init"
       :id="props.id || 'tsparticles'"
       :class="cn('h-full w-full')"
