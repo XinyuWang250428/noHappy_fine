@@ -366,6 +366,7 @@ function startEmotionDetection() {
         const detection = detections[0]
         
         // 设置画布显示尺寸
+        if (!videoElement.value) return
         const displaySize = { width: videoElement.value.videoWidth, height: videoElement.value.videoHeight }
         const resizedDetections = faceApi.resizeResults(detections, displaySize)
         

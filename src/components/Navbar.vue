@@ -68,8 +68,8 @@ const featureList: FeatureProps[] = [
     href: "#ecg",
   },
   {
-    title: "🧬 基因辅助分析",
-    description: "分析基因数据，评估遗传性抑郁症风险因子，助力精准诊疗",
+    title: "🧬 生活方式预测",
+    description: "分析生活方式数据，评估抑郁症风险因子，助力精准预防",
     href: "#gene",
   },
   {

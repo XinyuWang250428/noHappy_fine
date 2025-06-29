@@ -33,8 +33,8 @@ const serviceList: ServiceProps[] = [
     pro: 1,
   },
   {
-    title: "基因数据分析",
-    description: "运用生物信息学方法，识别抑郁症相关遗传标记和风险位点。",
+    title: "机器学习算法预测",
+    description: "运用梯度提升算法结合SHAP可解释性分析，基于生活方式数据预测抑郁风险。",
     pro: 1,
   },
   {

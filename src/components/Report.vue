@@ -184,7 +184,7 @@
             </div>
           </div>
 
-          <!-- 基因筛查分析 -->
+          <!-- 生活方式预测分析 -->
           <div class="bg-card p-6 rounded-lg shadow-md">
             <h3 class="text-2xl font-semibold mb-4">生活方式预测</h3>
             <div v-if="testStatus[3].completed" class="space-y-4">
@@ -329,8 +329,8 @@
                 <p class="text-muted-foreground">{{ aiAnalysisResult.emotionalExpression }}</p>
               </div>
               <div class="bg-muted/50 rounded-lg p-6">
-                <h4 class="text-lg font-semibold mb-3 text-primary">遗传风险评估</h4>
-                <p class="text-muted-foreground">{{ aiAnalysisResult.geneticRisk }}</p>
+                <h4 class="text-lg font-semibold mb-3 text-primary">生活方式风险评估</h4>
+                <p class="text-muted-foreground">{{ aiAnalysisResult.lifestyleRisk }}</p>
               </div>
             </div>
 
@@ -451,7 +451,7 @@ interface AIAnalysisResult {
   psychologicalState: string;
   physiologicalState: string;
   emotionalExpression: string;
-  geneticRisk: string;
+  lifestyleRisk: string;
   shortTermSuggestions: string[];
   longTermSuggestions: string[];
   warningPoints: string[];
@@ -534,10 +534,11 @@ const performAIAnalysis = async () => {
     const analysisPrompt = `作为一位专业的心理健康分析专家，请基于以下多维度评估数据进行深入分析：
 
 1. 心理量表评估 (权重40%)：
-- PHQ-9抑郁量表：${psychologyScores.value[0].score}分 (${psychologyScores.value[0].interpretation})
-- GAD-7焦虑量表：${psychologyScores.value[1].score}分 (${psychologyScores.value[1].interpretation})
-- PSS-10压力量表：${psychologyScores.value[2].score}分 (${psychologyScores.value[2].interpretation})
-- 社会支持评估：${psychologyScores.value[3].score}分 (${psychologyScores.value[3].interpretation})
+- PHQ-9抑郁量表：${psychologyScores.value[0]?.score || 0}分 (${psychologyScores.value[0]?.interpretation || '暂无数据'})
+- GAD-7焦虑量表：${psychologyScores.value[1]?.score || 0}分 (${psychologyScores.value[1]?.interpretation || '暂无数据'})
+- PSS-10压力量表：${psychologyScores.value[2]?.score || 0}分 (${psychologyScores.value[2]?.interpretation || '暂无数据'})
+- 社会支持评估：${psychologyScores.value[3]?.score || 0}分 (${psychologyScores.value[3]?.interpretation || '暂无数据'})
+- 测试完成状态：${testStatus.value[0].completed ? '已完成' : '未完成'}
 
 2. 心电信号分析 (权重25%)：
 - 心率变异性：${ecgScores.value[0].value} (${ecgScores.value[0].interpretation})
@@ -548,8 +549,8 @@ const performAIAnalysis = async () => {
 3. 情绪表情分析 (权重25%)：
 ${emotionScores.value.map(emotion => `- ${emotion.name}：${emotion.percentage}% (${emotion.interpretation})`).join('\n')}
 
-4. 基因筛查分析 (权重10%)：
-${geneScores.value.map(gene => `- ${gene.name}：${gene.value} (${gene.interpretation})`).join('\n')}
+4. 生活方式预测分析 (权重10%)：
+基于机器学习算法的生活方式风险评估，采用XGBoost梯度提升和SHAP可解释性分析
 
 综合评分：${score.value}分
 风险等级：${getRiskLevel.value}
@@ -568,8 +569,8 @@ ${geneScores.value.map(gene => `- ${gene.name}：${gene.value} (${gene.interpret
 4. 情绪表达能力：
 [基于情绪表情分析的专业解读，重点关注情绪表达的多样性和稳定性，150字以内]
 
-5. 遗传风险评估：
-[基于基因筛查结果的专业解读，重点关注遗传易感性，100字以内]
+5. 生活方式风险评估：
+[基于机器学习算法的生活方式风险分析，重点关注行为模式和生活习惯，100字以内]
 
 6. 短期干预建议：
 [列出3-5条具体可行的短期改善建议，每条50字以内]
@@ -622,7 +623,7 @@ const parseAIResponse = (response: string) => {
     psychologicalState: '',
     physiologicalState: '',
     emotionalExpression: '',
-    geneticRisk: '',
+    lifestyleRisk: '',
     shortTermSuggestions: [],
     longTermSuggestions: [],
     warningPoints: []
@@ -637,8 +638,8 @@ const parseAIResponse = (response: string) => {
       result.physiologicalState = section.split('\n')[1];
     } else if (section.includes('情绪表达能力')) {
       result.emotionalExpression = section.split('\n')[1];
-    } else if (section.includes('遗传风险评估')) {
-      result.geneticRisk = section.split('\n')[1];
+    } else if (section.includes('生活方式风险评估')) {
+      result.lifestyleRisk = section.split('\n')[1];
     } else if (section.includes('短期干预建议')) {
       result.shortTermSuggestions = section.split('\n').slice(1).filter(s => s.trim());
     } else if (section.includes('长期改善计划')) {
@@ -676,11 +677,11 @@ const dimensionScores = ref([
     weight: '25%',
     description: '情绪表达能力有待提升'
   },
-  {
-        name: '基因筛查',
-     value: 75,
-     weight: '10%',
-     description: '遗传风险相对较低'
+    {
+    name: '生活方式预测',
+    value: 75,
+    weight: '10%',
+    description: '生活方式风险相对较低'
   }
 ])
 
@@ -761,29 +762,7 @@ const emotionScores = ref<EmotionScore[]>([
   }
 ])
 
-// 基因筛查分析
-const geneScores = ref([
-  {
-    name: '基因位点变异',
-    value: '低风险',
-    interpretation: '未发现高风险变异'
-  },
-  {
-    name: '遗传风险评分',
-    value: '75分',
-    interpretation: '遗传风险相对较低'
-  },
-  {
-    name: '药物代谢能力',
-    value: '正常',
-    interpretation: '药物代谢功能正常'
-  },
-  {
-    name: '表观遗传标记',
-    value: '稳定',
-    interpretation: '表观遗传状态稳定'
-  }
-])
+
 
 // 综合建议
 const suggestions = ref([
@@ -905,9 +884,13 @@ onMounted(() => {
   // 初始加载情绪测试数据
   loadEmotionResults()
   
+  // 初始化加载心理量表数据
+  updateQuestionnaireScores()
+  
   // 监听localStorage变化，实时更新图表
   const handleStorageChange = () => {
     loadEmotionResults()
+    updateQuestionnaireScores()
     // 重新加载测试状态
     updateTestStatus()
   }
@@ -917,6 +900,7 @@ onMounted(() => {
   // 定时检查更新（用于同页面内的更新）
   const checkInterval = setInterval(() => {
     loadEmotionResults()
+    updateQuestionnaireScores()
     updateTestStatus()
   }, 2000)
   
@@ -946,19 +930,25 @@ function updateTestStatus() {
   const hasQuestionnaire = completedTests.questionnaire || localStorage.getItem('questionnaireResults')
   const hasEcg = completedTests.ecg || localStorage.getItem('ecgResults')  
   const hasEmotion = completedTests.emotion || localStorage.getItem('emotionAssessmentData')
-  const hasGene = completedTests.gene || localStorage.getItem('geneResults')
+  // 注意：gene 字段实际对应生活方式预测测试，历史命名保持兼容性
+  const hasLifestylePrediction = completedTests.gene || localStorage.getItem('lifestylePredictionResult')
   
   // 更新测试状态
   testStatus.value = [
     { name: "心理量表评估", completed: !!hasQuestionnaire },
     { name: "心电信号分析", completed: !!hasEcg },
     { name: "情绪表情识别", completed: !!hasEmotion },
-    { name: "基因筛查", completed: !!hasGene }
+    { name: "生活方式预测", completed: !!hasLifestylePrediction }
   ]
   
   // 如果情绪测试数据存在但状态未更新，则更新情绪评分
   if (hasEmotion) {
     updateEmotionScores()
+  }
+  
+  // 如果心理量表数据存在但状态未更新，则更新心理量表评分
+  if (hasQuestionnaire) {
+    updateQuestionnaireScores()
   }
 }
 
@@ -992,6 +982,55 @@ function updateEmotionScores() {
       ]
     } catch (error) {
       console.error('Error updating emotion scores:', error)
+    }
+  }
+}
+
+function updateQuestionnaireScores() {
+  const questionnaireData = localStorage.getItem('questionnaireResults')
+  if (questionnaireData) {
+    try {
+      const results = JSON.parse(questionnaireData)
+      
+      // 更新心理量表评分数据
+      psychologyScores.value = [
+        {
+          name: 'PHQ-9抑郁量表',
+          score: results.phq9Score || 0,
+          interpretation: results.phq9Score <= 4 ? '无抑郁症状' : 
+                         results.phq9Score <= 9 ? '轻微抑郁症状' :
+                         results.phq9Score <= 14 ? '中度抑郁症状' : '重度抑郁症状'
+        },
+        {
+          name: 'GAD-7焦虑量表',
+          score: results.gad7Score || 0,
+          interpretation: results.gad7Score <= 4 ? '无焦虑症状' :
+                         results.gad7Score <= 9 ? '轻微焦虑症状' :
+                         results.gad7Score <= 14 ? '中度焦虑症状' : '重度焦虑症状'
+        },
+        {
+          name: 'PSS-10压力量表',
+          score: results.pss10Score || 0,
+          interpretation: results.pss10Score <= 13 ? '低压力水平' :
+                         results.pss10Score <= 26 ? '中等压力水平' : '高压力水平'
+        },
+        {
+          name: '社会支持评估',
+          score: results.socialSupport || 0,
+          interpretation: results.socialSupport >= 8 ? '社会支持良好' :
+                         results.socialSupport >= 4 ? '社会支持一般' : '社会支持不足'
+        }
+      ]
+      
+      // 更新综合评分中的心理量表维度评分
+      if (dimensionScores.value[0]) {
+        const avgScore = Math.round((results.phq9Score + results.gad7Score + results.pss10Score + results.socialSupport) / 4)
+        dimensionScores.value[0].value = avgScore
+        dimensionScores.value[0].description = results.interpretation || '心理状态评估完成'
+      }
+      
+    } catch (error) {
+      console.error('Error updating questionnaire scores:', error)
     }
   }
 }
@@ -1271,7 +1310,7 @@ const testStatus = ref([
   { name: '心理量表评估', completed: false },
   { name: '心电信号分析', completed: false },
   { name: '情绪表情识别', completed: false },
-  { name: '基因筛查', completed: false }
+  { name: '生活方式预测', completed: false }
 ])
 
 // 计算是否所有测试都已完成
