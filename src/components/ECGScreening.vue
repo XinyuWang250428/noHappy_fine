@@ -237,7 +237,7 @@ const drawGrid = (ctx: CanvasRenderingContext2D, width: number, height: number) 
 // 绘制信息
 const drawInfo = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
   const textX = width - 180
-  const textY = 20
+  const textY = Math.max(20, height * 0.04) // 使用height参数计算垂直位置
   
   // 科技感数据文字 - 发光效果，更大字体
   ctx.fillStyle = '#00FFFF'
