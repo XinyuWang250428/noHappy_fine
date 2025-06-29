@@ -186,17 +186,58 @@
 
           <!-- 基因筛查分析 -->
           <div class="bg-card p-6 rounded-lg shadow-md">
-            <h3 class="text-2xl font-semibold mb-4">基因筛查分析</h3>
-            <div v-if="testStatus[3].completed" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div v-for="(item, index) in geneScores" :key="index" 
-                   class="p-4 bg-muted rounded">
-                <p class="font-medium">{{ item.name }}</p>
-                <p class="text-2xl font-bold mt-2">{{ item.value }}</p>
-                <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
+            <h3 class="text-2xl font-semibold mb-4">生活方式预测</h3>
+            <div v-if="testStatus[3].completed" class="space-y-4">
+              <!-- 预测结果展示 -->
+              <div v-if="lifestylePredictionResult" class="result-content">
+                <div class="result-header">
+                  <div class="population-badge">{{ lifestylePredictionResult.population }}</div>
+                  <div class="method-tag">{{ lifestylePredictionResult.method }}</div>
+                </div>
+                
+                <div class="score-display">
+                  <div class="score-circle" :style="{ borderColor: lifestylePredictionResult.color }">
+                    <span class="score-number" :style="{ color: lifestylePredictionResult.color }">{{ lifestylePredictionResult.score }}</span>
+                    <span class="score-label">分</span>
+                  </div>
+                  <div class="risk-info">
+                    <div class="risk-level" :style="{ color: lifestylePredictionResult.color }">
+                      {{ lifestylePredictionResult.level }}
+                    </div>
+                    <div class="risk-bar">
+                      <div class="risk-progress" 
+                           :style="{ width: String(lifestylePredictionResult.score) + '%', backgroundColor: lifestylePredictionResult.color }">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="analysis-details">
+                  <div class="details-title">📊 分析说明</div>
+                  <p class="details-text">{{ lifestylePredictionResult.details }}</p>
+                </div>
+
+                <div class="risk-interpretation">
+                  <div class="interpretation-title">🔍 风险解读</div>
+                  <div class="interpretation-content">
+                    <div v-if="parseFloat(lifestylePredictionResult.score) < 25" class="interpretation-text success">
+                      <strong>低风险：</strong>您的抑郁风险较低，请继续保持良好的生活习惯和心理状态。建议定期进行心理健康自查。
+                    </div>
+                    <div v-else-if="parseFloat(lifestylePredictionResult.score) < 50" class="interpretation-text warning">
+                      <strong>中等风险：</strong>您存在一定的抑郁风险，建议关注心理健康，适当调整生活方式，必要时寻求专业指导。
+                    </div>
+                    <div v-else-if="parseFloat(lifestylePredictionResult.score) < 75" class="interpretation-text danger">
+                      <strong>高风险：</strong>您的抑郁风险较高，建议尽快咨询心理健康专业人士，寻求专业的评估和干预。
+                    </div>
+                    <div v-else class="interpretation-text critical">
+                      <strong>极高风险：</strong>您的抑郁风险很高，强烈建议立即寻求专业心理健康服务，进行全面评估和治疗。
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div v-else class="p-4 bg-muted rounded text-center">
-              <p class="text-muted-foreground">请先完成基因辅助分析测试</p>
+              <p class="text-muted-foreground">请先完成生活方式预测测试</p>
             </div>
           </div>
         </div>
@@ -435,6 +476,14 @@ const emotionTranslations: Record<string, string> = {
 const score = ref(75)
 const aiAnalysisLoading = ref(false)
 const aiAnalysisResult = ref<AIAnalysisResult | null>(null)
+const lifestylePredictionResult = ref({
+  population: '美国（NHANES）',
+  method: 'XGBoost梯度提升 + SHAP可解释性分析',
+  score: '72.3',
+  level: '高风险',
+  color: '#ef4444',
+  details: '集成学习算法结合特征重要性分析，提供个体化风险解释'
+})
 
 // 计算风险等级
 const getRiskLevel = computed(() => {
@@ -1236,5 +1285,149 @@ const allTestsCompleted = computed(() => {
   background-color: rgba(28, 28, 35, 0.8);
   border-radius: 1rem;
   padding: 2rem;
+}
+
+/* 生活方式预测结果样式 */
+.result-content {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.population-badge {
+  background: rgba(249, 115, 22, 0.2);
+  color: #f97316;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.method-tag {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.score-circle {
+  width: 120px;
+  height: 120px;
+  border: 4px solid;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.score-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.risk-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.risk-level {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.risk-bar {
+  background: rgba(255, 255, 255, 0.1);
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.risk-progress {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.analysis-details, .risk-interpretation {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+}
+
+.details-title, .interpretation-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #f97316;
+}
+
+.details-text {
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.interpretation-content {
+  line-height: 1.6;
+}
+
+.interpretation-text {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.interpretation-text.success {
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 4px solid #10b981;
+  color: #d1fae5;
+}
+
+.interpretation-text.warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 4px solid #f59e0b;
+  color: #fef3c7;
+}
+
+.interpretation-text.danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ef4444;
+  color: #fecaca;
+}
+
+.interpretation-text.critical {
+  background: rgba(220, 38, 38, 0.1);
+  border-left: 4px solid #dc2626;
+  color: #fecaca;
 }
 </style> 

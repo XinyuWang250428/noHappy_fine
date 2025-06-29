@@ -204,13 +204,15 @@ const analyzeResults = async () => {
     population: populations.find(p => p.value === selectedPopulation.value)?.label || ''
   };
   
-  isAnalyzing.value = false;
-  analysisComplete.value = true;
+  // 保存结果到localStorage
+  localStorage.setItem('lifestylePredictionResult', JSON.stringify(resultDisplay.value));
+  localStorage.setItem('completedTests', JSON.stringify({
+    ...JSON.parse(localStorage.getItem('completedTests') || '{}'),
+    gene: true
+  }));
   
-  // 保存到本地存储
-  const completedTests = JSON.parse(localStorage.getItem('completedTests') || '{}');
-  completedTests.lifestyle = `${resultDisplay.value.level}（${resultDisplay.value.score}分）`;
-  localStorage.setItem('completedTests', JSON.stringify(completedTests));
+  analysisComplete.value = true;
+  isAnalyzing.value = false;
   
   // 显示成功提示
   setTimeout(() => {

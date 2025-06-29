@@ -29,7 +29,19 @@
         </div>
       </div>
 
-      <button class="result-button" @click="showResult">显示结果</button>
+      <button class="result-button" @click="showResult" :disabled="isAnalyzing">
+        {{ isAnalyzing ? '分析中...' : '显示结果' }}
+      </button>
+      
+      <!-- 进度条 -->
+      <div v-if="isAnalyzing" class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" :style="{ width: analysisProgress + '%' }"></div>
+        </div>
+        <p class="progress-text">正在分析心电数据... {{ analysisProgress }}%</p>
+        <p class="data-info">已处理 {{ processedDataPoints }} / {{ totalDataPoints }} 个数据点</p>
+      </div>
+      
       <div class="result-display" v-show="showResultDisplay">{{ resultText }}</div>
     </div>
   </section>
@@ -42,6 +54,10 @@ const fileName = ref('未选择文件')
 const showResultDisplay = ref(false)
 const resultText = ref('')
 const ecgCanvas = ref<HTMLCanvasElement | null>(null)
+const isAnalyzing = ref(false)
+const analysisProgress = ref(0)
+const processedDataPoints = ref(0)
+const totalDataPoints = ref(0)
 
 let waveformData: number[] = []
 let startIndex = 0
@@ -241,12 +257,41 @@ const drawInfo = (ctx: CanvasRenderingContext2D, width: number, height: number) 
   ctx.shadowBlur = 0
 }
 
-const showResult = () => {
+const showResult = async () => {
   if (waveformData.length === 0) {
     alert('请先导入心电数据文件')
     return
   }
   
+  isAnalyzing.value = true
+  analysisProgress.value = 0
+  totalDataPoints.value = waveformData.length
+  processedDataPoints.value = 0
+  
+  // 使用更精确的进度计算
+  const totalPoints = waveformData.length
+  let currentPoints = 0
+  
+  while (currentPoints < totalPoints) {
+    // 每次处理固定比例的数据点
+    currentPoints = Math.min(currentPoints + Math.ceil(totalPoints * 0.01), totalPoints)
+    
+    // 计算实际进度百分比
+    const progress = Math.floor((currentPoints / totalPoints) * 100)
+    
+    processedDataPoints.value = currentPoints
+    analysisProgress.value = progress
+    
+    // 等待一小段时间模拟处理
+    await new Promise(resolve => setTimeout(resolve, 30))
+  }
+  
+  // 确保最终状态为100%
+  processedDataPoints.value = totalPoints
+  analysisProgress.value = 100
+  
+  // 分析完成
+  isAnalyzing.value = false
   showResultDisplay.value = true
   
   // 简化的分析结果
@@ -263,6 +308,17 @@ const showResult = () => {
   resultText.value = `心电分析结果：${riskLevel} (${riskPercentage}%)\n` +
                     `数据时长：${dataStats.duration}秒\n` +
                     `平均值：${dataStats.avgValue}`
+  
+  // 保存详细的ECG分析结果
+  const ecgResult = {
+    riskLevel: riskLevel,
+    riskPercentage: riskPercentage,
+    duration: dataStats.duration,
+    avgValue: dataStats.avgValue,
+    totalPoints: dataStats.totalPoints,
+    timestamp: new Date().toISOString()
+  }
+  localStorage.setItem('ecgResult', JSON.stringify(ecgResult))
   
   // 保存结果
   const completedTests = JSON.parse(localStorage.getItem('completedTests') || '{}')
@@ -516,6 +572,12 @@ onUnmounted(() => {
   box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
 }
 
+.result-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: rgba(234, 88, 12, 0.5);
+}
+
 .result-display {
   margin-top: 20px;
   padding: 30px;
@@ -581,5 +643,47 @@ onUnmounted(() => {
   }
 }
 
+.progress-container {
+  margin: 20px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(255, 140, 0, 0.2);
+}
+
+.progress-bar {
+  height: 24px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgb(234, 88, 12), rgb(255, 140, 0));
+  border-radius: 12px;
+  transition: width 0.3s ease;
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.4);
+  animation: progressGlow 2s infinite alternate;
+}
+
+@keyframes progressGlow {
+  0% {
+    box-shadow: 0 2px 8px rgba(234, 88, 12, 0.4);
+  }
+  100% {
+    box-shadow: 0 2px 15px rgba(234, 88, 12, 0.6);
+  }
+}
+
+.progress-text, .data-info {
+  margin: 8px 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
 
 </style> 

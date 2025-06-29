@@ -24,13 +24,7 @@
         </div>
       </div>
 
-      <div class="relative flex justify-center mt-8">
-        <button 
-          @click="randomFill"
-          class="random-fill-button absolute right-0"
-        >
-          输入示例
-        </button>
+      <div class="flex justify-center mt-8">
         <button 
           @click="analyzeResults"
           class="result-button"
@@ -83,33 +77,6 @@ const answers = ref(new Array(questions.length).fill(null))
 const showResult = ref(false)
 const result = ref('')
 
-const randomFill = () => {
-  // 重置所有答案
-  answers.value = new Array(questions.length).fill(null)
-  
-  // 创建题目索引数组
-  const questionIndices = Array.from({ length: questions.length }, (_, i) => i)
-  
-  // 随机打乱数组
-  for (let i = questionIndices.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [questionIndices[i], questionIndices[j]] = [questionIndices[j], questionIndices[i]]
-  }
-  
-  // 前15道题设为"相当多时间"(value: 3)
-  for (let i = 0; i < 15; i++) {
-    answers.value[questionIndices[i]] = 3
-  }
-  
-  // 后5道题设为"绝大部分时间或全部时间"(value: 4)
-  for (let i = 15; i < 20; i++) {
-    answers.value[questionIndices[i]] = 4
-  }
-  
-  // 隐藏之前的结果
-  showResult.value = false
-}
-
 const analyzeResults = () => {
   if (answers.value.includes(null)) {
     alert('请回答所有问题')
@@ -160,30 +127,5 @@ const analyzeResults = () => {
   background-color: rgba(234, 88, 12, 0.9);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
-}
-
-.random-fill-button {
-  display: block;
-  width: 150px;
-  height: 60px;
-  margin: 30px auto;
-  padding: 16px 24px;
-  background-color: rgb(59, 130, 246);
-  color: rgb(250, 250, 249);
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-  text-align: center;
-  line-height: 1.2;
-}
-
-.random-fill-button:hover {
-  background-color: rgba(59, 130, 246, 0.9);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 </style> 
