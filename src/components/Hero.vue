@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useColorMode } from "@vueuse/core";
 const mode = useColorMode();
+// 确保主题模式响应性
+void mode;
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -85,7 +87,7 @@ import { Sparkles } from "@/components/ui/sparkles";
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .img-shadow-animation {
   animation-name: img-shadow-animation;
   animation-iteration-count: infinite;
