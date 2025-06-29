@@ -240,8 +240,30 @@
           </div>
 
           <div v-else-if="aiAnalysisLoading" class="flex flex-col items-center justify-center py-8">
-            <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p class="text-muted-foreground">正在进行智能分析...</p>
+            <div class="w-full max-w-xs bg-muted rounded-full h-2.5 mb-4">
+              <div class="bg-primary h-2.5 rounded-full transition-all duration-300"
+                   :style="{ width: analysisProgress + '%' }"></div>
+            </div>
+            <p class="text-muted-foreground mb-8">正在进行智能分析... {{ Math.round(analysisProgress) }}%</p>
+            
+            <!-- 算法图展示 -->
+            <div class="w-full max-w-6xl">
+              <h4 class="text-lg font-semibold mb-6 text-center text-primary">分析算法框架</h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-card p-4 rounded-lg shadow-md">
+                  <h5 class="text-center font-medium mb-3">特征筛选框架</h5>
+                  <img src="/特征筛选框架.svg" alt="特征筛选框架" class="w-full h-auto max-h-64 object-contain">
+                </div>
+                <div class="bg-card p-4 rounded-lg shadow-md">
+                  <h5 class="text-center font-medium mb-3">组间比较+层次聚类</h5>
+                  <img src="/组间比较聚类.svg" alt="组间比较+层次聚类" class="w-full h-auto max-h-64 object-contain">
+                </div>
+                <div class="bg-card p-4 rounded-lg shadow-md">
+                  <h5 class="text-center font-medium mb-3">GAE-GAT聚类框架</h5>
+                  <img src="/GAE-GAT聚类框架.svg" alt="GAE-GAT聚类框架" class="w-full h-auto max-h-64 object-contain">
+                </div>
+              </div>
+            </div>
           </div>
 
           <div v-else-if="aiAnalysisResult" class="space-y-6">
@@ -374,6 +396,8 @@ interface EmotionData {
   confidenceHistory: number[]
   timestamps: number[]
   maxSadInterferenceConfidence: number
+  sadInterferenceDurationMs?: number
+  hadSadInterference?: boolean
 }
 
 interface EmotionResults {
@@ -392,19 +416,14 @@ interface AIAnalysisResult {
   warningPoints: string[];
 }
 
-interface EmotionData {
-  maxConfidence: number;
-  timeToConfidence: number;
-  hadSadInterference: boolean;
-  sadInterferenceDurationMs: number;
-  maxSadInterferenceConfidence: number;
+// 情绪评分类型定义
+interface EmotionScore {
+  name: string;
+  percentage: number;
+  interpretation: string;
 }
 
-interface EmotionResults {
-  [key: string]: EmotionData;
-}
-
-const emotionTranslations = {
+const emotionTranslations: Record<string, string> = {
   happy: '开心',
   sad: '悲伤',
   angry: '愤怒',
@@ -434,12 +453,33 @@ const generateUUID = () => {
   });
 }
 
+const analysisProgress = ref(0)
+const progressInterval = ref<number | null>(null)
+
+const startProgressAnimation = () => {
+  analysisProgress.value = 0
+  progressInterval.value = window.setInterval(() => {
+    if (analysisProgress.value < 90) {
+      analysisProgress.value += Math.random() * 3 + 1
+    }
+  }, 100)
+}
+
+const stopProgressAnimation = () => {
+  if (progressInterval.value) {
+    clearInterval(progressInterval.value)
+    progressInterval.value = null
+  }
+  analysisProgress.value = 100
+}
+
 const performAIAnalysis = async () => {
   const API_KEY = "b1d1ccfab3c24fafba436a4150b60212.Kc9FBGkmVbtRR2ic";
   const API_URL = "https://open.bigmodel.cn/api/paas/v4/chat/completions";
 
   try {
     aiAnalysisLoading.value = true;
+    startProgressAnimation()
 
     // 构建分析提示词
     const analysisPrompt = `作为一位专业的心理健康分析专家，请基于以下多维度评估数据进行深入分析：
@@ -520,8 +560,8 @@ ${geneScores.value.map(gene => `- ${gene.name}：${gene.value} (${gene.interpret
     }
   } catch (error) {
     console.error('AI分析错误:', error);
-    // 在UI中显示错误信息
   } finally {
+    stopProgressAnimation()
     aiAnalysisLoading.value = false;
   }
 }
@@ -644,7 +684,7 @@ const ecgScores = ref([
 ])
 
 // 情绪表情分析
-const emotionScores = ref([
+const emotionScores = ref<EmotionScore[]>([
   {
     name: '开心',
     percentage: 15,
@@ -812,8 +852,6 @@ const timeToConfidenceChartRef = ref<HTMLCanvasElement | null>(null)
 const sadInterferenceChartsRef = ref<HTMLDivElement | null>(null)
 const maxSadInterferenceChartRef = ref<HTMLCanvasElement | null>(null)
 
-// 情绪翻译映射已在上方定义，此处删除重复声明
-
 onMounted(() => {
   // 初始加载情绪测试数据
   loadEmotionResults()
@@ -892,13 +930,13 @@ function updateEmotionScores() {
       emotionScores.value = [
         {
           name: '平均情绪表达置信度',
-          value: `${Math.round(avgConfidence > 1 ? avgConfidence : avgConfidence * 100)}%`,
+          percentage: Math.round(avgConfidence > 1 ? avgConfidence : avgConfidence * 100),
           interpretation: avgConfidence > 0.7 ? '情绪表达清晰' : 
                          avgConfidence > 0.5 ? '情绪表达良好' : '情绪表达需改善'
         },
         {
           name: '平均情绪转换时间',
-          value: `${Math.round(avgResponseTime)}ms`,
+          percentage: Math.round(avgResponseTime),
           interpretation: avgResponseTime < 3000 ? '情绪转换快速' : 
                          avgResponseTime < 4000 ? '情绪转换正常' : '情绪转换较慢'
         }
@@ -912,11 +950,11 @@ function updateEmotionScores() {
 function renderEmotionCharts(results: EmotionResults) {
   console.log('Rendering emotion charts with data:', results)
   
-  const labels = []
-  const maxConfidenceData = []
-  const timeToConfidenceData = []
-  const sadInterferenceLabels = []
-  const maxSadInterferenceData = []
+  const labels: string[] = []
+  const maxConfidenceData: number[] = []
+  const timeToConfidenceData: number[] = []
+  const sadInterferenceLabels: string[] = []
+  const maxSadInterferenceData: number[] = []
 
   // 确保有数据才进行处理
   if (!results || Object.keys(results).length === 0) {
@@ -925,8 +963,9 @@ function renderEmotionCharts(results: EmotionResults) {
   }
 
   for (const [emotion, data] of Object.entries(results)) {
-    if (emotionTranslations[emotion] && data) {
-      labels.push(emotionTranslations[emotion])
+    const translatedEmotion = emotionTranslations[emotion as keyof typeof emotionTranslations]
+    if (translatedEmotion && data) {
+      labels.push(translatedEmotion)
       
       // 将置信度转换为百分比（如果原始数据是0-1范围）
       const confidence = data.maxConfidence || 0
@@ -937,7 +976,7 @@ function renderEmotionCharts(results: EmotionResults) {
 
       // 处理悲伤干扰数据（除了悲伤本身）
       if (emotion !== 'sad') {
-        sadInterferenceLabels.push(emotionTranslations[emotion])
+        sadInterferenceLabels.push(translatedEmotion)
         const sadInterference = data.maxSadInterferenceConfidence || 0
         maxSadInterferenceData.push(sadInterference > 1 ? sadInterference : sadInterference * 100)
       }
@@ -1044,14 +1083,15 @@ function renderEmotionCharts(results: EmotionResults) {
     sadInterferenceChartsRef.value.innerHTML = ''
     
     for (const [emotion, data] of Object.entries(results)) {
-      if (emotion !== 'sad' && emotionTranslations[emotion]) {
+      const translatedEmotion = emotionTranslations[emotion as keyof typeof emotionTranslations]
+      if (emotion !== 'sad' && translatedEmotion) {
         const chartContainer = document.createElement('div')
         chartContainer.className = 'chart-container flex flex-col items-center'
         chartContainer.style.minWidth = '280px'
         chartContainer.style.maxWidth = '300px'
         
         const title = document.createElement('p')
-        title.textContent = `目标情绪: ${emotionTranslations[emotion]}`
+        title.textContent = `目标情绪: ${translatedEmotion}`
         title.className = 'text-center font-semibold text-primary mb-3 text-sm'
         
         const canvas = document.createElement('canvas')
@@ -1061,112 +1101,119 @@ function renderEmotionCharts(results: EmotionResults) {
         chartContainer.appendChild(canvas)
         sadInterferenceChartsRef.value.appendChild(chartContainer)
 
-        // 如果没有具体的干扰时长数据，基于最大干扰置信度估算
-        const maxSadInterference = data.maxSadInterferenceConfidence || 0
-        const sadInterferenceThreshold = 0.03 // 3%阈值
-        
-        // 根据最大干扰置信度估算干扰时长占比
-        let interferencePercentage = 0
-        if (maxSadInterference > sadInterferenceThreshold) {
-          // 简单的线性映射：置信度越高，干扰时长占比越大
-          interferencePercentage = Math.min((maxSadInterference / 1.0) * 50, 100) // 最多50%的干扰时长
-        }
-        
-        const nonInterferencePercentage = 100 - interferencePercentage
+        const ctx = canvas.getContext('2d')
+        if (ctx) {
+          // 如果没有具体的干扰时长数据，基于最大干扰置信度估算
+          const maxSadInterference = data.maxSadInterferenceConfidence || 0
+          const sadInterferenceThreshold = 0.03 // 3%阈值
+          
+          // 根据最大干扰置信度估算干扰时长占比
+          let interferencePercentage = 0
+          if (maxSadInterference > sadInterferenceThreshold) {
+            // 简单的线性映射：置信度越高，干扰时长占比越大
+            interferencePercentage = Math.min((maxSadInterference / 1.0) * 50, 100) // 最多50%的干扰时长
+          }
+          
+          const nonInterferencePercentage = 100 - interferencePercentage
 
-        const chart = new Chart(canvas.getContext('2d')!, {
-          type: 'pie',
-          data: {
-            labels: ['悲伤干扰时长占比', '无明显悲伤干扰时长占比'],
-            datasets: [{
-              data: [interferencePercentage, nonInterferencePercentage],
-              backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(75, 192, 192, 0.8)'],
-              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
-              borderWidth: 2
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: {
-                  padding: 15,
-                  usePointStyle: true,
-                  font: {
-                    size: 11
+          new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: ['悲伤干扰时长占比', '无明显悲伤干扰时长占比'],
+              datasets: [{
+                data: [interferencePercentage, nonInterferencePercentage],
+                backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(75, 192, 192, 0.8)'],
+                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+                borderWidth: 2
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: {
+                    padding: 15,
+                    usePointStyle: true,
+                    font: {
+                      size: 11
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      const value = context.parsed
+                      return `${context.label}: ${value.toFixed(4)}%`
+                    }
                   }
                 }
               },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    const value = context.parsed
-                    return `${context.label}: ${value.toFixed(4)}%`
+              animation: {
+                onComplete: function(this: Chart) {
+                  const ctx = this.ctx
+                  
+                  if (ctx) {
+                    ctx.font = 'bold 12px Arial'
+                    ctx.textAlign = 'center'
+                    ctx.fillStyle = '#fff'
+                    
+                    this.data.datasets.forEach((dataset, i) => {
+                      const meta = this.getDatasetMeta(i)
+                      meta.data.forEach((element: any, index) => {
+                        const value = dataset.data[index] as number
+                        if (value > 3) { // 只显示大于3%的标签
+                          const position = element.tooltipPosition({x: 0, y: 0})
+                          ctx.fillText(value.toFixed(4) + '%', position.x, position.y)
+                        }
+                      })
+                    })
                   }
                 }
               }
-            },
-            animation: {
-              onComplete: function() {
-                const ctx = this.ctx!
-                const chart = this
-                
-                ctx.font = 'bold 12px Arial'
-                ctx.textAlign = 'center'
-                ctx.fillStyle = '#fff'
-                
-                chart.data.datasets.forEach((dataset, i) => {
-                  const meta = chart.getDatasetMeta(i)
-                  meta.data.forEach((element, index) => {
-                    const value = dataset.data[index] as number
-                    if (value > 3) { // 只显示大于3%的标签
-                      const position = element.tooltipPosition()
-                      ctx.fillText(value.toFixed(4) + '%', position.x, position.y)
-                    }
-                  })
-                })
-              }
             }
-          }
-        })
+          })
+        }
       }
     }
   }
 
   // 最大悲伤干扰置信度图表
   if (maxSadInterferenceChartRef.value) {
-    new Chart(maxSadInterferenceChartRef.value.getContext('2d')!, {
-      type: 'bar',
-      data: {
-        labels: sadInterferenceLabels,
-        datasets: [{
-          label: '悲伤情绪最大干扰置信度 (%)',
-          data: maxSadInterferenceData,
-          backgroundColor: 'rgba(255, 159, 64, 0.7)',
-          borderColor: 'rgba(255, 159, 64, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 100,
-            title: {
-              display: true,
-              text: '最大悲伤置信度 (%)'
-            }
-          }
+    const ctx = maxSadInterferenceChartRef.value.getContext('2d')
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: sadInterferenceLabels,
+          datasets: [{
+            label: '悲伤情绪最大干扰置信度 (%)',
+            data: maxSadInterferenceData,
+            backgroundColor: 'rgba(255, 159, 64, 0.7)',
+            borderColor: 'rgba(255, 159, 64, 1)',
+            borderWidth: 1
+          }]
         },
-        plugins: {
-          legend: { display: false }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              title: {
+                display: true,
+                text: '最大悲伤置信度 (%)'
+              }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
         }
-      }
-    })
+      })
+    }
   }
 }
 
@@ -1182,8 +1229,6 @@ const testStatus = ref([
 const allTestsCompleted = computed(() => {
   return testStatus.value.every(test => test.completed)
 })
-
-// 初始化测试状态检查（移除重复的onMounted，合并到上面的主onMounted中）
 </script>
 
 <style scoped>
