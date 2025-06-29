@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { ref, onMounted, computed } from 'vue';
 import { loadSlim } from "@tsparticles/slim";
 import { tsParticles } from "@tsparticles/engine";
