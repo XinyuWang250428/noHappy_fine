@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { loadSlim } from "@tsparticles/slim";
+import { tsParticles } from "@tsparticles/engine";
 import Particles from "@tsparticles/vue3";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +20,7 @@ const props = defineProps<{
 const init = ref(false);
 
 onMounted(async () => {
-  await loadSlim();
+  await loadSlim(tsParticles);
   init.value = true;
 });
 
