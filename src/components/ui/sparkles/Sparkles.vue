@@ -4,6 +4,7 @@ import { loadSlim } from "@tsparticles/slim";
 import { tsParticles } from "@tsparticles/engine";
 import Particles from "@tsparticles/vue3";
 import { cn } from "@/lib/utils";
+import type { ISourceOptions } from "@tsparticles/engine";
 
 const props = defineProps<{
   id?: string;
@@ -30,7 +31,7 @@ const particlesLoaded = async (container?: any) => {
   }
 };
 
-const particlesOptions = computed(() => ({
+const particlesOptions = computed((): ISourceOptions => ({
   background: {
     color: {
       value: props.background || 'transparent',
@@ -48,11 +49,11 @@ const particlesOptions = computed(() => ({
     move: {
       enable: true,
       speed: props.speed || 2,
-      direction: "none" as const,
+      direction: "none",
       random: true,
       straight: false,
       outModes: {
-        default: "bounce" as const,
+        default: "bounce",
       },
     },
     number: {
@@ -71,7 +72,6 @@ const particlesOptions = computed(() => ({
       animation: {
         enable: true,
         speed: props.speed || 2,
-        minimumValue: 0.3,
       },
     },
     size: {
@@ -85,7 +85,7 @@ const particlesOptions = computed(() => ({
     },
   },
   detectRetina: true,
-} as const));
+}));
 </script>
 
 <template>
@@ -94,7 +94,7 @@ const particlesOptions = computed(() => ({
       v-if="init"
       :id="props.id || 'tsparticles'"
       :class="cn('h-full w-full')"
-      :particles-loaded="particlesLoaded"
+      :particlesLoaded="particlesLoaded"
       :options="particlesOptions"
     />
   </div>
