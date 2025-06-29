@@ -28,71 +28,87 @@
           </div>
         </div>
 
-        <!-- 总体评估结果（仅在所有测试完成后显示） -->
-        <div v-if="allTestsCompleted" :class="[
+        <!-- 总体评估结果 -->
+        <div :class="[
           'p-8 rounded-2xl shadow-xl border-2',
-          score >= 80 ? 'bg-gradient-to-r from-green-100 via-green-50 to-green-200 dark:from-green-900 dark:via-green-800 dark:to-green-900 border-green-300 dark:border-green-700' :
-          score >= 60 ? 'bg-gradient-to-r from-orange-100 via-orange-50 to-orange-200 dark:from-orange-900 dark:via-orange-800 dark:to-orange-900 border-orange-300 dark:border-orange-700' :
-          score >= 40 ? 'bg-gradient-to-r from-red-100 via-red-50 to-red-200 dark:from-red-900 dark:via-red-800 dark:to-red-900 border-red-300 dark:border-red-700' :
-          'bg-gradient-to-r from-rose-200 via-rose-100 to-rose-300 dark:from-rose-900 dark:via-rose-800 dark:to-rose-900 border-rose-400 dark:border-rose-700'
+          allTestsCompleted ? (
+            score >= 80 ? 'bg-gradient-to-r from-green-100 via-green-50 to-green-200 dark:from-green-900 dark:via-green-800 dark:to-green-900 border-green-300 dark:border-green-700' :
+            score >= 60 ? 'bg-gradient-to-r from-orange-100 via-orange-50 to-orange-200 dark:from-orange-900 dark:via-orange-800 dark:to-orange-900 border-orange-300 dark:border-orange-700' :
+            score >= 40 ? 'bg-gradient-to-r from-red-100 via-red-50 to-red-200 dark:from-red-900 dark:via-red-800 dark:to-red-900 border-red-300 dark:border-red-700' :
+            'bg-gradient-to-r from-rose-200 via-rose-100 to-rose-300 dark:from-rose-900 dark:via-rose-800 dark:to-rose-900 border-rose-400 dark:border-rose-700'
+          ) : 'bg-gradient-to-r from-gray-100 via-gray-50 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 border-gray-300 dark:border-gray-700'
         ]">
           <h2 class="text-4xl font-bold text-center mb-6" :class="[
-            score >= 80 ? 'text-green-900 dark:text-green-100' :
-            score >= 60 ? 'text-orange-900 dark:text-orange-100' :
-            score >= 40 ? 'text-red-900 dark:text-red-100' :
-            'text-rose-900 dark:text-rose-100'
+            allTestsCompleted ? (
+              score >= 80 ? 'text-green-900 dark:text-green-100' :
+              score >= 60 ? 'text-orange-900 dark:text-orange-100' :
+              score >= 40 ? 'text-red-900 dark:text-red-100' :
+              'text-rose-900 dark:text-rose-100'
+            ) : 'text-gray-900 dark:text-gray-100'
           ]">综合评估结果</h2>
           <div class="flex justify-around items-center">
             <div class="text-center">
               <p class="text-lg font-semibold" :class="[
-                score >= 80 ? 'text-green-800 dark:text-green-200' :
-                score >= 60 ? 'text-orange-800 dark:text-orange-200' :
-                score >= 40 ? 'text-red-800 dark:text-red-200' :
-                'text-rose-800 dark:text-rose-200'
+                allTestsCompleted ? (
+                  score >= 80 ? 'text-green-800 dark:text-green-200' :
+                  score >= 60 ? 'text-orange-800 dark:text-orange-200' :
+                  score >= 40 ? 'text-red-800 dark:text-red-200' :
+                  'text-rose-800 dark:text-rose-200'
+                ) : 'text-gray-800 dark:text-gray-200'
               ]">总体风险等级</p>
               <p class="text-3xl font-bold mt-2" :class="[
-                score >= 80 ? 'text-green-600 dark:text-green-400' :
-                score >= 60 ? 'text-orange-600 dark:text-orange-400' :
-                score >= 40 ? 'text-red-600 dark:text-red-400' :
-                'text-rose-600 dark:text-rose-400'
-              ]">{{ getRiskLevel }}</p>
+                allTestsCompleted ? (
+                  score >= 80 ? 'text-green-600 dark:text-green-400' :
+                  score >= 60 ? 'text-orange-600 dark:text-orange-400' :
+                  score >= 40 ? 'text-red-600 dark:text-red-400' :
+                  'text-rose-600 dark:text-rose-400'
+                ) : 'text-gray-600 dark:text-gray-400'
+              ]">{{ allTestsCompleted ? getRiskLevel : '待评估' }}</p>
             </div>
             <div class="text-center">
               <p class="text-lg font-semibold" :class="[
-                score >= 80 ? 'text-green-800 dark:text-green-200' :
-                score >= 60 ? 'text-orange-800 dark:text-orange-200' :
-                score >= 40 ? 'text-red-800 dark:text-red-200' :
-                'text-rose-800 dark:text-rose-200'
+                allTestsCompleted ? (
+                  score >= 80 ? 'text-green-800 dark:text-green-200' :
+                  score >= 60 ? 'text-orange-800 dark:text-orange-200' :
+                  score >= 40 ? 'text-red-800 dark:text-red-200' :
+                  'text-rose-800 dark:text-rose-200'
+                ) : 'text-gray-800 dark:text-gray-200'
               ]">综合评分</p>
               <p class="text-5xl font-bold mt-2" :class="[
-                score >= 80 ? 'text-green-900 dark:text-green-100' :
-                score >= 60 ? 'text-orange-900 dark:text-orange-100' :
-                score >= 40 ? 'text-red-900 dark:text-red-100' :
-                'text-rose-900 dark:text-rose-100'
-              ]">{{ score }}<span class="text-2xl">分</span></p>
+                allTestsCompleted ? (
+                  score >= 80 ? 'text-green-900 dark:text-green-100' :
+                  score >= 60 ? 'text-orange-900 dark:text-orange-100' :
+                  score >= 40 ? 'text-red-900 dark:text-red-100' :
+                  'text-rose-900 dark:text-rose-100'
+                ) : 'text-gray-900 dark:text-gray-100'
+              ]">{{ allTestsCompleted ? score : '--' }}<span class="text-2xl">{{ allTestsCompleted ? '分' : '' }}</span></p>
             </div>
           </div>
         </div>
 
-        <!-- 四大维度评分（仅在相应测试完成后显示） -->
-        <div v-if="allTestsCompleted" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- 四大维度评分 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div v-for="(score, index) in dimensionScores" :key="index" 
                class="bg-card p-6 rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-4">{{ score.name }}</h3>
-            <div class="flex justify-between items-center">
+            <div v-if="allTestsCompleted" class="flex justify-between items-center">
               <span class="text-3xl font-bold">{{ score.value }}</span>
               <span class="text-sm text-muted-foreground">权重: {{ score.weight }}</span>
             </div>
-            <p class="mt-4 text-sm text-muted-foreground">{{ score.description }}</p>
+            <div v-else class="flex justify-between items-center">
+              <span class="text-3xl font-bold text-muted-foreground">--</span>
+              <span class="text-sm text-muted-foreground">权重: {{ score.weight }}</span>
+            </div>
+            <p class="mt-4 text-sm text-muted-foreground">{{ allTestsCompleted ? score.description : '等待测试完成' }}</p>
           </div>
         </div>
 
         <!-- 详细分析部分 -->
         <div class="space-y-8">
           <!-- 心理量表评估 -->
-          <div v-if="testStatus[0].completed" class="bg-card p-6 rounded-lg shadow-md">
+          <div class="bg-card p-6 rounded-lg shadow-md">
             <h3 class="text-2xl font-semibold mb-4">心理量表评估</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div v-if="testStatus[0].completed" class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div v-for="(item, index) in psychologyScores" :key="index" 
                    class="p-4 bg-muted rounded">
                 <p class="font-medium">{{ item.name }}</p>
@@ -100,12 +116,15 @@
                 <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
               </div>
             </div>
+            <div v-else class="p-4 bg-muted rounded text-center">
+              <p class="text-muted-foreground">请先完成心理量表评估测试</p>
+            </div>
           </div>
 
           <!-- 心电信号分析 -->
-          <div v-if="testStatus[1].completed" class="bg-card p-6 rounded-lg shadow-md">
+          <div class="bg-card p-6 rounded-lg shadow-md">
             <h3 class="text-2xl font-semibold mb-4">心电信号分析</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div v-if="testStatus[1].completed" class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div v-for="(item, index) in ecgScores" :key="index" 
                    class="p-4 bg-muted rounded">
                 <p class="font-medium">{{ item.name }}</p>
@@ -113,13 +132,16 @@
                 <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
               </div>
             </div>
+            <div v-else class="p-4 bg-muted rounded text-center">
+              <p class="text-muted-foreground">请先完成心电检测评估测试</p>
+            </div>
           </div>
 
           <!-- 情绪表情分析 -->
-          <div v-if="testStatus[2].completed" class="bg-card p-6 rounded-lg shadow-md space-y-6">
+          <div class="bg-card p-6 rounded-lg shadow-md space-y-6">
             <h3 class="text-xl font-semibold mb-4">情绪表情分析</h3>
             
-            <div class="space-y-8">
+            <div v-if="testStatus[2].completed" class="space-y-8">
               <div class="section">
                 <h4 class="text-lg font-semibold mb-3">情绪达成度（最大置信度）</h4>
                 <div class="h-64">
@@ -139,11 +161,11 @@
 
               <div class="section">
                 <h4 class="text-lg font-semibold mb-3">悲伤情绪干扰分析 - 时长占比</h4>
-                <div ref="sadInterferenceChartsRef" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div ref="sadInterferenceChartsRef" class="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-center">
                   <!-- 饼图将在这里动态生成 -->
                 </div>
-                <p class="text-sm text-muted-foreground text-center mt-2">
-                  * 显示在表达各目标情绪时，悲伤情绪置信度 > 3% 的时间占总测试时间（5秒）的百分比。
+                <p class="text-sm text-muted-foreground text-center mt-4">
+                  * 显示在表达各目标情绪时，悲伤情绪置信度 > 3% 的时间占总测试时间（5秒）的百分比，精确到小数点后4位。
                 </p>
               </div>
 
@@ -157,12 +179,15 @@
                 </p>
               </div>
             </div>
+            <div v-else class="p-4 bg-muted rounded text-center">
+              <p class="text-muted-foreground">请先完成情绪识别评估测试</p>
+            </div>
           </div>
 
           <!-- 基因筛查分析 -->
-          <div v-if="testStatus[3].completed" class="bg-card p-6 rounded-lg shadow-md">
+          <div class="bg-card p-6 rounded-lg shadow-md">
             <h3 class="text-2xl font-semibold mb-4">基因筛查分析</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div v-if="testStatus[3].completed" class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div v-for="(item, index) in geneScores" :key="index" 
                    class="p-4 bg-muted rounded">
                 <p class="font-medium">{{ item.name }}</p>
@@ -170,23 +195,29 @@
                 <p class="text-sm text-muted-foreground mt-1">{{ item.interpretation }}</p>
               </div>
             </div>
+            <div v-else class="p-4 bg-muted rounded text-center">
+              <p class="text-muted-foreground">请先完成基因辅助分析测试</p>
+            </div>
           </div>
         </div>
 
-        <!-- 综合建议（仅在所有测试完成后显示） -->
-        <div v-if="allTestsCompleted" class="bg-card p-6 rounded-lg shadow-md">
+        <!-- 综合建议 -->
+        <div class="bg-card p-6 rounded-lg shadow-md">
           <h3 class="text-2xl font-semibold mb-4">综合建议</h3>
-          <div class="space-y-4">
+          <div v-if="allTestsCompleted" class="space-y-4">
             <div v-for="(suggestion, index) in suggestions" :key="index" 
                  class="p-4 bg-muted rounded">
               <p class="font-medium">{{ suggestion.title }}</p>
               <p class="text-sm text-muted-foreground mt-2">{{ suggestion.content }}</p>
             </div>
           </div>
+          <div v-else class="p-4 bg-muted rounded text-center">
+            <p class="text-muted-foreground">请完成所有测试后查看综合建议</p>
+          </div>
         </div>
 
-        <!-- 注意事项（仅在所有测试完成后显示） -->
-        <div v-if="allTestsCompleted" class="bg-destructive/10 p-6 rounded-lg">
+        <!-- 注意事项 -->
+        <div class="bg-destructive/10 p-6 rounded-lg">
           <h3 class="text-xl font-semibold mb-4">注意事项</h3>
           <ul class="list-disc list-inside space-y-2 text-sm">
             <li>本报告仅供参考，不能替代专业医疗诊断</li>
@@ -197,14 +228,18 @@
           </ul>
         </div>
 
-        <!-- AI智能分析部分（仅在所有测试完成后显示） -->
-        <div v-if="allTestsCompleted" class="bg-card p-6 rounded-lg shadow-md mt-8">
+        <!-- AI智能分析部分 -->
+        <div class="bg-card p-6 rounded-lg shadow-md mt-8">
           <h3 class="text-2xl font-semibold mb-6 flex items-center">
             <span class="mr-2">🤖</span>
             AI智能分析
           </h3>
 
-          <div v-if="aiAnalysisLoading" class="flex flex-col items-center justify-center py-8">
+          <div v-if="!allTestsCompleted" class="p-4 bg-muted rounded text-center">
+            <p class="text-muted-foreground">请完成所有测试后查看AI智能分析</p>
+          </div>
+
+          <div v-else-if="aiAnalysisLoading" class="flex flex-col items-center justify-center py-8">
             <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
             <p class="text-muted-foreground">正在进行智能分析...</p>
           </div>
@@ -329,8 +364,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { Chart } from 'chart.js/auto'
+
+// 情绪测试结果类型定义
+interface EmotionData {
+  maxConfidence: number
+  timeToConfidence: number
+  confidenceHistory: number[]
+  timestamps: number[]
+  maxSadInterferenceConfidence: number
+}
+
+interface EmotionResults {
+  [emotion: string]: EmotionData
+}
 
 // 类型定义
 interface AIAnalysisResult {
@@ -764,33 +812,145 @@ const timeToConfidenceChartRef = ref<HTMLCanvasElement | null>(null)
 const sadInterferenceChartsRef = ref<HTMLDivElement | null>(null)
 const maxSadInterferenceChartRef = ref<HTMLCanvasElement | null>(null)
 
+// 情绪翻译映射已在上方定义，此处删除重复声明
+
 onMounted(() => {
-  const resultsString = localStorage.getItem('guidedEmotionResults')
-  if (resultsString) {
-    const results: EmotionResults = JSON.parse(resultsString)
-    renderEmotionCharts(results)
+  // 初始加载情绪测试数据
+  loadEmotionResults()
+  
+  // 监听localStorage变化，实时更新图表
+  const handleStorageChange = () => {
+    loadEmotionResults()
+    // 重新加载测试状态
+    updateTestStatus()
   }
+  
+  window.addEventListener('storage', handleStorageChange)
+  
+  // 定时检查更新（用于同页面内的更新）
+  const checkInterval = setInterval(() => {
+    loadEmotionResults()
+    updateTestStatus()
+  }, 2000)
+  
+  // 清理监听器
+  onUnmounted(() => {
+    window.removeEventListener('storage', handleStorageChange)
+    clearInterval(checkInterval)
+  })
 })
 
+function loadEmotionResults() {
+  const resultsString = localStorage.getItem('emotionAssessmentData')
+  if (resultsString) {
+    try {
+      const results: EmotionResults = JSON.parse(resultsString)
+      renderEmotionCharts(results)
+    } catch (error) {
+      console.error('Error parsing emotion results:', error)
+    }
+  }
+}
+
+function updateTestStatus() {
+  const completedTests = JSON.parse(localStorage.getItem('completedTests') || '{}')
+  
+  // 额外检查实际数据是否存在，确保准确性
+  const hasQuestionnaire = completedTests.questionnaire || localStorage.getItem('questionnaireResults')
+  const hasEcg = completedTests.ecg || localStorage.getItem('ecgResults')  
+  const hasEmotion = completedTests.emotion || localStorage.getItem('emotionAssessmentData')
+  const hasGene = completedTests.gene || localStorage.getItem('geneResults')
+  
+  // 更新测试状态
+  testStatus.value = [
+    { name: "心理量表评估", completed: !!hasQuestionnaire },
+    { name: "心电信号分析", completed: !!hasEcg },
+    { name: "情绪表情识别", completed: !!hasEmotion },
+    { name: "基因筛查", completed: !!hasGene }
+  ]
+  
+  // 如果情绪测试数据存在但状态未更新，则更新情绪评分
+  if (hasEmotion) {
+    updateEmotionScores()
+  }
+}
+
+function updateEmotionScores() {
+  const emotionData = localStorage.getItem('emotionAssessmentData')
+  if (emotionData) {
+    try {
+      const results = JSON.parse(emotionData)
+      
+      // 计算平均置信度和响应时间
+      const emotions = Object.values(results)
+      const avgConfidence = emotions.reduce((sum: number, emotion: any) => 
+        sum + (emotion.maxConfidence || 0), 0) / emotions.length
+      const avgResponseTime = emotions.reduce((sum: number, emotion: any) => 
+        sum + (emotion.timeToConfidence || 5000), 0) / emotions.length
+      
+      // 更新情绪评分数据
+      emotionScores.value = [
+        {
+          name: '平均情绪表达置信度',
+          value: `${Math.round(avgConfidence > 1 ? avgConfidence : avgConfidence * 100)}%`,
+          interpretation: avgConfidence > 0.7 ? '情绪表达清晰' : 
+                         avgConfidence > 0.5 ? '情绪表达良好' : '情绪表达需改善'
+        },
+        {
+          name: '平均情绪转换时间',
+          value: `${Math.round(avgResponseTime)}ms`,
+          interpretation: avgResponseTime < 3000 ? '情绪转换快速' : 
+                         avgResponseTime < 4000 ? '情绪转换正常' : '情绪转换较慢'
+        }
+      ]
+    } catch (error) {
+      console.error('Error updating emotion scores:', error)
+    }
+  }
+}
+
 function renderEmotionCharts(results: EmotionResults) {
+  console.log('Rendering emotion charts with data:', results)
+  
   const labels = []
   const maxConfidenceData = []
   const timeToConfidenceData = []
   const sadInterferenceLabels = []
   const maxSadInterferenceData = []
 
-  for (const [emotion, data] of Object.entries(results)) {
-    if (emotionTranslations[emotion]) {
-      labels.push(emotionTranslations[emotion])
-      maxConfidenceData.push(data.maxConfidence * 100)
-      timeToConfidenceData.push(data.timeToConfidence)
+  // 确保有数据才进行处理
+  if (!results || Object.keys(results).length === 0) {
+    console.log('No emotion results data available')
+    return
+  }
 
+  for (const [emotion, data] of Object.entries(results)) {
+    if (emotionTranslations[emotion] && data) {
+      labels.push(emotionTranslations[emotion])
+      
+      // 将置信度转换为百分比（如果原始数据是0-1范围）
+      const confidence = data.maxConfidence || 0
+      maxConfidenceData.push(confidence > 1 ? confidence : confidence * 100)
+      
+      // 确保时间数据存在
+      timeToConfidenceData.push(data.timeToConfidence || 5000)
+
+      // 处理悲伤干扰数据（除了悲伤本身）
       if (emotion !== 'sad') {
         sadInterferenceLabels.push(emotionTranslations[emotion])
-        maxSadInterferenceData.push(data.maxSadInterferenceConfidence * 100)
+        const sadInterference = data.maxSadInterferenceConfidence || 0
+        maxSadInterferenceData.push(sadInterference > 1 ? sadInterference : sadInterference * 100)
       }
     }
   }
+
+  console.log('Processed chart data:', {
+    labels,
+    maxConfidenceData,
+    timeToConfidenceData,
+    sadInterferenceLabels,
+    maxSadInterferenceData
+  })
 
   // 最大置信度图表
   if (maxConfidenceChartRef.value) {
@@ -886,33 +1046,43 @@ function renderEmotionCharts(results: EmotionResults) {
     for (const [emotion, data] of Object.entries(results)) {
       if (emotion !== 'sad' && emotionTranslations[emotion]) {
         const chartContainer = document.createElement('div')
-        chartContainer.className = 'chart-container'
+        chartContainer.className = 'chart-container flex flex-col items-center'
+        chartContainer.style.minWidth = '280px'
         chartContainer.style.maxWidth = '300px'
         
         const title = document.createElement('p')
         title.textContent = `目标情绪: ${emotionTranslations[emotion]}`
-        title.className = 'text-center font-semibold text-primary mb-2'
+        title.className = 'text-center font-semibold text-primary mb-3 text-sm'
         
         const canvas = document.createElement('canvas')
+        canvas.style.maxHeight = '200px'
         
         chartContainer.appendChild(title)
         chartContainer.appendChild(canvas)
         sadInterferenceChartsRef.value.appendChild(chartContainer)
 
-        const durationMs = data.sadInterferenceDurationMs || 0
-        const totalDurationMs = 5000
-        const interferencePercentage = Math.min((durationMs / totalDurationMs) * 100, 100)
+        // 如果没有具体的干扰时长数据，基于最大干扰置信度估算
+        const maxSadInterference = data.maxSadInterferenceConfidence || 0
+        const sadInterferenceThreshold = 0.03 // 3%阈值
+        
+        // 根据最大干扰置信度估算干扰时长占比
+        let interferencePercentage = 0
+        if (maxSadInterference > sadInterferenceThreshold) {
+          // 简单的线性映射：置信度越高，干扰时长占比越大
+          interferencePercentage = Math.min((maxSadInterference / 1.0) * 50, 100) // 最多50%的干扰时长
+        }
+        
         const nonInterferencePercentage = 100 - interferencePercentage
 
-        new Chart(canvas.getContext('2d')!, {
+        const chart = new Chart(canvas.getContext('2d')!, {
           type: 'pie',
           data: {
             labels: ['悲伤干扰时长占比', '无明显悲伤干扰时长占比'],
             datasets: [{
               data: [interferencePercentage, nonInterferencePercentage],
-              backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(75, 192, 192, 0.7)'],
+              backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(75, 192, 192, 0.8)'],
               borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
-              borderWidth: 1
+              borderWidth: 2
             }]
           },
           options: {
@@ -920,7 +1090,43 @@ function renderEmotionCharts(results: EmotionResults) {
             maintainAspectRatio: true,
             plugins: {
               legend: {
-                position: 'bottom'
+                position: 'bottom',
+                labels: {
+                  padding: 15,
+                  usePointStyle: true,
+                  font: {
+                    size: 11
+                  }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const value = context.parsed
+                    return `${context.label}: ${value.toFixed(4)}%`
+                  }
+                }
+              }
+            },
+            animation: {
+              onComplete: function() {
+                const ctx = this.ctx!
+                const chart = this
+                
+                ctx.font = 'bold 12px Arial'
+                ctx.textAlign = 'center'
+                ctx.fillStyle = '#fff'
+                
+                chart.data.datasets.forEach((dataset, i) => {
+                  const meta = chart.getDatasetMeta(i)
+                  meta.data.forEach((element, index) => {
+                    const value = dataset.data[index] as number
+                    if (value > 3) { // 只显示大于3%的标签
+                      const position = element.tooltipPosition()
+                      ctx.fillText(value.toFixed(4) + '%', position.x, position.y)
+                    }
+                  })
+                })
               }
             }
           }
@@ -977,37 +1183,7 @@ const allTestsCompleted = computed(() => {
   return testStatus.value.every(test => test.completed)
 })
 
-// 在组件挂载时检查localStorage中的测试结果
-onMounted(() => {
-  // 检查心理量表结果
-  const psychologyResults = localStorage.getItem('psychologyResults')
-  if (psychologyResults) {
-    testStatus.value[0].completed = true
-  }
-
-  // 检查心电信号结果
-  const ecgResults = localStorage.getItem('ecgResults')
-  if (ecgResults) {
-    testStatus.value[1].completed = true
-  }
-
-  // 检查情绪表情结果
-  const emotionResults = localStorage.getItem('guidedEmotionResults')
-  if (emotionResults) {
-    testStatus.value[2].completed = true
-  }
-
-  // 检查基因筛查结果
-  const geneResults = localStorage.getItem('geneResults')
-  if (geneResults) {
-    testStatus.value[3].completed = true
-  }
-
-  // 如果所有测试都完成，执行AI分析
-  if (allTestsCompleted.value) {
-    performAIAnalysis()
-  }
-})
+// 初始化测试状态检查（移除重复的onMounted，合并到上面的主onMounted中）
 </script>
 
 <style scoped>

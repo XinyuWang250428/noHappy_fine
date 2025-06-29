@@ -387,7 +387,8 @@ function startEmotionDetection() {
               maxConfidence: 0,
               timeToConfidence: 5000,
               confidenceHistory: [],
-              timestamps: []
+              timestamps: [],
+              maxSadInterferenceConfidence: 0
             }
           }
 
@@ -397,6 +398,17 @@ function startEmotionDetection() {
           
           if (confidence > emotionResults[currentEmotion].maxConfidence) {
             emotionResults[currentEmotion].maxConfidence = confidence
+          }
+
+          // 记录悲伤情绪干扰数据（仅当目标情绪不是悲伤时）
+          if (currentEmotion !== 'sad') {
+            const sadConfidence = expressions.sad || 0
+            if (!emotionResults[currentEmotion].maxSadInterferenceConfidence) {
+              emotionResults[currentEmotion].maxSadInterferenceConfidence = 0
+            }
+            if (sadConfidence > emotionResults[currentEmotion].maxSadInterferenceConfidence) {
+              emotionResults[currentEmotion].maxSadInterferenceConfidence = sadConfidence
+            }
           }
 
           // 检查是否达到置信度阈值
@@ -444,7 +456,8 @@ function runEmotionSequence() {
     maxConfidence: 0,
     timeToConfidence: 5000,
     confidenceHistory: [],
-    timestamps: [Date.now()]
+    timestamps: [Date.now()],
+    maxSadInterferenceConfidence: 0
   }
 
   // 开始倒计时
@@ -469,6 +482,11 @@ function completeAssessment() {
   
   assessmentResults.value = emotionResults
   localStorage.setItem('emotionAssessmentData', JSON.stringify(emotionResults))
+  
+  // 更新测试状态，标记情绪测试为已完成
+  const completedTests = JSON.parse(localStorage.getItem('completedTests') || '{}')
+  completedTests.emotion = '已完成'
+  localStorage.setItem('completedTests', JSON.stringify(completedTests))
   
   currentPrompt.value = '评估已完成！'
   countdown.value = 0
@@ -515,11 +533,24 @@ function generateAIAnalysis() {
 
 // 查看报告
 function viewReport() {
-  // 直接滚动到综合评估报告部分
-  const reportElement = document.querySelector('#testimonials')
-  if (reportElement) {
-    reportElement.scrollIntoView({ behavior: 'smooth' })
-  }
+  // 确保测试状态已更新
+  const completedTests = JSON.parse(localStorage.getItem('completedTests') || '{}')
+  completedTests.emotion = '已完成'
+  localStorage.setItem('completedTests', JSON.stringify(completedTests))
+  
+  // 触发storage事件以通知其他组件更新
+  window.dispatchEvent(new StorageEvent('storage', {
+    key: 'completedTests',
+    newValue: JSON.stringify(completedTests)
+  }))
+  
+  // 延迟滚动，确保数据已更新
+  setTimeout(() => {
+    const reportElement = document.querySelector('#testimonials')
+    if (reportElement) {
+      reportElement.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, 500)
 }
 
 
