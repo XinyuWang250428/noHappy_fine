@@ -16,49 +16,40 @@ import {
 interface techStackProps {
   icon: string;
   name: string;
-  type: 'frontend' | 'backend';
 }
 
 const techStack: techStackProps[] = [
   {
     icon: "code2",
-    name: "Vue 3",
-    type: "frontend",
+    name: "Vue 3"
   },
   {
     icon: "layers3",
-    name: "TypeScript",
-    type: "frontend",
+    name: "TypeScript"
   },
   {
     icon: "zap",
-    name: "Vite",
-    type: "frontend",
+    name: "Vite"
   },
   {
     icon: "palette",
-    name: "Tailwind CSS",
-    type: "frontend",
+    name: "Tailwind CSS"
   },
   {
     icon: "server",
-    name: "Spring Boot",
-    type: "backend",
+    name: "Spring Boot"
   },
   {
     icon: "shield",
-    name: "RuoYi",
-    type: "backend",
+    name: "RuoYi"
   },
   {
     icon: "database",
-    name: "MySQL",
-    type: "backend",
+    name: "MySQL"
   },
   {
     icon: "cpu",
-    name: "Redis",
-    type: "backend",
+    name: "Redis"
   },
 ];
 
@@ -99,7 +90,7 @@ const iconMap: Record<
         innerClassName="gap-[3rem]"
       >
         <div
-          v-for="{ icon, name, type } in techStack"
+          v-for="{ icon, name } in techStack"
           :key="name"
           class="flex items-center text-xl md:text-2xl font-medium whitespace-nowrap"
         >
