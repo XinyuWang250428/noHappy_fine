@@ -1,5 +1,5 @@
 <template>
-  <section class="py-24 sm:py-32">
+  <section id="ecg" class="py-24 sm:py-32">
     <div class="container">
       <div class="header">
         <h1>心电检测评估</h1>

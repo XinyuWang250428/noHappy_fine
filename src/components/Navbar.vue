@@ -24,7 +24,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import { Menu } from "lucide-vue-next";
-import GithubIcon from "@/icons/GithubIcon.vue";
 import ToggleTheme from "./ToggleTheme.vue";
 
 interface RouteProps {
@@ -61,37 +60,41 @@ const featureList: FeatureProps[] = [
   {
     title: "📋 心理量表评估",
     description: "通过专业量表评估您的心理健康状况，为临床诊断提供科学依据",
-    href: "#questionnaire-assessment",
+    href: "#questionnaire",
   },
   {
     title: "💓 心电检测评估",
     description: "利用心电信号分析技术，检测心理应激状态下的生理指标变化",
-    href: "#ecg-screening",
+    href: "#ecg",
   },
   {
     title: "🧬 基因辅助分析",
     description: "分析基因数据，评估遗传性抑郁症风险因子，助力精准诊疗",
-    href: "#gene-screening",
+    href: "#gene",
   },
   {
     title: "😊 情绪识别评估",
     description: "基于AI的面部表情分析，实时评估情绪表达和调节能力",
-    href: "#emotion-recognition",
+    href: "#emotion",
   },
 ];
 
-// 平滑滚动函数
-const smoothScrollTo = (targetId: string) => {
-  const element = document.getElementById(targetId.replace('#', ''));
-  if (element) {
-    element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
+const isOpen = ref<boolean>(false);
+
+const scrollToElement = (event: Event) => {
+  event.preventDefault();
+  const target = event.currentTarget as HTMLAnchorElement;
+  const href = target.getAttribute('href');
+  if (href) {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 };
-
-const isOpen = ref<boolean>(false);
 </script>
 
 <template>
@@ -147,24 +150,6 @@ const isOpen = ref<boolean>(false);
             </SheetHeader>
 
             <div class="flex flex-col gap-2">
-              <!-- 测试分析子菜单 -->
-              <div class="pl-2">
-                <p class="text-sm font-semibold text-muted-foreground mb-2">测试分析</p>
-                <div class="flex flex-col gap-1 pl-2">
-                  <Button
-                    v-for="{ title, href } in featureList"
-                    :key="title"
-                    variant="ghost"
-                    size="sm"
-                    class="justify-start text-xs"
-                    @click="smoothScrollTo(href); isOpen = false"
-                  >
-                    {{ title }}
-                  </Button>
-                </div>
-              </div>
-              
-              <!-- 其他菜单项 -->
               <Button
                 v-for="{ href, label } in routeList"
                 :key="label"
@@ -173,7 +158,7 @@ const isOpen = ref<boolean>(false);
                 class="justify-start text-base"
               >
                 <a
-                  @click="isOpen = false"
+                  @click="(event) => { scrollToElement(event); isOpen = false; }"
                   :href="href"
                 >
                   {{ label }}
@@ -204,16 +189,19 @@ const isOpen = ref<boolean>(false);
                 v-for="{ title, description, href } in featureList"
                 :key="title"
                 class="rounded-md p-3 text-sm hover:bg-muted cursor-pointer"
-                @click="smoothScrollTo(href)"
               >
                 <NavigationMenuLink asChild>
-                  <div>
+                  <a 
+                    :href="href"
+                    class="block"
+                    @click="scrollToElement"
+                  >
                     <p class="mb-1 font-semibold leading-none text-foreground" v-html="title">
                     </p>
                     <p class="text-muted-foreground">
                       {{ description }}
                     </p>
-                  </div>
+                  </a>
                 </NavigationMenuLink>
               </li>
             </ul>
@@ -224,6 +212,7 @@ const isOpen = ref<boolean>(false);
           <NavigationMenuLink asChild>
             <a 
               :href="href"
+              @click="scrollToElement"
               class="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
             >
               {{ label }}
@@ -236,20 +225,7 @@ const isOpen = ref<boolean>(false);
     <div class="hidden lg:flex">
       <ToggleTheme />
 
-      <Button
-        as-child
-        size="sm"
-        variant="ghost"
-        aria-label="View on GitHub"
-      >
-        <a
-          aria-label="View on GitHub"
-          href="https://github.com/leoMirandaa/shadcn-vue-landing-page.git"
-          target="_blank"
-        >
-          <GithubIcon class="size-5" />
-        </a>
-      </Button>
+      <!-- GitHub链接已移除 - 这是意遇重生项目 -->
     </div>
   </header>
 </template>

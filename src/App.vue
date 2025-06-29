@@ -32,10 +32,10 @@ const config = {
   <Features />
   <Services />
   <HowItWorks />
-  <QuestionnaireAssessment id="questionnaire-assessment" />
-  <ECGScreening id="ecg-screening" />
-  <GeneScreening id="gene-screening" />
-  <EmotionRecognition id="emotion-recognition" />
+  <QuestionnaireAssessment />
+  <ECGScreening />
+  <GeneScreening />
+  <EmotionRecognition />
   <Report />
   <Team />
   <Contact />

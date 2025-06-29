@@ -141,7 +141,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="gene-screening" class="py-24 sm:py-32">
+  <section id="gene" class="py-24 sm:py-32">
     <div class="container">
       <div class="header">
         <h1>基因辅助分析</h1>

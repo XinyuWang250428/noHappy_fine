@@ -1,89 +1,188 @@
-# Shadcn/Vue Landing Page Template
+# 意遇重生 - 智能心理健康评估平台
 
-## <a href="https://www.shadcn-vue.com/" target="_blank">Shadcn-Vue</a> + <a href="https://vuejs.org/" target="_blank">Vue.js</a> + <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> + <a href="https://tailwindcss.com/" target="_blank">Tailwind</a>.
+## 基于 <a href="https://www.shadcn-vue.com/" target="_blank">Shadcn-Vue</a> + <a href="https://vuejs.org/" target="_blank">Vue.js</a> + <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> + <a href="https://tailwindcss.com/" target="_blank">Tailwind CSS</a> 构建
 
-![Alt text](./public/demo-img.jpg)
-Live demo is now available: <a href="https://shadcn-vue-landing-page.vercel.app" target="_blank">Live Demo</a>
+![意遇重生概念图](./public/概念.png)
 
-## Sections
+基于AI技术的多模态数字疗法抑郁症智能评估平台，提供心理量表、心电信号、情绪识别、基因筛查等综合评估服务。
 
-- [x] Navbar
-- [x] Sidebar(mobile)
-- [x] Hero
-- [x] Sponsors
-- [x] Benefits
-- [x] Features
-- [x] Services
-- [x] HowItWorks
-- [x] QuestionnaireAssessment (心理量表评估)
-- [x] ECGScreening (心电信号筛查)
-- [x] GeneScreening (基因辅助分析)
-- [x] EmotionRecognition (情绪表情识别检测)
-- [x] Testimonials
-- [x] Pricing
-- [x] Frequently Asked Questions(FAQ)
-- [x] Team
-- [x] Community
-- [x] Contact
-- [x] Footer
+## 主要功能模块
 
-## Features
+- [x] 导航栏 (Navbar)
+- [x] 移动端侧边栏 (Sidebar)
+- [x] 主页展示 (Hero)
+- [x] 赞助商展示 (Sponsors)
+- [x] 平台优势 (Benefits)
+- [x] 核心功能 (Features)
+- [x] 服务介绍 (Services)
+- [x] 工作流程 (HowItWorks)
+- [x] **心理量表评估** (QuestionnaireAssessment)
+- [x] **心电信号筛查** (ECGScreening)
+- [x] **基因辅助分析** (GeneScreening)
+- [x] **情绪表情识别** (EmotionRecognition)
+- [x] 评估报告 (Report)
+- [x] 专业团队 (Team)
+- [x] 联系我们 (Contact)
+- [x] 常见问题 (FAQ)
+- [x] 页脚 (Footer)
 
-- [x] Fully Responsive Design
-- [x] User Friendly Navigation
-- [x] Dark Mode
-- [x] Meta tags
-- [x] 心理健康评估系统
-- [x] 实时情绪识别功能
-- [x] Face-API.js 集成
-- [x] 多模态健康检测
+## 技术特性
 
-## Health Assessment Features
+- [x] 完全响应式设计
+- [x] 用户友好的导航体验
+- [x] 深色/浅色主题切换
+- [x] SEO优化的Meta标签
+- [x] 多模态心理健康评估系统
+- [x] 实时AI情绪识别功能
+- [x] Face-API.js 人脸检测集成
+- [x] TensorFlow.js 机器学习支持
+- [x] Chart.js 数据可视化
 
-### 1. 心理量表评估
-- 标准化心理量表
-- 系统性评估心理健康状态
-- 抑郁症风险等级评估
+## 核心评估功能
 
-### 2. 心电信号筛查
-- 心电信号分析技术
-- 心理应激状态检测
-- 自主神经系统功能评估
+### 🧠 1. 心理量表评估 (PSY)
+- **PHQ-9抑郁量表评分**：标准化抑郁症状评估
+- **GAD-7焦虑量表评分**：焦虑水平综合测评
+- **PSS-10压力量表评分**：压力感知程度分析
+- **社会支持评估**：社会支持网络强度测量
+- **权重系数**：40% (w₁ = 0.4)
 
-### 3. 基因辅助分析
-- 基因数据分析与可视化
-- 孟德尔随机化评估
-- 遗传性抑郁症风险因子分析
+### 💓 2. 心电信号分析 (ECG)
+- **心率变异性（HRV）指标**：自主神经功能评估
+- **心率失速指数**：心律不齐风险检测
+- **自主神经系统平衡度**：交感/副交感神经平衡
+- **压力指数**：生理压力水平测量
+- **权重系数**：25% (w₂ = 0.25)
 
-### 4. 情绪表情识别检测 (新增)
-- 基于AI的面部表情分析
-- 实时情绪识别与评估
-- 情绪表达能力测试
-- 悲伤情绪干扰分析
-- 智能化报告生成
+### 😊 3. 情绪表情识别 (EMO)
+- **情绪表达能力指数**：面部表情识别准确度
+- **情绪转换效率**：情绪状态切换速度分析
+- **悲伤情绪干扰度**：负面情绪持续时间评估
+- **面部表情活跃度**：表情变化频率统计
+- **权重系数**：25% (w₃ = 0.25)
 
-## How to install
+### 🧬 4. 基因筛查分析 (GEN)
+- **抑郁症相关基因位点变异**：遗传风险基因检测
+- **遗传风险评分（GRS）**：综合遗传风险量化
+- **药物代谢基因分型**：个性化用药指导
+- **表观遗传标记物分析**：环境因素影响评估
+- **权重系数**：10% (w₄ = 0.1)
 
-1. Clone this repositoy:
+## 综合评分算法
 
-```bash
-git clone https://github.com/leoMirandaa/shadcn-vue-landing-page.git
+### 风险等级判定标准
+```javascript
+总分 = 0.4×PSY_Score + 0.25×ECG_Score + 0.25×EMO_Score + 0.1×GEN_Score
+
+风险等级：
+- 低风险：总分 ≥ 80
+- 轻度风险：60 ≤ 总分 < 80  
+- 中度风险：40 ≤ 总分 < 60
+- 高度风险：总分 < 40
 ```
 
-2. Go into project
+## 安装与运行
 
+### 环境要求
+- Node.js (v16 或更高版本)
+- npm/pnpm/yarn 包管理器
+- 现代浏览器支持（Chrome 80+, Firefox 72+, Safari 13+, Edge 80+）
+
+### 安装步骤
+
+1. **克隆项目**
 ```bash
-cd shadcn-vue-landing-page
+git clone <项目仓库地址>
 ```
 
-3. Install dependencies
+2. **进入项目目录**
+```bash
+cd ultra-nohappy/shadcn-vue-landing-page
+```
 
+3. **安装依赖**
 ```bash
 npm install
+# 或者
+pnpm install
 ```
 
-4. Run project
-
+4. **启动开发服务器**
 ```bash
 npm run dev
+# 或者
+pnpm dev
 ```
+
+5. **构建生产版本**
+```bash
+npm run build
+# 或者
+pnpm build
+```
+
+## 项目结构
+
+```
+shadcn-vue-landing-page/
+├── src/
+│   ├── components/          # 业务组件
+│   │   ├── ui/             # UI基础组件（基于Radix-Vue）
+│   │   ├── ECGScreening.vue    # 心电图筛查组件
+│   │   ├── EmotionRecognition.vue # 情绪识别组件
+│   │   ├── GeneScreening.vue   # 基因筛查组件
+│   │   └── QuestionnaireAssessment.vue # 问卷评估组件
+│   ├── assets/             # 静态资源
+│   ├── icons/              # 图标组件
+│   └── lib/                # 工具函数
+├── public/                 # 公共资源
+│   ├── models/             # AI模型文件
+│   ├── 图标.svg            # 项目图标
+│   └── 概念.png            # 概念展示图
+└── demo/                   # 演示页面
+    ├── face-emotion-recognition-master/ # 人脸情绪识别Demo
+    └── js/                 # JavaScript工具
+```
+
+## 技术栈
+
+### 前端框架
+- **Vue 3** (^3.5.12) - 渐进式JavaScript框架
+- **TypeScript** (^5.4.5) - 类型安全的JavaScript超集
+- **Vite** (^7.0.0) - 下一代前端构建工具
+
+### UI组件库
+- **Shadcn/Vue** - 基于Radix-Vue的组件库
+- **Tailwind CSS** (^3.4.4) - 原子化CSS框架
+- **Lucide Vue Next** - 美观的图标库
+
+### AI与机器学习
+- **TensorFlow.js** - 浏览器端机器学习
+- **Face-API.js** - 人脸识别与表情分析
+- **Chart.js** (^4.5.0) - 数据可视化图表库
+
+### 开发工具
+- **VueUse** (^11.1.0) - Vue组合式API工具集
+- **Vee-validate** (^4.13.2) - 表单验证库
+- **Zod** (^3.23.8) - TypeScript模式验证
+
+## 许可证
+
+本项目基于 MIT 许可证开源。详见 [LICENSE](./LICENSE) 文件。
+
+## 贡献指南
+
+欢迎提交问题和功能请求！在贡献代码之前，请阅读我们的贡献指南。
+
+## 联系我们
+
+- **项目团队**：意遇重生开发团队
+- **技术支持**：如有技术问题请提交 Issue
+- **商务合作**：请通过联系页面获取联系方式
+
+---
+
+**注意事项**：
+1. 本平台仅供辅助评估使用，不能替代专业医疗诊断
+2. 人脸识别和情绪分析数据仅在本地处理，保护用户隐私
+3. 定期更新依赖包，确保安全性和稳定性

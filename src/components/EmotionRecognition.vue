@@ -1,5 +1,5 @@
 <template>
-  <section id="emotion-recognition" class="py-24 sm:py-32">
+  <section id="emotion" class="py-24 sm:py-32">
     <div class="emotion-container">
       <div class="mb-10 text-center">
         <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-4">

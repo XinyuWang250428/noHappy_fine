@@ -56,15 +56,10 @@ import { Sparkles } from "@/components/ui/sparkles";
           </Button>
 
           <Button
-            as-child
             variant="secondary"
             class="w-5/6 md:w-1/4 font-bold"
           >
-            <a
-              href="https://github.com/leoMirandaa/shadcn-vue-landing-page.git"
-              target="_blank"
-              >Github 仓库</a
-            >
+            了解更多
           </Button>
         </div>
       </div>

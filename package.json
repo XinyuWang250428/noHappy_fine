@@ -1,6 +1,6 @@
 {
-  "name": "shadcn-vue-landing-page",
-  "description": "Shadcn/Vue landing page template using Vue, Shadcn/Vue + TypeScript + Tailwind CSS.",
+  "name": "ultra-nohappy",
+  "description": "意遇重生 - 基于AI技术的智能心理健康评估平台，使用Vue 3 + TypeScript + Tailwind CSS构建",
   "version": "0.1.1",
   "author": {
     "name": "Leopoldo Miranda",
@@ -10,12 +10,14 @@
   "keywords": [
     "vue",
     "typescript",
-    "shadcn",
-    "shadcn/vue",
+    "心理健康",
+    "AI评估",
+    "情绪识别",
+    "心电图",
+    "基因筛查",
+    "医疗平台",
     "tailwind",
-    "landing-page",
-    "template",
-    "responsive-design"
+    "shadcn/vue"
   ],
   "type": "module",
   "private": true,
