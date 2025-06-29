@@ -480,7 +480,7 @@ const getRandomVariation = (baseValue: number, variationPercent: number = 10) =>
 }
 
 // 模拟数据
-const score = ref(getRandomVariation(75, 8)) // 75±6 范围内波动
+const score = ref(getRandomVariation(65, 8)) // 65±6 范围内波动
 const aiAnalysisLoading = ref(false)
 const aiAnalysisResult = ref<AIAnalysisResult | null>(null)
 const lifestylePredictionResult = ref({
