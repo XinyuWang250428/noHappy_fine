@@ -48,11 +48,11 @@ const particlesOptions = computed(() => ({
     move: {
       enable: true,
       speed: props.speed || 2,
-      direction: "none",
+      direction: "none" as const,
       random: true,
       straight: false,
       outModes: {
-        default: "bounce",
+        default: "bounce" as const,
       },
     },
     number: {
@@ -85,16 +85,16 @@ const particlesOptions = computed(() => ({
     },
   },
   detectRetina: true,
-}));
+} as const));
 </script>
 
 <template>
   <div :class="cn('opacity-100', props.className)">
     <Particles
       v-if="init"
-      :id="props.id"
+      :id="props.id || 'tsparticles'"
       :class="cn('h-full w-full')"
-      :particlesLoaded="particlesLoaded"
+      :particles-loaded="particlesLoaded"
       :options="particlesOptions"
     />
   </div>
